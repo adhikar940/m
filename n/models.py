@@ -40,67 +40,69 @@ class Ecandidates(models.Model):
         ('West Bengal', 'West Bengal')
     )
 
-    Statename = models.CharField(max_length=30, choices=choice_states,default='')
-    partyname = models.CharField(max_length=100,default='')
-    Candidate = models.CharField(max_length=100,default='')
+    Statename = models.CharField(max_length=30, choices=choice_states, default='')
+    partyname = models.CharField(max_length=100, default='')
+    Candidate = models.CharField(max_length=100, default='')
     
-    District_name = models.CharField(max_length=100,default='')
+    District_name = models.CharField(max_length=100, default='')
     Residence = models.TextField(max_length=200, default='')
     Photo = models.ImageField(upload_to='photo/', default='')
     
     class Meta:
-        abstract=True
+        abstract = True
+
     def __str__(self):
         return self.Statename
 
+
 class BiharCandidate(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='')
+    constituency_name = models.CharField(max_length=100, default='')
     
 
-
 class BiharWinners(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='',unique='True')
+    constituency_name = models.CharField(max_length=100, default='', unique='True')
     total_contested = models.IntegerField()
     no_of_votes = models.IntegerField()
 
 
 class BiharRunners(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='',unique='True')
+    constituency_name = models.CharField(max_length=100, default='', unique='True')
     total_contested = models.IntegerField()
     no_of_votes = models.IntegerField()
 
+
 class DubbakaCandidate(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='')
+    constituency_name = models.CharField(max_length=100, default='')
     
 
-
 class DubbakaWinners(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='',unique='True')
+    constituency_name = models.CharField(max_length=100, default='', unique='True')
     total_contested = models.IntegerField()
     no_of_votes = models.IntegerField()
 
 
 class DubbakaRunners(Ecandidates):
-    constituency_name = models.CharField(max_length=100,default='',unique='True')
+    constituency_name = models.CharField(max_length=100, default='', unique='True')
     total_contested = models.IntegerField()
     no_of_votes = models.IntegerField()
 
     def __str__(self):
         return self.Statename
+
 
 class Bihar_Coalition_Party(models.Model):
     choice = (
         ('Regional', 'regional'),
         ('National', 'national'),
     )
-    party_status= models.CharField(max_length=30, choices=choice)
-    partyname = models.CharField(max_length = 100)
+    party_status = models.CharField(max_length=30, choices=choice)
+    partyname = models.CharField(max_length=100)
     abbreviation = models.CharField(null=True, max_length=20)
-    President = models.CharField(max_length = 100,null=True)
-    founder = models.CharField(max_length = 100,null=True)
-    chairperson = models.CharField(max_length = 100, null=True)
+    President = models.CharField(max_length=100, null=True)
+    founder = models.CharField(max_length=100, null=True)
+    chairperson = models.CharField(max_length=100, null=True)
     founded_date = models.DateField()
-    headquarters = models.CharField(max_length = 1000)
+    headquarters = models.CharField(max_length=1000)
     seats_in_rajyasabha = models.IntegerField()
     seats_in_loksabha = models.IntegerField()
     party_symbol = models.ImageField(upload_to='photo/', null=True)
@@ -110,19 +112,20 @@ class Bihar_Coalition_Party(models.Model):
     def __str__(self):
         return self.partyname
 
-class Bihar_Party(models.Model):
+
+class Party(models.Model):
     choice = (
         ('Regional', 'regional'),
         ('National', 'national'),
     )
-    party_status= models.CharField(max_length=30, choices=choice)
-    partyname = models.CharField(max_length = 100)
+    party_status = models.CharField(max_length=30, choices=choice)
+    partyname = models.CharField(max_length=100)
     abbreviation = models.CharField(null=True, max_length=20)
-    President = models.CharField(max_length = 100,null=True)
-    founder = models.CharField(max_length = 100,null=True)
-    chairperson = models.CharField(max_length = 100, null=True)
+    President = models.CharField(max_length=100, null=True)
+    founder = models.CharField(max_length=100, null=True)
+    chairperson = models.CharField(max_length=100, null=True)
     founded_date = models.DateField()
-    headquarters = models.CharField(max_length = 1000)
+    headquarters = models.CharField(max_length=1000)
     seats_in_rajyasabha = models.IntegerField()
     seats_in_loksabha = models.IntegerField()
     party_symbol = models.ImageField(upload_to='photo/', null=True)
@@ -133,3 +136,20 @@ class Bihar_Party(models.Model):
         return self.partyname
 
 
+class States(models.Model):
+    State_name = models.CharField(max_length=100, default='', unique=True)
+    capital = models.CharField(max_length=100, default='', unique=True)
+    chief_minister = models.CharField(max_length=100, default='')
+    chief_minister_Photo = models.ImageField(upload_to='photo/', null=True)
+    Governor = models.CharField(max_length=100, default='')
+    Governor_Photo = models.ImageField(upload_to='photo/', null=True)
+
+    def __str__(self):
+        return self.State_name
+
+
+class LeadingSeats(models.Model):
+    MGB = models.IntegerField()
+    NDA = models.IntegerField()
+    LJP = models.IntegerField()
+    Others = models.IntegerField()
