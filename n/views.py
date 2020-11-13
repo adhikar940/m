@@ -22,26 +22,11 @@ from . models import BiharWinners
 from . models import BiharRunners
 from . models import States
 from . models import LeadingSeats
-from . serializers import MovieSerializer
-from . serializers import BiharCandidateSerializers
-from . serializers import DubbakaCandidateSerializers
-from . serializers import PartySerializers
-from . serializers import Bihar_Coalition_PartySerializers
-from . serializers import DubbakaRunnersSerializers
-from . serializers import DubbakaWinnersSerializers
-from . serializers import BiharWinnersSerializers
-from . serializers import BiharRunnersSerializers
+
 from . serializers import statesSerializers
-from . serializers import LeadingSeatsSerializers
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from . models import Party
-from . models import Bihar_Coalition_Party
-from . models import DubbakaRunners
-from . models import DubbakaWinners
-from . models import BiharWinners
-from . models import BiharRunners
-from . models import LeadingSeats
 
 from .models import AndhraPradeshforRajyasabha
 from .models import ArunachalPradeshforRajyasabha
