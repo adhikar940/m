@@ -6,7 +6,6 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
-
 urlpatterns = [
 
 url(r'^bihar_api/',user_views.Bihar_api.as_view()),
@@ -108,4 +107,7 @@ url(r'^WestBengalrajyasabha_api/',user_views.WestBengalrajyasabha_api.as_view())
 url(r'^WestBengalloksabha_api/',user_views.WestBengalloksabha_api.as_view()),
 
 
+
+
+url(r'^states_api/', user_views.States_api.as_view()),
 ]

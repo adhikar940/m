@@ -3,6 +3,8 @@ from rest_framework import serializers
 from . models import Movie
 from .models import BiharCandidate
 from .models import DubbakaCandidate
+from . models import BiharCandidate
+from . models import DubbakaCandidate
 from . models import Party
 from . models import Bihar_Coalition_Party
 from . models import DubbakaRunners
@@ -468,6 +470,8 @@ class WestBengalLoksabhaSerializers(serializers.ModelSerializer):
     class Meta:
         model = WestBengal
         fields = ['MPname','constituencyName']
+from . models import States
+from . models import LeadingSeats
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -514,6 +518,12 @@ class BiharRunnersSerializers(serializers.ModelSerializer):
     class Meta:
         model = BiharRunners
         fields = ['Statename','partyname','Candidate','constituency_name','District_name','Residence','Photo','total_contested','no_of_votes']
+        fields = ['Statename','partyname', 'Candidate','constituency_name', 'District_name', 'Residence', 'Photo', 'total_contested','no_of_votes']
+
+class statesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = States
+        fields = ['State_name', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
 
 class LeadingSeatsSerializers(serializers.ModelSerializer):
     class Meta:
@@ -522,3 +532,4 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
 
 
          
+        fields = ['MGB','NDA','LJP','Others']

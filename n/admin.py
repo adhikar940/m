@@ -1,5 +1,5 @@
-from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from django.contrib import admin
 from .models import *
 
 
@@ -22,7 +22,10 @@ admin.site.register(Bihar_Coalition_Party, ImportExportModelAdmin)
 
 admin.site.register(Party, ImportExportModelAdmin)
 
+admin.site.register(States, ImportExportModelAdmin)
+
 admin.site.register(LeadingSeats, ImportExportModelAdmin)
+
 
 admin.site.register(Parliament, ImportExportModelAdmin)
 admin.site.register(RajyaSabha, ImportExportModelAdmin)
