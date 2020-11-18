@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'import_export',
+    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [
