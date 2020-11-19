@@ -36,4 +36,20 @@ admin.site.register(Panchayat_time_period, ImportExportModelAdmin)
 
 admin.site.register(Municipal_corporation_time_period, ImportExportModelAdmin)
 
+admin.site.register(State, ImportExportModelAdmin)
+
+admin.site.register(Districts, ImportExportModelAdmin)
+
+admin.site.register(City, ImportExportModelAdmin)
+
+admin.site.register(Grama_panchayat, ImportExportModelAdmin)
+
+admin.site.register(Corporation, ImportExportModelAdmin)
+
+admin.site.register(Panchayat_Ward_Number, ImportExportModelAdmin)
+
+admin.site.register(Corporation_Ward_Number, ImportExportModelAdmin)
+
+
+
 

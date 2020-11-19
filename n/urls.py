@@ -24,4 +24,12 @@ url(r'^LokSabha_api/', user_views.LokSabha_api.as_view()),
 url(r'^Assembly_time_period_api/', user_views.Assembly_time_period_api.as_view()),
 url(r'^Panchayat_time_period_api/', user_views.Panchayat_time_period_api.as_view()),
 url(r'^Municipal_time_period_api/', user_views.Municipal_time_period_api.as_view()),
+url(r'^State_api/', user_views.State_api.as_view()),
+url(r'^Districts_api/', user_views.Districts_api.as_view()),
+url(r'^City_api/', user_views.City_api.as_view()),
+url(r'^Grama_panchayat_api/', user_views.Grama_panchayat_api.as_view()),
+url(r'^Corporation_api/', user_views.Corporation_api.as_view()),
+url(r'^Panchayat_Ward_Number_api/', user_views.Panchayat_Ward_Number_api.as_view()),
+url(r'^Corporation_Ward_Number_api/', user_views.Corporation_Ward_Number_api.as_view()),
+
 ]

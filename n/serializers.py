@@ -96,3 +96,38 @@ class Municipal_corporation_time_periodSerializers(serializers.ModelSerializer):
     class Meta:
         model = Municipal_corporation_time_period
         fields = ['State_name', 'District_name', 'City_name', 'corporation_name', 'start_date', 'End_date']
+
+class StateSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = State
+        fields = ['State_name']
+
+class DistrictsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Districts
+        fields = ['State', 'District_name']
+
+class CitySerializers(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ['State', 'District_name', 'City_name']
+
+class Grama_panchayatSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Grama_panchayat
+        fields = ['State', 'District_name', 'Mandal', 'panchayat_name', 'Sarpanch_name']
+
+class CorporationSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Corporation
+        fields = ['State', 'District_name', 'City', 'Corporation_name', 'Mayor_name']
+
+class Panchayat_Ward_NumberSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Panchayat_Ward_Number
+        fields = ['State', 'District_name', 'Mandal', 'panchayat_name', 'Ward_Member_Name']
+
+class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Corporation_Ward_Number
+        fields = ['State', 'District_name', 'City', 'Ward_name', 'Corporator_name']

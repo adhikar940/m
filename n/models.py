@@ -280,3 +280,71 @@ class Municipal_corporation_time_period(Assembly_time_period):
     def __str__(self):
         return self.Statename
 
+
+class State(models.Model):
+
+    State_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.State_name
+
+class Districts(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.CASCADE)
+    District_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.District_name
+
+class City(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    City_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.City_name
+
+class Grama_panchayat(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL,  null=True)
+    Mandal = models.CharField(max_length=100, default='')
+    panchayat_name = models.CharField(max_length=100, default='')
+    Sarpanch_name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return self.State
+
+class Corporation(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    Corporation_name = models.CharField(max_length=100, default='')
+    Mayor_name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return self.State
+
+class Panchayat_Ward_Number(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Mandal = models.CharField(max_length=100, default='')
+    panchayat_name = models.CharField(max_length=100, default='')
+    Ward_Member_Name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return self.State
+
+class Corporation_Ward_Number(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    Ward_name = models.CharField(max_length=100, default='')
+    Corporator_name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return self.State

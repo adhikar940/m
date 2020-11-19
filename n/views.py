@@ -18,6 +18,13 @@ from .serializers import RajyasabhaSerializers
 from .serializers import Assembly_time_periodSerializers
 from .serializers import Panchayat_time_periodSerializers
 from .serializers import Municipal_corporation_time_periodSerializers
+from .serializers import StateSerializers
+from .serializers import DistrictsSerializers
+from .serializers import CitySerializers
+from .serializers import Grama_panchayatSerializers
+from .serializers import CorporationSerializers
+from .serializers import Panchayat_Ward_NumberSerializers
+from .serializers import Corporation_Ward_NumberSerializers
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -135,5 +142,47 @@ class Municipal_time_period_api(APIView):
     def get(self,request):
         data = Municipal_corporation_time_period.objects.all()
         serializer = Municipal_corporation_time_periodSerializers(data, many=True)
+        return Response(serializer.data)
+
+class State_api(APIView):
+    def get(self,request):
+        data = State.objects.all()
+        serializer = StateSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Districts_api(APIView):
+    def get(self,request):
+        data = Districts.objects.all()
+        serializer = DistrictsSerializers(data, many=True)
+        return Response(serializer.data)
+
+class City_api(APIView):
+    def get(self,request):
+        data = City.objects.all()
+        serializer = CitySerializers(data, many=True)
+        return Response(serializer.data)
+
+class Grama_panchayat_api(APIView):
+    def get(self,request):
+        data = Grama_panchayat.objects.all()
+        serializer = Grama_panchayatSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Corporation_api(APIView):
+    def get(self,request):
+        data = Corporation.objects.all()
+        serializer = CorporationSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Panchayat_Ward_Number_api(APIView):
+    def get(self,request):
+        data = Panchayat_Ward_Number.objects.all()
+        serializer = Panchayat_Ward_NumberSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Corporation_Ward_Number_api(APIView):
+    def get(self,request):
+        data = Corporation_Ward_Number.objects.all()
+        serializer = Corporation_Ward_NumberSerializers(data, many=True)
         return Response(serializer.data)
 
