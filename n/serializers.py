@@ -1,22 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from . models import Movie
-from . models import BiharCandidate
-from . models import BiharWinners
-from . models import BiharRunners
-from . models import DubbakaCandidate
-from . models import DubbakaRunners
-from . models import DubbakaWinners
-from . models import Bihar_Coalition_Party
-from . models import LeadingSeats
-from .models import Party
-from . models import Rajyasabha
-from . models import LokSabha
-from . models import States
-from . models import Assembly_time_period
-from . models import Panchayat_time_period
-from . models import Municipal_corporation_time_period
-
+from . models import *
 
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
@@ -87,13 +71,13 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
 class RajyasabhaSerializers(serializers.ModelSerializer):
     class Meta:
         model = Rajyasabha
-        fields = ['Statename', 'partyname', 'MPname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['Statename', 'MPname', 'partyname', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class LokSabhaSerializers(serializers.ModelSerializer):
     class Meta:
         model = LokSabha
-        fields = ['Statename', 'partyname', 'MPname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['Statename', 'MPname', 'partyname', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class Assembly_time_periodSerializers(serializers.ModelSerializer):
