@@ -7,43 +7,39 @@ class Movie(models.Model):
     name = models.CharField(max_length=32)
 
 
-class Ecandidates(models.Model):
-    choice_states = (
-        ('Andhra Pradesh', 'Andhra Pradesh'),
-        ('Arunachal Pradesh', 'Arunachal Pradesh'),
-        ('Assam', 'Assam'),
-        ('Bihar', 'Bihar'),
-        ('Chhattisgarh', 'Chhattisgarh'),
-        ('Goa', 'Goa'),
-        ('Gujarat', 'Gujarat'),
-        ('Haryana', 'Haryana'),
-        ('Himachal Pradesh', 'Himachal Pradesh'),
-        ('Jammu and Kashmir', 'Jammu and Kashmir'),
-        ('Jharkhand', 'Jharkhand'),
-        ('Karnataka', 'Karnataka'),
-        ('Kerala', 'Kerala'),
-        ('Madhya  Pradesh', 'Madhya  Pradesh'),
-        ('Maharashtra', 'Maharashtra'),
-        ('Manipur', 'Manipur'),
-        ('Meghalaya', 'Meghalaya'),
-        ('Mizoram', 'Mizoram'),
-        ('Nagaland', 'Nagaland'),
-        ('Odisha', 'Odisha'),
-        ('Punjab', 'Punjab'),
-        ('Rajasthan', 'Rajasthan'),
-        ('Sikkim', 'Sikkim'),
-        ('Tamil Nadu', 'Tamil Nadu'),
-        ('Telangana', 'Telangana'),
-        ('Tripura', 'Tripura'),
-        ('Uttar Pradesh', 'Uttar Pradesh'),
-        ('Uttarakhand', 'Uttarakhand'),
-        ('West Bengal', 'West Bengal')
-    )
+class State(models.Model):
 
-    Statename = models.CharField(max_length=30, choices=choice_states, default='')
+    State_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.State_name
+
+
+class Districts(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.CASCADE)
+    District_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.District_name
+
+
+class City(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    City_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.City_name
+
+
+class Ecandidates(models.Model):
+
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     partyname = models.CharField(max_length=100, default='')
     Candidate = models.CharField(max_length=100, default='')
-    District_name = models.CharField(max_length=100, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Residence = models.TextField(max_length=200, default='')
     Photo = models.ImageField(upload_to='photo/', default='')
     
@@ -51,7 +47,7 @@ class Ecandidates(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.Statename
+        return self.State
 
 
 class BiharCandidate(Ecandidates):
@@ -86,7 +82,7 @@ class DubbakaRunners(Ecandidates):
     no_of_votes = models.IntegerField()
 
     def __str__(self):
-        return self.Statename
+        return self.State
 
 
 class Bihar_Coalition_Party(models.Model):
@@ -134,14 +130,16 @@ class Party(models.Model):
     def __str__(self):
         return self.partyname
 
+
 class LeadingSeats(models.Model):
     MGB = models.IntegerField()
     NDA = models.IntegerField()
     LJP = models.IntegerField()
     Others = models.IntegerField()
 
+
 class States(models.Model):
-    State_name = models.CharField(max_length=100, default='', unique=True)
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     capital = models.CharField(max_length=100, default='', unique=True)
     chief_minister = models.CharField(max_length=100, default='')
     chief_minister_Photo = models.ImageField(upload_to='photo/', null=True)
@@ -149,46 +147,16 @@ class States(models.Model):
     Governor_Photo = models.ImageField(upload_to='photo/', null=True)
 
     def __str__(self):
-        return self.State_name
+        return self.State
+
 
 class Parliament(models.Model):
 
-    choice_states = (
-        ('Andhra Pradesh', 'Andhra Pradesh'),
-        ('Arunachal Pradesh', 'Arunachal Pradesh'),
-        ('Assam', 'Assam'),
-        ('Bihar', 'Bihar'),
-        ('Chhattisgarh', 'Chhattisgarh'),
-        ('Goa', 'Goa'),
-        ('Gujarat', 'Gujarat'),
-        ('Haryana', 'Haryana'),
-        ('Himachal Pradesh', 'Himachal Pradesh'),
-        ('Jammu and Kashmir', 'Jammu and Kashmir'),
-        ('Jharkhand', 'Jharkhand'),
-        ('Karnataka', 'Karnataka'),
-        ('Kerala', 'Kerala'),
-        ('Madhya  Pradesh', 'Madhya  Pradesh'),
-        ('Maharashtra', 'Maharashtra'),
-        ('Manipur', 'Manipur'),
-        ('Meghalaya', 'Meghalaya'),
-        ('Mizoram', 'Mizoram'),
-        ('Nagaland', 'Nagaland'),
-        ('Odisha', 'Odisha'),
-        ('Punjab', 'Punjab'),
-        ('Rajasthan', 'Rajasthan'),
-        ('Sikkim', 'Sikkim'),
-        ('Tamil Nadu', 'Tamil Nadu'),
-        ('Telangana', 'Telangana'),
-        ('Tripura', 'Tripura'),
-        ('Uttar Pradesh', 'Uttar Pradesh'),
-        ('Uttarakhand', 'Uttarakhand'),
-        ('West Bengal', 'West Bengal')
-    )
     Gender = (
         ('Male', 'Male'),
         ('Female', 'Female')
     )
-    Statename = models.CharField(max_length=100, choices=choice_states, default='Andhra Pradesh')
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     MPname = models.CharField(max_length=100, default='')
     partyname = models.CharField(max_length=100, default='')
     constituency_name = models.CharField(max_length=100, default='')
@@ -204,53 +172,24 @@ class Parliament(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.Statename
+        return self.State
+
 
 class Rajyasabha(Parliament):
 
     def __str__(self):
-        return self.Statename
+        return self.State
+
 
 class LokSabha(Parliament):
 
     def __str__(self):
-        return self.Statename
+        return self.State
+
 
 class Time_period(models.Model):
 
-    choice_states = (
-        ('Andhra Pradesh', 'Andhra Pradesh'),
-        ('Arunachal Pradesh', 'Arunachal Pradesh'),
-        ('Assam', 'Assam'),
-        ('Bihar', 'Bihar'),
-        ('Chhattisgarh', 'Chhattisgarh'),
-        ('Goa', 'Goa'),
-        ('Gujarat', 'Gujarat'),
-        ('Haryana', 'Haryana'),
-        ('Himachal Pradesh', 'Himachal Pradesh'),
-        ('Jammu and Kashmir', 'Jammu and Kashmir'),
-        ('Jharkhand', 'Jharkhand'),
-        ('Karnataka', 'Karnataka'),
-        ('Kerala', 'Kerala'),
-        ('Madhya  Pradesh', 'Madhya  Pradesh'),
-        ('Maharashtra', 'Maharashtra'),
-        ('Manipur', 'Manipur'),
-        ('Meghalaya', 'Meghalaya'),
-        ('Mizoram', 'Mizoram'),
-        ('Nagaland', 'Nagaland'),
-        ('Odisha', 'Odisha'),
-        ('Punjab', 'Punjab'),
-        ('Rajasthan', 'Rajasthan'),
-        ('Sikkim', 'Sikkim'),
-        ('Tamil Nadu', 'Tamil Nadu'),
-        ('Telangana', 'Telangana'),
-        ('Tripura', 'Tripura'),
-        ('Uttar Pradesh', 'Uttar Pradesh'),
-        ('Uttarakhand', 'Uttarakhand'),
-        ('West Bengal', 'West Bengal')
-    )
-
-    State_name = models.CharField(max_length=100, choices=choice_states, default='Andhra Pradesh')
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
     End_date = models.DateField()
 
@@ -258,18 +197,20 @@ class Time_period(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.Statename
+        return self.State
 
 
 class Assembly_time_period(Time_period):
 
     def __str__(self):
-        return self.Statename
+        return self.State
+
 
 class Panchayat_time_period(Assembly_time_period):
 
     def __str__(self):
-        return self.Statename
+        return self.State
+
 
 class Municipal_corporation_time_period(Assembly_time_period):
 
@@ -278,37 +219,23 @@ class Municipal_corporation_time_period(Assembly_time_period):
     corporation_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.Statename
+        return self.State
 
 
-class State(models.Model):
+class Panchayat_and_corporation(models.Model):
 
-    State_name = models.CharField(max_length=100)
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True,  default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True,  default='')
 
-    def __str__(self):
-        return self.State_name
-
-class Districts(models.Model):
-
-    State = models.ForeignKey(State, on_delete=models.CASCADE)
-    District_name = models.CharField(max_length=100)
+    class Meta:
+        abstract = True
 
     def __str__(self):
-        return self.District_name
+        return self.State
 
-class City(models.Model):
 
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    City_name = models.CharField(max_length=100)
+class Grama_panchayat(Panchayat_and_corporation):
 
-    def __str__(self):
-        return self.City_name
-
-class Grama_panchayat(models.Model):
-
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL,  null=True)
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
     Sarpanch_name = models.CharField(max_length=100, default='')
@@ -316,21 +243,19 @@ class Grama_panchayat(models.Model):
     def __str__(self):
         return self.State
 
-class Corporation(models.Model):
 
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+class Corporation(Panchayat_and_corporation):
+
+    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     Corporation_name = models.CharField(max_length=100, default='')
     Mayor_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.State
 
-class Panchayat_Ward_Number(models.Model):
 
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+class Panchayat_Ward_Number(Panchayat_and_corporation):
+
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
     Ward_Member_Name = models.CharField(max_length=100, default='')
@@ -338,11 +263,10 @@ class Panchayat_Ward_Number(models.Model):
     def __str__(self):
         return self.State
 
-class Corporation_Ward_Number(models.Model):
 
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+class Corporation_Ward_Number(Panchayat_and_corporation):
+
+    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     Ward_name = models.CharField(max_length=100, default='')
     Corporator_name = models.CharField(max_length=100, default='')
 
