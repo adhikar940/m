@@ -12,7 +12,7 @@ class State(models.Model):
     State_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.State_name
+        return str(self.State_name)
 
 
 class Districts(models.Model):
@@ -21,7 +21,7 @@ class Districts(models.Model):
     District_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.District_name
+        return str(self.District_name)
 
 
 class City(models.Model):
@@ -31,7 +31,7 @@ class City(models.Model):
     City_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.City_name
+        return str(self.City_name)
 
 
 class Ecandidates(models.Model):
@@ -47,7 +47,7 @@ class Ecandidates(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class BiharCandidate(Ecandidates):
@@ -82,7 +82,7 @@ class DubbakaRunners(Ecandidates):
     no_of_votes = models.IntegerField()
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Bihar_Coalition_Party(models.Model):
@@ -105,7 +105,7 @@ class Bihar_Coalition_Party(models.Model):
     chairpersonPhoto = models.ImageField(upload_to='photo/', null=True)
 
     def __str__(self):
-        return self.partyname
+        return str(self.partyname)
 
 
 class Party(models.Model):
@@ -128,7 +128,7 @@ class Party(models.Model):
     chairpersonPhoto = models.ImageField(upload_to='photo/', null=True)
 
     def __str__(self):
-        return self.partyname
+        return str(self.partyname)
 
 
 class LeadingSeats(models.Model):
@@ -147,7 +147,7 @@ class States(models.Model):
     Governor_Photo = models.ImageField(upload_to='photo/', null=True)
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Parliament(models.Model):
@@ -172,19 +172,19 @@ class Parliament(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Rajyasabha(Parliament):
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class LokSabha(Parliament):
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Time_period(models.Model):
@@ -197,19 +197,19 @@ class Time_period(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Assembly_time_period(Time_period):
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Panchayat_time_period(Assembly_time_period):
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Municipal_corporation_time_period(Assembly_time_period):
@@ -219,7 +219,7 @@ class Municipal_corporation_time_period(Assembly_time_period):
     corporation_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Panchayat_and_corporation(models.Model):
@@ -231,7 +231,7 @@ class Panchayat_and_corporation(models.Model):
         abstract = True
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Grama_panchayat(Panchayat_and_corporation):
@@ -241,7 +241,7 @@ class Grama_panchayat(Panchayat_and_corporation):
     Sarpanch_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Corporation(Panchayat_and_corporation):
@@ -251,7 +251,7 @@ class Corporation(Panchayat_and_corporation):
     Mayor_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Panchayat_Ward_Number(Panchayat_and_corporation):
@@ -261,7 +261,7 @@ class Panchayat_Ward_Number(Panchayat_and_corporation):
     Ward_Member_Name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.State
+        return str(self.State)
 
 
 class Corporation_Ward_Number(Panchayat_and_corporation):
@@ -271,4 +271,4 @@ class Corporation_Ward_Number(Panchayat_and_corporation):
     Corporator_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
-        return self.State
+        return str(self.State)
