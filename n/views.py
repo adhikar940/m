@@ -15,6 +15,8 @@ from .serializers import PartySerializers
 from .serializers import statesSerializers
 from .serializers import LokSabhaSerializers
 from .serializers import RajyasabhaSerializers
+from .serializers import Legislative_AssemblySerializers
+from .serializers import Legislative_CouncilSerializers
 from .serializers import Assembly_time_periodSerializers
 from .serializers import Panchayat_time_periodSerializers
 from .serializers import Municipal_corporation_time_periodSerializers
@@ -123,6 +125,18 @@ class LokSabha_api(APIView):
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
 
+
+class Assembly_api(APIView):
+    def get(self,request):
+        data = Legislative_Assembly.objects.all()
+        serializer = Legislative_AssemblySerializers(data, many=True)
+        return Response(serializer.data)
+
+class Legislative_Council_api(APIView):
+    def get(self,request):
+        data = Legislative_Council.objects.all()
+        serializer = Legislative_CouncilSerializers(data, many=True)
+        return Response(serializer.data)
 
 class Assembly_time_period_api(APIView):
     def get(self,request):

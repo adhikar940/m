@@ -10,15 +10,22 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 class BiharCandidateSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = BiharCandidate
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo']
 
 
 class DubbakaCandidateSerializers(serializers.ModelSerializer):
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = DubbakaCandidate
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo']
 
 
 class PartySerializers(serializers.ModelSerializer):
@@ -34,33 +41,52 @@ class Bihar_Coalition_PartySerializers(serializers.ModelSerializer):
 
 
 class DubbakaRunnersSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = DubbakaRunners
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
 
 
 class DubbakaWinnersSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = DubbakaWinners
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
 
 
 class BiharWinnersSerializers(serializers.ModelSerializer):
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = BiharWinners
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
 
 
 class BiharRunnersSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = BiharRunners
-        fields = ['Statename', 'partyname', 'Candidate', 'constituency_name', 'District_name', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
+        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo', 'total_contested', 'no_of_votes']
 
 
 class statesSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+
     class Meta:
         model = States
-        fields = ['State_name', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
+        fields = ['State', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
+
 
 
 class LeadingSeatsSerializers(serializers.ModelSerializer):
@@ -69,66 +95,139 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
         fields = ['MGB', 'NDA', 'LJP', 'Others']
 
 
+
 class RajyasabhaSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = Rajyasabha
-        fields = ['Statename', 'MPname', 'partyname', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MPname', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class LokSabhaSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = LokSabha
-        fields = ['Statename', 'MPname', 'partyname', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MPname', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+
+
+class Legislative_AssemblySerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
+    class Meta:
+        model = Legislative_Assembly
+        fields = ['State', 'MLA_name', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+
+
+class Legislative_CouncilSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
+    class Meta:
+        model = Legislative_Council
+        fields = ['State', 'MLC_name', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+
 
 
 class Assembly_time_periodSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+
     class Meta:
         model = Assembly_time_period
-        fields = ['State_name', 'start_date', 'End_date']
+        fields = ['State', 'start_date', 'End_date']
 
 
 class Panchayat_time_periodSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+
     class Meta:
         model = Panchayat_time_period
-        fields = ['State_name', 'start_date', 'End_date']
+        fields = ['State', 'start_date', 'End_date']
 
 
 class Municipal_corporation_time_periodSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+    City = serializers.StringRelatedField()
+
     class Meta:
         model = Municipal_corporation_time_period
-        fields = ['State_name', 'District_name', 'City_name', 'corporation_name', 'start_date', 'End_date']
+        fields = ['State', 'District_name', 'City', 'corporation_name', 'start_date', 'End_date']
+
 
 class StateSerializers(serializers.ModelSerializer):
     class Meta:
         model = State
         fields = ['State_name']
 
+
 class DistrictsSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+
     class Meta:
         model = Districts
         fields = ['State', 'District_name']
 
+
 class CitySerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = City
-        fields = ['State', 'District_name', 'City_name']
+        fields = ['State', 'Districts', 'City_name']
+
 
 class Grama_panchayatSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = Grama_panchayat
-        fields = ['State', 'District_name', 'Mandal', 'panchayat_name', 'Sarpanch_name']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Sarpanch_name']
+
 
 class CorporationSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+    City = serializers.StringRelatedField()
+
     class Meta:
         model = Corporation
-        fields = ['State', 'District_name', 'City', 'Corporation_name', 'Mayor_name']
+        fields = ['State', 'Districts', 'City', 'Corporation_name', 'partyname', 'Mayor_name']
+
 
 class Panchayat_Ward_NumberSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+
     class Meta:
         model = Panchayat_Ward_Number
-        fields = ['State', 'District_name', 'Mandal', 'panchayat_name', 'Ward_Member_Name']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Ward_Member_Name']
+
 
 class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+    City = serializers.StringRelatedField()
+
     class Meta:
         model = Corporation_Ward_Number
-        fields = ['State', 'District_name', 'City', 'Ward_name', 'Corporator_name']
+        fields = ['State', 'Districts', 'City', 'Ward_name', 'partyname', 'Corporator_name']
