@@ -158,8 +158,6 @@ class Parliament(models.Model):
     )
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     partyname = models.CharField(max_length=100, default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    constituency_name = models.CharField(max_length=200, default='')
     gender = models.CharField(max_length=10, choices=Gender, default='Male')
     fathersName = models.CharField(max_length=100, default='')
     SpouseName = models.CharField(max_length=100, default='')
@@ -186,6 +184,8 @@ class Rajyasabha(Parliament):
 class LokSabha(Parliament):
 
     MPname = models.CharField(max_length=300, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    constituency_name = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return str(self.State)
@@ -193,6 +193,8 @@ class LokSabha(Parliament):
 class Legislative_Assembly(Parliament):
 
     MLA_name = models.CharField(max_length=300, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    constituency_name = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return str(self.State)

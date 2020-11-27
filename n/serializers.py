@@ -103,7 +103,7 @@ class RajyasabhaSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Rajyasabha
-        fields = ['State', 'MPname', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MPname', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class LokSabhaSerializers(serializers.ModelSerializer):
@@ -123,7 +123,7 @@ class Legislative_AssemblySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Legislative_Assembly
-        fields = ['State', 'MLA_name', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MLA_name', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class Legislative_CouncilSerializers(serializers.ModelSerializer):
@@ -133,7 +133,7 @@ class Legislative_CouncilSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Legislative_Council
-        fields = ['State', 'MLC_name', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MLC_name', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 
