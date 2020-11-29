@@ -99,7 +99,6 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
 
     class Meta:
         model = Rajyasabha
@@ -123,7 +122,7 @@ class Legislative_AssemblySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Legislative_Assembly
-        fields = ['State', 'MLA_name', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MLA_name', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class Legislative_CouncilSerializers(serializers.ModelSerializer):
