@@ -150,7 +150,7 @@ class Panchayat_time_periodSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Panchayat_time_period
-        fields = ['State', 'start_date', 'End_date','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
+        fields = ['State', 'start_date', 'End_date']
 
 
 class Municipal_corporation_time_periodSerializers(serializers.ModelSerializer):
@@ -161,7 +161,7 @@ class Municipal_corporation_time_periodSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Municipal_corporation_time_period
-        fields = ['State', 'District_name', 'City', 'corporation_name', 'start_date', 'End_date','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
+        fields = ['State', 'District_name', 'City', 'corporation_name', 'start_date', 'End_date']
 
 
 class StateSerializers(serializers.ModelSerializer):

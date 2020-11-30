@@ -211,25 +211,10 @@ class Legislative_Council_Presence(models.Model):
         return str(self.State)
 
 class Time_period(models.Model):
-    Gender = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
-    )
-
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
     End_date = models.DateField()
-    partyname = models.CharField(max_length=100, default='')
-    gender = models.CharField(max_length=10, choices=Gender, default='Male')
-    fathersName = models.CharField(max_length=100, default='')
-    SpouseName = models.CharField(max_length=100, default='')
-    HighestEducation = models.CharField(max_length=100, default='')
-    University = models.CharField(max_length=100,  default='')
-    photo = models.ImageField(upload_to='photo/', null=True)
-    address = models.TextField(max_length=600, default='')
-
-
-
+    
     class Meta:
         abstract = True
 
@@ -267,7 +252,6 @@ class Panchayat_and_corporation(models.Model):
 
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True,  default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True,  default='')
-    partyname = models.CharField(max_length=100, default='')
     gender = models.CharField(max_length=10, choices=Gender, default='Male')
     fathersName = models.CharField(max_length=100, default='')
     SpouseName = models.CharField(max_length=100, default='')
@@ -288,6 +272,7 @@ class Grama_panchayat(Panchayat_and_corporation):
 
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
+    partyname = models.CharField(max_length=100, default='')
     Sarpanch_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
@@ -310,6 +295,7 @@ class Panchayat_Ward_Number(Panchayat_and_corporation):
 
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
+    partyname = models.CharField(max_length=100, default='')
     Ward_Member_Name = models.CharField(max_length=100, default='')
 
     def __str__(self):
