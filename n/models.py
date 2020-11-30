@@ -199,18 +199,36 @@ class Legislative_Assembly(Parliament):
     def __str__(self):
         return str(self.State)
 
-class Legislative_Council(Parliament):
-
-    MLC_name = models.CharField(max_length=300, default='')
-
+class Legislative_Council_Presence(models.Model):
+    status = (
+        ('Present', 'Present'),
+        ('Absent', 'Absent')
+    )
+    presence = models.CharField(max_length=10, choices=status, default='Present')
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    
     def __str__(self):
         return str(self.State)
 
 class Time_period(models.Model):
+    Gender = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
 
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
     End_date = models.DateField()
+    partyname = models.CharField(max_length=100, default='')
+    gender = models.CharField(max_length=10, choices=Gender, default='Male')
+    fathersName = models.CharField(max_length=100, default='')
+    SpouseName = models.CharField(max_length=100, default='')
+    HighestEducation = models.CharField(max_length=100, default='')
+    University = models.CharField(max_length=100,  default='')
+    photo = models.ImageField(upload_to='photo/', null=True)
+    address = models.TextField(max_length=600, default='')
+
+
 
     class Meta:
         abstract = True
@@ -242,9 +260,22 @@ class Municipal_corporation_time_period(Time_period):
 
 
 class Panchayat_and_corporation(models.Model):
+    Gender = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
 
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True,  default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True,  default='')
+    partyname = models.CharField(max_length=100, default='')
+    gender = models.CharField(max_length=10, choices=Gender, default='Male')
+    fathersName = models.CharField(max_length=100, default='')
+    SpouseName = models.CharField(max_length=100, default='')
+    HighestEducation = models.CharField(max_length=100, default='')
+    University = models.CharField(max_length=100,  default='')
+    photo = models.ImageField(upload_to='photo/', null=True)
+    address = models.TextField(max_length=600, default='')
+
 
     class Meta:
         abstract = True

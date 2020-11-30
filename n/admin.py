@@ -32,7 +32,7 @@ admin.site.register(LokSabha, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
-admin.site.register(Legislative_Council, ImportExportModelAdmin)
+admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
 
 admin.site.register(Assembly_time_period, ImportExportModelAdmin)
 
