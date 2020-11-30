@@ -272,7 +272,6 @@ class Grama_panchayat(Panchayat_and_corporation):
 
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
-    partyname = models.CharField(max_length=100, default='')
     Sarpanch_name = models.CharField(max_length=100, default='')
 
     def __str__(self):
@@ -295,7 +294,6 @@ class Panchayat_Ward_Number(Panchayat_and_corporation):
 
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
-    partyname = models.CharField(max_length=100, default='')
     Ward_Member_Name = models.CharField(max_length=100, default='')
 
     def __str__(self):

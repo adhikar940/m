@@ -196,7 +196,7 @@ class Grama_panchayatSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Grama_panchayat
-        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Sarpanch_name','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Sarpanch_name','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
 
 
 class CorporationSerializers(serializers.ModelSerializer):
@@ -217,7 +217,7 @@ class Panchayat_Ward_NumberSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Panchayat_Ward_Number
-        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Ward_Member_Name','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Ward_Member_Name','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
 
 
 class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
