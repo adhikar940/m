@@ -31,6 +31,7 @@ admin.site.register(Rajyasabha, ImportExportModelAdmin)
 admin.site.register(LokSabha, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
+admin.site.register(Legislative_councils, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
 

@@ -174,7 +174,11 @@ class Parliament(models.Model):
 
 
 class Rajyasabha(Parliament):
-
+    choice = (
+        ('legistlatures','legistlatures'),
+        ('president','president')
+    )
+    total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
 
     def __str__(self):
@@ -182,7 +186,7 @@ class Rajyasabha(Parliament):
 
 
 class LokSabha(Parliament):
-
+    total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
@@ -191,10 +195,29 @@ class LokSabha(Parliament):
         return str(self.State)
 
 class Legislative_Assembly(Parliament):
-
+    total_member = models.IntegerField(null=True)
     MLA_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return str(self.State)
+
+class Legislative_councils(models.Model):
+    elected = (
+        ('members of local body','members of local body'),
+        ('members of legislative body','members of legislative body'),
+        ('governer','governer'),
+        ('graduates of three years','graduates of three years'),
+        ('unniversity teacher of three years','unniversity teacher of three years')
+    )
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    elected_for_rajyasabha = models.CharField(max_length=500, choices=elected, default='governer')
+    MLA_name = models.CharField(max_length=300, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    constituency_name = models.CharField(max_length=200, default='')
+    total_member = models.IntegerField(null=True)
+    
 
     def __str__(self):
         return str(self.State)
@@ -204,6 +227,7 @@ class Legislative_Council_Presence(models.Model):
         ('Present', 'Present'),
         ('Absent', 'Absent')
     )
+    
     presence = models.CharField(max_length=10, choices=status, default='Present')
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     
