@@ -13,3 +13,4 @@
 /n/migrations/__pycache__/__init__.cpython-36.pyc
 n/migrations/0003_auto_20201119_1501.py
 n/migrations/__pycache__/0003_auto_20201119_1501.cpython-36.pyc
+n/migrations/*
