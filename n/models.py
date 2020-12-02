@@ -180,6 +180,7 @@ class Rajyasabha(Parliament):
     )
     total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
+    elected= models.CharField(max_length=500, choices=choice)
 
     def __str__(self):
         return str(self.State)
@@ -212,7 +213,7 @@ class Legislative_councils(models.Model):
         ('unniversity teacher of three years','unniversity teacher of three years')
     )
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    elected_for_rajyasabha = models.CharField(max_length=500, choices=elected, default='governer')
+    elected= models.CharField(max_length=500, choices=elected, default='governer')
     MLA_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
