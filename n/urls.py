@@ -8,8 +8,7 @@ from drf_multiple_model.views import ObjectMultipleModelAPIView
 
 
 urlpatterns = [
-
-url(r'^bihar_api/',user_views.Bihar_api.as_view()),
+    url(r'^bihar_api/',user_views.Bihar_api.as_view()),
 url(r'^dubbakka_api/',user_views.Dubbaka_api.as_view()),
 url(r'^dubbakkawinner_api/',user_views.DubbakaWinner_api.as_view()),
 url(r'^dubbakkarunner_api/',user_views.DubbakaRunner_api.as_view()),
