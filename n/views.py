@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
+from .serializers import *
+'''
 from .serializers import BiharCandidateSerializers
 from .serializers import BiharRunnersSerializers
 from .serializers import BiharWinnersSerializers
@@ -27,7 +29,7 @@ from .serializers import Grama_panchayatSerializers
 from .serializers import CorporationSerializers
 from .serializers import Panchayat_Ward_NumberSerializers
 from .serializers import Corporation_Ward_NumberSerializers
-
+'''
 
 class MovieViewSet(viewsets.ModelViewSet):
     """
@@ -36,10 +38,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     # permission_classes = [permissions.IsAuthenticated]
-    '''def list(self, request, *args, **kwargs):
-        movies = Movie.objects.all()
-        serializer = MovieMiniSerializer(movies, many=True)
-        return Response(serializer.data)'''
+    
 
 
 class Bihar_api(APIView):
