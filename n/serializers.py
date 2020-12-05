@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+#from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from . models import *
 
@@ -128,11 +128,10 @@ class Legislative_AssemblySerializers(serializers.ModelSerializer):
 class Legislative_CouncilSerializers(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
 
     class Meta:
-        model = Legislative_Council
-        fields = ['State', 'MLC_name', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        model = Legislative_Council_Presence
+        fields = ['State',  'presence']
 
 
 
@@ -197,7 +196,7 @@ class Grama_panchayatSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Grama_panchayat
-        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Sarpanch_name']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Sarpanch_name','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
 
 
 class CorporationSerializers(serializers.ModelSerializer):
@@ -208,7 +207,7 @@ class CorporationSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Corporation
-        fields = ['State', 'Districts', 'City', 'Corporation_name', 'partyname', 'Mayor_name']
+        fields = ['State', 'Districts', 'City', 'Corporation_name', 'partyname', 'Mayor_name','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
 
 
 class Panchayat_Ward_NumberSerializers(serializers.ModelSerializer):
@@ -218,7 +217,7 @@ class Panchayat_Ward_NumberSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Panchayat_Ward_Number
-        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Ward_Member_Name']
+        fields = ['State', 'Districts', 'Mandal', 'panchayat_name', 'Ward_Member_Name','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
 
 
 class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
@@ -229,4 +228,4 @@ class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Corporation_Ward_Number
-        fields = ['State', 'Districts', 'City', 'Ward_name', 'partyname', 'Corporator_name']
+        fields = ['State', 'Districts', 'City', 'Ward_name', 'partyname', 'Corporator_name','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']

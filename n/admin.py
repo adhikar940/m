@@ -32,7 +32,9 @@ admin.site.register(LokSabha, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
-admin.site.register(Legislative_Council, ImportExportModelAdmin)
+admin.site.register(Legislative_councils, ImportExportModelAdmin)
+
+admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
 
 admin.site.register(Assembly_time_period, ImportExportModelAdmin)
 
@@ -53,7 +55,3 @@ admin.site.register(Corporation, ImportExportModelAdmin)
 admin.site.register(Panchayat_Ward_Number, ImportExportModelAdmin)
 
 admin.site.register(Corporation_Ward_Number, ImportExportModelAdmin)
-
-
-
-

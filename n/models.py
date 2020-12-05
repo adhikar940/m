@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -8,7 +9,6 @@ class Movie(models.Model):
 
 
 class State(models.Model):
-
     State_name = models.CharField(max_length=1000)
 
     def __str__(self):
@@ -16,7 +16,6 @@ class State(models.Model):
 
 
 class Districts(models.Model):
-
     State = models.ForeignKey(State, on_delete=models.CASCADE)
     District_name = models.CharField(max_length=100)
 
@@ -25,7 +24,6 @@ class Districts(models.Model):
 
 
 class City(models.Model):
-
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     City_name = models.CharField(max_length=100)
@@ -35,14 +33,13 @@ class City(models.Model):
 
 
 class Ecandidates(models.Model):
-
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     partyname = models.CharField(max_length=100, default='')
     Candidate = models.CharField(max_length=100, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Residence = models.TextField(max_length=200, default='')
     Photo = models.ImageField(upload_to='photo/', default='')
-    
+
     class Meta:
         abstract = True
 
@@ -52,7 +49,7 @@ class Ecandidates(models.Model):
 
 class BiharCandidate(Ecandidates):
     constituency_name = models.CharField(max_length=100, default='')
-    
+
 
 class BiharWinners(Ecandidates):
     constituency_name = models.CharField(max_length=100, default='', unique='True')
@@ -68,7 +65,7 @@ class BiharRunners(Ecandidates):
 
 class DubbakaCandidate(Ecandidates):
     constituency_name = models.CharField(max_length=100, default='')
-    
+
 
 class DubbakaWinners(Ecandidates):
     constituency_name = models.CharField(max_length=100, default='', unique='True')
@@ -151,18 +148,18 @@ class States(models.Model):
 
 
 class Parliament(models.Model):
-
     Gender = (
         ('Male', 'Male'),
         ('Female', 'Female')
     )
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     partyname = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     gender = models.CharField(max_length=10, choices=Gender, default='Male')
     fathersName = models.CharField(max_length=100, default='')
     SpouseName = models.CharField(max_length=100, default='')
     HighestEducation = models.CharField(max_length=100, default='')
-    University = models.CharField(max_length=100,  default='')
+    University = models.CharField(max_length=100, default='')
     photo = models.ImageField(upload_to='photo/', null=True)
     address = models.TextField(max_length=600, default='')
 
@@ -174,15 +171,20 @@ class Parliament(models.Model):
 
 
 class Rajyasabha(Parliament):
-
+    choice = (
+        ('legistlatures', 'legistlatures'),
+        ('president', 'president')
+    )
+    total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
+    elected = models.CharField(max_length=500, choices=choice, default='')
 
     def __str__(self):
         return str(self.State)
 
 
 class LokSabha(Parliament):
-
+    total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
@@ -190,8 +192,9 @@ class LokSabha(Parliament):
     def __str__(self):
         return str(self.State)
 
-class Legislative_Assembly(Parliament):
 
+class Legislative_Assembly(Parliament):
+    total_member = models.IntegerField(null=True)
     MLA_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
@@ -199,15 +202,40 @@ class Legislative_Assembly(Parliament):
     def __str__(self):
         return str(self.State)
 
-class Legislative_Council(Parliament):
 
-    MLC_name = models.CharField(max_length=300, default='')
+class Legislative_councils(models.Model):
+    elected = (
+        ('members of local body', 'members of local body'),
+        ('members of legislative body', 'members of legislative body'),
+        ('governer', 'governer'),
+        ('graduates of three years', 'graduates of three years'),
+        ('unniversity teacher of three years', 'unniversity teacher of three years')
+    )
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    elected = models.CharField(max_length=500, choices=elected, default='governer')
+    MLA_name = models.CharField(max_length=300, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    constituency_name = models.CharField(max_length=200, default='')
+    total_member = models.IntegerField(null=True)
 
     def __str__(self):
         return str(self.State)
 
-class Time_period(models.Model):
 
+class Legislative_Council_Presence(models.Model):
+    status = (
+        ('Present', 'Present'),
+        ('Absent', 'Absent')
+    )
+
+    presence = models.CharField(max_length=10, choices=status, default='Present')
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return str(self.State)
+
+
+class Time_period(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
     End_date = models.DateField()
@@ -232,7 +260,6 @@ class Panchayat_time_period(Time_period):
 
 
 class Municipal_corporation_time_period(Time_period):
-
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     corporation_name = models.CharField(max_length=100, default='')
@@ -242,9 +269,20 @@ class Municipal_corporation_time_period(Time_period):
 
 
 class Panchayat_and_corporation(models.Model):
+    Gender = (
+        ('Male', 'Male'),
+        ('Female', 'Female')
+    )
 
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True,  default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True,  default='')
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True, default='')
+    gender = models.CharField(max_length=10, choices=Gender, default='Male')
+    fathersName = models.CharField(max_length=100, default='')
+    SpouseName = models.CharField(max_length=100, default='')
+    HighestEducation = models.CharField(max_length=100, default='')
+    University = models.CharField(max_length=100, default='')
+    photo = models.ImageField(upload_to='photo/', null=True)
+    address = models.TextField(max_length=600, default='')
 
     class Meta:
         abstract = True
@@ -254,7 +292,6 @@ class Panchayat_and_corporation(models.Model):
 
 
 class Grama_panchayat(Panchayat_and_corporation):
-
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
     Sarpanch_name = models.CharField(max_length=100, default='')
@@ -264,19 +301,16 @@ class Grama_panchayat(Panchayat_and_corporation):
 
 
 class Corporation(Panchayat_and_corporation):
-
     City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     Corporation_name = models.CharField(max_length=100, default='')
     partyname = models.CharField(max_length=100, default='')
     Mayor_name = models.CharField(max_length=100, default='')
-
 
     def __str__(self):
         return str(self.State)
 
 
 class Panchayat_Ward_Number(Panchayat_and_corporation):
-
     Mandal = models.CharField(max_length=100, default='')
     panchayat_name = models.CharField(max_length=100, default='')
     Ward_Member_Name = models.CharField(max_length=100, default='')
@@ -286,12 +320,10 @@ class Panchayat_Ward_Number(Panchayat_and_corporation):
 
 
 class Corporation_Ward_Number(Panchayat_and_corporation):
-
     City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     Ward_name = models.CharField(max_length=100, default='')
     partyname = models.CharField(max_length=100, default='')
     Corporator_name = models.CharField(max_length=100, default='')
-
 
     def __str__(self):
         return str(self.State)
