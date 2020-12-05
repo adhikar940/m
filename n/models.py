@@ -178,11 +178,9 @@ class Rajyasabha(Parliament):
     )
     total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
-<<<<<<< HEAD
+
     elected= models.CharField(max_length=500, choices=choice,default='legistlatures')
-=======
-    elected= models.CharField(max_length=500, choices=choice,default='')
->>>>>>> 7f11281e7d75d906765d703cb0a5faf88ff55782
+
 
     def __str__(self):
         return str(self.State)
