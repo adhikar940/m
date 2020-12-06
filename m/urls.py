@@ -14,7 +14,7 @@ router.register(r'movies', views.MovieViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/',admin.site.urls),
-
+path('', include(router.urls)),
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
@@ -23,4 +23,3 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
 
-path('', include(router.urls)),
