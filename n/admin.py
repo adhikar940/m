@@ -1,11 +1,9 @@
-
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
 from .models import *
 
 
 # Register your models here.
-
 admin.site.register(Movie, ImportExportModelAdmin)
 
 admin.site.register(BiharCandidate, ImportExportModelAdmin)
@@ -33,6 +31,7 @@ admin.site.register(Rajyasabha, ImportExportModelAdmin)
 admin.site.register(LokSabha, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
+
 admin.site.register(Legislative_councils, ImportExportModelAdmin)
 
 admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
@@ -56,6 +55,3 @@ admin.site.register(Corporation, ImportExportModelAdmin)
 admin.site.register(Panchayat_Ward_Number, ImportExportModelAdmin)
 
 admin.site.register(Corporation_Ward_Number, ImportExportModelAdmin)
-
-
-
