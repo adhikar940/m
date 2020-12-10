@@ -125,7 +125,7 @@ class Party(models.Model):
     chairpersonPhoto = models.ImageField(upload_to='photo/', null=True)
 
     def __str__(self):
-        return str(self.partyname)
+        return str(self.abbreviation)
 
 
 class LeadingSeats(models.Model):
@@ -175,7 +175,6 @@ class Rajyasabha(Parliament):
         ('legistlatures', 'legistlatures'),
         ('president', 'president')
     )
-    total_member = models.IntegerField(null=True)
     MPname = models.CharField(max_length=300, default='')
 
     elect = models.CharField(max_length=500, choices=choice, default='')
@@ -186,8 +185,7 @@ class Rajyasabha(Parliament):
 
 
 class LokSabha(Parliament):
-    total_member = models.IntegerField(null=True)
-    MPname = models.CharField(max_length=300, default='')
+    MPname = models.CharField(max_length=300,null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
 
