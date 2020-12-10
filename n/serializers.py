@@ -99,20 +99,22 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
 
     class Meta:
         model = Rajyasabha
-        fields = ['State', 'MPname', 'partyname', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MPname', 'partyname', 'Party','gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class LokSabhaSerializers(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
 
     class Meta:
         model = LokSabha
-        fields = ['State', 'MPname', 'partyname', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
+        fields = ['State', 'MPname', 'partyname','Party', 'Districts', 'constituency_name', 'gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
