@@ -95,6 +95,14 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
         fields = ['MGB', 'NDA', 'LJP', 'Others']
 
 
+class CarsSerializer(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
+
+    class Meta:
+        model = Rajyasabha
+        fields = ['id','State', 'MPname', 'partyname', 'Party','gender', 'fathersName', 'SpouseName', 'HighestEducation', 'University', 'photo', 'address']
 
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
@@ -231,3 +239,30 @@ class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
     class Meta:
         model = Corporation_Ward_Number
         fields = ['State', 'Districts', 'City', 'Ward_name', 'partyname', 'Corporator_name','partyname','gender','fathersName','SpouseName','HighestEducation','University','photo','address']
+
+
+class Loksabha_SessionSerializers(serializers.ModelSerializer):
+    loksabha = serializers.StringRelatedField()
+    class Meta:
+        model = Loksabha_Session
+        fields = ['loksabha','date','session','link']
+
+class Rajyasabha_SessionSerializers(serializers.ModelSerializer):
+    rajyasabha = serializers.StringRelatedField()
+    class Meta:
+        model = Rajyasabha_Session
+        fields = ['rajyasabha','date','session','link']
+
+class Legislative_Assembly_SessionSerializers(serializers.ModelSerializer):
+    legislative_assembly = serializers.StringRelatedField()
+    class Meta:
+        model = Legislative_Assembly_Session
+        fields = ['legislative_assembly','date','session','link']
+
+class Legislative_counsil_SessionSerializers(serializers.ModelSerializer):
+    legislative_councils = serializers.StringRelatedField()
+    class Meta:
+        model = Legislative_counsil_Session
+        fields = ['legislative_councils','date','session','link']
+
+ 

@@ -1,8 +1,8 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
-
 
 class Movie(models.Model):
     name = models.CharField(max_length=32)
@@ -179,7 +179,7 @@ class Rajyasabha(Parliament):
     elected = models.CharField(max_length=500, choices=choice, default='')
 
     def __str__(self):
-        return str(self.State)
+        return str(self.MPname)
 
 
 class LokSabha(Parliament):
@@ -188,7 +188,7 @@ class LokSabha(Parliament):
     constituency_name = models.CharField(max_length=200, default='')
 
     def __str__(self):
-        return str(self.State)
+        return str(self.MPname)
 
 
 class Legislative_Assembly(Parliament):
@@ -325,3 +325,62 @@ class Corporation_Ward_Number(Panchayat_and_corporation):
 
     def __str__(self):
         return str(self.State)
+
+class user_profile(Rajyasabha):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    childhood_and_Education = models.TextField(default='')
+    childhood_and_Education_Photo = models.ImageField(upload_to='uploads/', blank=True)
+    About_Me = models.TextField(default='')
+    About_Me_Photo = models.ImageField(upload_to='uploads/', blank=True)
+    Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
+    Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
+    aims_Goal_and_Dream = models.TextField(default='')
+    aims_Goal_and_Dream_Photo = models.ImageField(upload_to='uploads/', blank=True)
+    Message_For_Followers = models.TextField(default='')
+    Photo = models.ImageField(upload_to='uploads/', blank=True)
+
+    def __str__(self):
+        return str(self.user)
+
+class Loksabha_Session(models.Model):
+    loksabha = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.loksabha)
+
+
+class Rajyasabha_Session(models.Model):
+    rajyasabha = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.rajyasabha)
+
+
+class Legislative_Assembly_Session(models.Model):
+    legislative_assembly = models.ForeignKey(Legislative_Assembly, on_delete=models.SET_NULL, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.legislative_assembly)
+
+
+class Legislative_counsil_Session(models.Model):
+    legislative_councils = models.ForeignKey(Legislative_councils, on_delete=models.SET_NULL, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.legislative_councils)
+
