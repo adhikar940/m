@@ -176,14 +176,21 @@ class Rajyasabha(Parliament):
         ('president', 'president')
     )
     MPname = models.CharField(max_length=300, default='')
-
-    elect = models.CharField(max_length=500, choices=choice, default='')
-
-
+    elected = models.CharField(max_length=500, choices=choice, default='')
     def __str__(self):
         return str(self.State)
+        
+ 
+'''    
+class Rajyasabh(Parliament):
+    choice = (
+        ('legistlatures', 'legistlatures'),
+        ('president', 'president')
+    )
+    MPname = models.CharField(max_length=300, default=''
+    elected = models.CharField(max_length=500, choices=choice, default='')
 
-
+'''
 class LokSabha(Parliament):
     MPname = models.CharField(max_length=300,null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
