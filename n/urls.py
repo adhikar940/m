@@ -42,8 +42,8 @@ url(r'^Panchayat_Ward_Number_api/', user_views.Panchayat_Ward_Number_api.as_view
 url(r'^Corporation_Ward_Number_api/', user_views.Corporation_Ward_Number_api.as_view()), 
 url(r'^loksabhasession_api/', user_views.Loksabha_Session_api.as_view()),
 url(r'^rajyasabhasession_api/', user_views.Rajyasabha_Session_api.as_view()),
-url(r'^legislative_assembly_api/', user_views.Legislative_Assembly_Session.as_view()),
-url(r'^legislative_counsil_api/', user_views.Legislative_counsil_Session.as_view()), 
+url(r'^legislative_assembly_api/', user_views.Legislative_Assembly_Session_api.as_view()),
+url(r'^legislative_counsil_api/', user_views.Legislative_counsil_Session_api.as_view()), 
 
 
 ]

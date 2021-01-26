@@ -433,13 +433,13 @@ class Rajyasabha_Session_api(APIView):
         serializer = Rajyasabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
-class Legislative_Assembly_Session(APIView):
+class Legislative_Assembly_Session_api(APIView):
     def get(self,request):
         data = Legislative_Assembly_Session.objects.all()
         serializer = Legislative_Assembly_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
-class Legislative_counsil_Session(APIView):
+class Legislative_counsil_Session_api(APIView):
     def get(self,request):
         data = Legislative_counsil_Session.objects.all()
         serializer = Legislative_counsil_SessionSerializers(data, many=True)
