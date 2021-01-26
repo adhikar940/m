@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'n',
     'corsheaders',
     'rest_framework',
+    'crispy_forms',
     'import_export',
     'drf_multiple_model',
+    'embed_video'
 ]
 
 MIDDLEWARE = [
@@ -67,7 +69,7 @@ ROOT_URLCONF = 'm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,3 +148,14 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+AUTHENTICATION_BACKENDS = ['n.authentication.EmailBackend']
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adhikar869@gmail.com'
+EMAIL_HOST_PASSWORD = 'M&mohan869'

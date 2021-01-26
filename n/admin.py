@@ -3,7 +3,13 @@ from django.contrib import admin
 from .models import *
 
 
+
 # Register your models here.
+admin.site.register(Loksabha_Session, ImportExportModelAdmin)
+admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
+admin.site.register(Legislative_Assembly_Session, ImportExportModelAdmin)
+admin.site.register(Legislative_counsil_Session, ImportExportModelAdmin)
+admin.site.register(user_profile, ImportExportModelAdmin)
 admin.site.register(Movie, ImportExportModelAdmin)
 
 admin.site.register(BiharCandidate, ImportExportModelAdmin)
