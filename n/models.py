@@ -369,6 +369,7 @@ class Legislative_Assembly_Session(models.Model):
     date = models.DateField()
     session = models.TextField(default='')
     link = EmbedVideoField()
+   
 
     def __str__(self):
         return str(self.legislative_assembly)
