@@ -29,6 +29,9 @@ from .serializers import CorporationSerializers
 from .serializers import Panchayat_Ward_NumberSerializers
 from .serializers import Corporation_Ward_NumberSerializers
 from .serializers import CarsSerializer
+from .serializers import PMSerializers
+from .serializers import PresidentSerializers
+from .serializers import Vice_PresidentSerializers
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .forms import SignupForm, User_infoForm
@@ -112,12 +115,14 @@ def profile(request):
 def partyprofile(request):
     #if authenticate(username='BJP',password='Bjp@1234'):
      #   posts = Rajyasabha.objects.filter(Party = 'BJP')
-        return render(request, 'n/partyprofile.html')
+        #return render(request, 'n/partyprofile.html')
 
-    #logged_user = request.user
-    #party = logged_user
-    #form = Rajyasabha.objects.filter(Party=party)
-    #context = {'form': form}
+    logged_user = request.user
+    form = PartywiseMLA.objects.filter(party=logged_user)
+    post = PartywiseMP.objects.filter(party=logged_user)
+    context = {'form': form, 'post': post}
+    # context2 = {'post' : post}
+    return render(request, 'n/partyprofile.html', context)
 
 # USER INFO
 
@@ -445,4 +450,33 @@ class Legislative_counsil_Session_api(APIView):
         serializer = Legislative_counsil_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
+class PM_api(APIView):
+    def get(self,request):
+        data = PM.objects.all()
+        serializer = PMSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Vice_President_api(APIView):
+    def get(self, request):
+        data = Vice_President.objects.all()
+        serializer = Vice_PresidentSerializers(data, many=True)
+        return Response(serializer.data)
+
+class President_api(APIView):
+    def get(self, request):
+        data = President.objects.all()
+        serializer = PresidentSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Rajyasabha_Chairman_api(APIView):
+    def get(self, request):
+        data = Rajyasabha_Chairman.objects.all()
+        serializer = Rajyasabha_ChairmanSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Locksabha_Chairman_api(APIView):
+    def get(self, request):
+        data = Locksabha_Chairman.objects.all()
+        serializer = Locksabha_ChairmanSerializers(data, many=True)
+        return Response(serializer.data)
 
