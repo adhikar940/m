@@ -291,3 +291,13 @@ class Locksabha_ChairmanSerializers(serializers.ModelSerializer):
     class Meta:
         model = Locksabha_Chairman
         fields = ['Locksabha_Chairman_name', 'date', 'session', 'link']
+
+class Locksabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Locksabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link']
+
+class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Rajyasabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link']

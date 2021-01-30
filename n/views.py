@@ -32,6 +32,10 @@ from .serializers import CarsSerializer
 from .serializers import PMSerializers
 from .serializers import PresidentSerializers
 from .serializers import Vice_PresidentSerializers
+from .serializers import Rajyasabha_ChairmanSerializers
+from .serializers import Locksabha_ChairmanSerializers
+from .serializers import Locksabha_Complete_SessionSerializers
+from .serializers import Rajyasabha_Complete_SessionSerializers
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .forms import SignupForm, User_infoForm
@@ -358,21 +362,23 @@ class Assembly_api(APIView):
         serializer = Legislative_AssemblySerializers(data, many=True)
         return Response(serializer.data)
 
+
 class Legislative_Council_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Legislative_Council.objects.all()
         serializer = Legislative_CouncilSerializers(data, many=True)
         return Response(serializer.data)
 
+
 class Assembly_time_period_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Assembly_time_period.objects.all()
         serializer = Assembly_time_periodSerializers(data, many=True)
         return Response(serializer.data)
 
 
 class Panchayat_time_period_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Panchayat_time_period.objects.all()
         serializer = Panchayat_time_periodSerializers(data, many=True)
         return Response(serializer.data)
@@ -397,61 +403,61 @@ class Districts_api(APIView):
         return Response(serializer.data)
 
 class City_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = City.objects.all()
         serializer = CitySerializers(data, many=True)
         return Response(serializer.data)
 
 class Grama_panchayat_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Grama_panchayat.objects.all()
         serializer = Grama_panchayatSerializers(data, many=True)
         return Response(serializer.data)
 
 class Corporation_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Corporation.objects.all()
         serializer = CorporationSerializers(data, many=True)
         return Response(serializer.data)
 
 class Panchayat_Ward_Number_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Panchayat_Ward_Number.objects.all()
         serializer = Panchayat_Ward_NumberSerializers(data, many=True)
         return Response(serializer.data)
 
 class Corporation_Ward_Number_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Corporation_Ward_Number.objects.all()
         serializer = Corporation_Ward_NumberSerializers(data, many=True)
         return Response(serializer.data)
 
 class Loksabha_Session_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Loksabha_Session.objects.all()
         serializer = Loksabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class Rajyasabha_Session_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Rajyasabha_Session.objects.all()
         serializer = Rajyasabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class Legislative_Assembly_Session_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Legislative_Assembly_Session.objects.all()
         serializer = Legislative_Assembly_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class Legislative_counsil_Session_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = Legislative_counsil_Session.objects.all()
         serializer = Legislative_counsil_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class PM_api(APIView):
-    def get(self,request):
+    def get(self, request):
         data = PM.objects.all()
         serializer = PMSerializers(data, many=True)
         return Response(serializer.data)
@@ -480,3 +486,14 @@ class Locksabha_Chairman_api(APIView):
         serializer = Locksabha_ChairmanSerializers(data, many=True)
         return Response(serializer.data)
 
+class Locksabha_Complete_Session_api(APIView):
+    def get(self, request):
+        data = Locksabha_Complete_Session.objects.all()
+        serializer = Locksabha_Complete_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Rajyasabha_Complete_Session_api(APIView):
+    def get(self, request):
+        data = Rajyasabha_Complete_Session.objects.all()
+        serializer = Rajyasabha_Complete_SessionSerializers(data, many=True)
+        return Response(serializer.data)

@@ -449,4 +449,22 @@ class Locksabha_Chairman(models.Model):
     link = EmbedVideoField()
 
     def __str__(self):
-        return str(self.Locksabha_Chairman)
+        return str(self.Locksabha_Chairman_name)
+
+class Locksabha_Complete_Session(models.Model):
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.session)
+
+class Rajyasabha_Complete_Session(models.Model):
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.session)
