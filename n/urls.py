@@ -49,6 +49,8 @@ url(r'^President_api/', user_views.President_api.as_view()),
 url(r'^Vice_President_api/', user_views.Vice_President_api.as_view()),
 url(r'^Rajyasabha_Chairman_api/', user_views.Rajyasabha_Chairman_api.as_view()),
 url(r'^Locksabha_Chairman_api/', user_views.Locksabha_Chairman_api.as_view()),
+url(r'^Locksabha_Complete_Session_api/', user_views.Locksabha_Complete_Session_api.as_view()),
+url(r'^Rajyasabha_Complete_Session_api/', user_views.Rajyasabha_Complete_Session_api.as_view()),
 
 
 

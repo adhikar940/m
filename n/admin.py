@@ -75,3 +75,7 @@ admin.site.register(Vice_President, ImportExportModelAdmin)
 admin.site.register(Rajyasabha_Chairman, ImportExportModelAdmin)
 
 admin.site.register(Locksabha_Chairman, ImportExportModelAdmin)
+
+admin.site.register(Locksabha_Complete_Session, ImportExportModelAdmin)
+
+admin.site.register(Rajyasabha_Complete_Session, ImportExportModelAdmin)
