@@ -43,7 +43,13 @@ url(r'^Corporation_Ward_Number_api/', user_views.Corporation_Ward_Number_api.as_
 url(r'^loksabhasession_api/', user_views.Loksabha_Session_api.as_view()),
 url(r'^rajyasabhasession_api/', user_views.Rajyasabha_Session_api.as_view()),
 url(r'^legislative_assembly_api/', user_views.Legislative_Assembly_Session_api.as_view()),
-url(r'^legislative_counsil_api/', user_views.Legislative_counsil_Session_api.as_view()), 
+url(r'^legislative_counsil_api/', user_views.Legislative_counsil_Session_api.as_view()),
+url(r'^PM_api/', user_views.PM_api.as_view()),
+url(r'^President_api/', user_views.President_api.as_view()),
+url(r'^Vice_President_api/', user_views.Vice_President_api.as_view()),
+url(r'^Rajyasabha_Chairman_api/', user_views.Rajyasabha_Chairman_api.as_view()),
+url(r'^Locksabha_Chairman_api/', user_views.Locksabha_Chairman_api.as_view()),
+
 
 
 ]

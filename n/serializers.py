@@ -265,4 +265,29 @@ class Legislative_counsil_SessionSerializers(serializers.ModelSerializer):
         model = Legislative_counsil_Session
         fields = ['legislative_councils','date','session','link']
 
- 
+class PMSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = PM
+        fields = ['PM_name', 'date', 'session', 'link']
+
+
+class PresidentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = President
+        fields = ['President_name', 'date', 'session', 'link']
+
+class Vice_PresidentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Vice_President
+        fields = ['Vice_President_name', 'date', 'session', 'link']
+
+class Rajyasabha_ChairmanSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Rajyasabha_Chairman
+        fields = ['Rajyasabha_Chairman_name', 'date', 'session', 'link']
+
+class Locksabha_ChairmanSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Locksabha_Chairman
+        fields = ['Locksabha_Chairman_name', 'date', 'session', 'link']

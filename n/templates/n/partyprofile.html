@@ -1,28 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    <title></title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
 </head>
 <body>
-hiii
-<a href="{% url 'partylogout' %}">logout</a>
-<!--{% for entry in postsS %}
-<br>
-    <br>
-    <p>{{ entry.Gender}}</p>
-    
-    <p>{{ entry.State}}</p>
-    
-    <p>{{ entry.partyname}}</p>
-    
-    <p>{{ entry.Party}}</p>
-    
-    <p>{{ entry.MPname}}</p>
-    
-    <p>{{ entry.elected}}</p>
-    
 
-{% endfor %}-->
+<div>
+    <h1>MLA List</h1>
+    <table>
+      <tbody>
+        <tr>
+            <th>Party</th>
+            <th>MLA_name</th>
+            <th>Constituency_name</th>
+            <th>District</th>
+            <th>State</th>
+
+          </tr>
+      	{% for entry in form %}
+        	<tr>
+
+          		<td>{{ entry.party}}</td>
+          		<td>{{ entry.MLA_name}}</td>
+                <td>{{ entry.constituency_name}}</td>
+                <td>{{ entry.district}}</td>
+                <td>{{ entry.state}}</td>
+
+
+        	</tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+      <h1>MP List</h1>
+    <table>
+      <tbody>
+        <tr>
+            <th>party</th>
+            <th>MP_name</th>
+            <th>constituency_name</th>
+            <th>District</th>
+            <th>State</th>
+          </tr>
+      	{% for entry in post %}
+        	<tr>
+
+          		<td>{{ entry.party}}</td>
+          		<td>{{ entry.MP_name}}</td>
+                  <td>{{ entry.constituency_name}}</td>
+                  <td>{{ entry.district}}</td>
+                  <td>{{ entry.state}}</td>
+
+
+        	</tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+<div>
+    <button><a href="{% url 'partylogout' %}">logout</a></button>
+
+</div>
+
 </body>
 </html>
- 
