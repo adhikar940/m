@@ -398,7 +398,7 @@ class PartywiseMLA(models.Model):
         return str(self.party)
 
 class PartywiseMP(models.Model):
-    party = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default='')
+    party = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default='')
     MP_name = models.CharField(max_length=100, default='')
     constituency_name = models.CharField(max_length=100, default='')
     district = models.CharField(max_length=100, default='')
@@ -419,3 +419,67 @@ class PartyMemberPassword(models.Model):
 
 
 
+class PM(models.Model):
+
+    PM_name = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.PM_name)
+
+
+class President(models.Model):
+    President_name = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.President_name)
+
+class Vice_President(models.Model):
+    Vice_President_name = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.Vice_President_name)
+
+class Rajyasabha_Chairman(models.Model):
+    Rajyasabha_Chairman_name = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.Rajyasabha_Chairman_name)
+
+class Locksabha_Chairman(models.Model):
+    Locksabha_Chairman_name = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.Locksabha_Chairman_name)
+
+class Locksabha_Complete_Session(models.Model):
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.session)
+
+class Rajyasabha_Complete_Session(models.Model):
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = EmbedVideoField()
+
+    def __str__(self):
+        return str(self.session)

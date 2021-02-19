@@ -22,18 +22,21 @@
                 color: #FFF;
             }
 
+
         table {
           font-family: arial, sans-serif;
           border-collapse: collapse;
           width: 100%;
         }
         
+
         td, th {
           border: 1px solid #dddddd;
           text-align: left;
           padding: 8px;
         }
         
+
         tr:nth-child(even) {
           background-color: #dddddd;
         }
@@ -76,10 +79,11 @@
           </form>
         </td>
                  {% endif %}
-
+          
           		
         	</tr>
-        {% endfor %}
+          {% endfor %}
+
         
       </tbody>
     </table>
@@ -98,9 +102,10 @@
             
             <th>Activation Account</th>
           </tr>
+      	
       	{% for entry in post %}
         	<tr>
-          		
+
           		<td>{{ entry.party}}</td>
           		<td>{{ entry.MP_name}}</td>
                   <td>{{ entry.constituency_name}}</td>
@@ -129,6 +134,7 @@
         	</tr>
         {% endfor %}
         
+
       </tbody>
     </table>
   </div>
@@ -139,4 +145,3 @@
 
 </body>
 </html>
- 
