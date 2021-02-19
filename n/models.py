@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from embed_video.fields import EmbedVideoField
 
+
 # Create your models here.
 
 class Movie(models.Model):
@@ -180,7 +181,6 @@ class Rajyasabha(Parliament):
 
     def __str__(self):
         return str(self.MPname)
-
 
 class LokSabha(Parliament):
     MPname = models.CharField(max_length=300,null=True)
@@ -383,4 +383,39 @@ class Legislative_counsil_Session(models.Model):
 
     def __str__(self):
         return str(self.legislative_councils)
+
+class PartywiseMLA(models.Model):
+    party = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default='')
+    MLA_name = models.CharField(max_length=100, default='')
+    constituency_name = models.CharField(max_length=100, default='')
+    district = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, default='')
+    email = models.EmailField(max_length=100, default='')
+    status = models.CharField(max_length=100, default='not activated')
+
+
+    def __str__(self):
+        return str(self.party)
+
+class PartywiseMP(models.Model):
+    party = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default='')
+    MP_name = models.CharField(max_length=100, default='')
+    constituency_name = models.CharField(max_length=100, default='')
+    district = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, default='')
+    email = models.EmailField(max_length=100, default='')
+    status = models.CharField(max_length=100, default='not activated')
+
+
+    def __str__(self):
+        return str(self.party)
+
+class PartyMemberPassword(models.Model):
+    password = models.CharField(max_length=100, default='')
+    email = models.EmailField(max_length=100, default='')
+
+    def __str__(self):
+        return str(self.email)
+
+
 

@@ -15,7 +15,7 @@ router.register(r'movies', views.MovieViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/',admin.site.urls),
-
+    url(r'^', include(router.urls)),
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('signup/', views.sign_up, name='signup'),
@@ -23,6 +23,10 @@ urlpatterns = [
     path('partylogin/', views.party_login, name='partylogin'),
     path('profile/', views.profile, name='profile'),
     path('partyprofile/', views.partyprofile, name='partyprofile'),
+    #path('password_mla/', views.passwordcreatetwo, name='mlapassword'),
+    path('password_success/', views.passwordsuccess, name='success'),
+    #url(r'^password_mla/(?P<party>)/$',views.passwordcreation,name='mlapassword'),
+    #url(r'^password_mla/(?P<party>\w+)/(?P<MLA_name>)/$', views.passwordcreation, name='mlapassword'),
     path('postuserinfo/', views.model_form_upload, name='postuserinfo'),
     path('updateuserinfo/', views.update_user_info, name='updateuserinfo'),
     path('logout/', views.user_logout, name='logout'),

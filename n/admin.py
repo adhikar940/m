@@ -5,6 +5,9 @@ from .models import *
 
 
 # Register your models here.
+admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
+admin.site.register(PartywiseMP, ImportExportModelAdmin)
+admin.site.register(PartywiseMLA, ImportExportModelAdmin)
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
 admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
 admin.site.register(Legislative_Assembly_Session, ImportExportModelAdmin)

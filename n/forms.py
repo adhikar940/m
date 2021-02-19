@@ -23,6 +23,13 @@ class User_infoForm(ModelForm):
                  
     #    exclude = ('user',)
 
+class PasswordForm(UserCreationForm):
+    password2 = forms.CharField(label='Confirm Password (Again)', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username',  'email']
+        labels = {'email': 'Email'}
 
 
 # Create your forms here.

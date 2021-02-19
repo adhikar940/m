@@ -31,12 +31,19 @@ from .serializers import Corporation_Ward_NumberSerializers
 from .serializers import CarsSerializer
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from .forms import SignupForm, User_infoForm
+from .forms import SignupForm, User_infoForm, PasswordForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+import string
+from passlib.hash import pbkdf2_sha256
+from django.contrib.auth.models import User
+
 
 
 # sign_up view function
@@ -84,8 +91,8 @@ def party_login(request):
             fm = AuthenticationForm(request=request, data=request.POST)
             if fm.is_valid():
                 username = fm.cleaned_data['username']
-                password = fm.cleaned_data['password']
-                user = authenticate(username=username, password=password)
+                raw_password = fm.cleaned_data['password']
+                user = authenticate(username=username, password=raw_password)
 
                 if user is not None:
                     login(request, user)
@@ -108,16 +115,55 @@ def profile(request):
     context = {'form': form}
     return render(request, 'n/profile.html', context)
 
+
+
+
 @login_required
 def partyprofile(request):
-    #if authenticate(username='BJP',password='Bjp@1234'):
-     #   posts = Rajyasabha.objects.filter(Party = 'BJP')
-        return render(request, 'n/partyprofile.html')
+    logged_user = request.user
+    form = PartywiseMLA.objects.filter(party=logged_user)
+    post = PartywiseMP.objects.filter(party=logged_user)
+    password = 123
+    count = 0
+    if request.method == "POST":
+        password = "Parq@123"
+        count = 0
+        obj = User()
+        email = request.POST['myvalue']
+        print(email)
+        obj.username = email
+        obj.password = password
+        obj.email = email
+        obj.save()
+        members = User.objects.filter(username=email)
+        for member in members:
+            password = User.objects.make_random_password()
+            member.set_password(password)
+            member.save()
+            for candidate in post:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+            for candidate in form:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+            
+            count = 1
+            print(count)
+        send_mail('Welcome to adhikar',
+            "Password: " + password +  "\nUsername: " + email,
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False)
+    context = {'form': form , 'post' : post , 'count':count}
+    #context2 = {'post' : post}
+    return render(request, 'n/partyprofile.html', context )
 
-    #logged_user = request.user
-    #party = logged_user
-    #form = Rajyasabha.objects.filter(Party=party)
-    #context = {'form': form}
+
+
+def passwordsuccess(request):
+    return render(request, 'n/success.html')
 
 # USER INFO
 
