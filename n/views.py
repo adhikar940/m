@@ -17,7 +17,7 @@ from .serializers import statesSerializers
 from .serializers import LokSabhaSerializers
 from .serializers import RajyasabhaSerializers
 from .serializers import Legislative_AssemblySerializers
-from .serializers import Legislative_CouncilSerializers
+from .serializers import Legislative_Council_PresenceSerializers
 from .serializers import Assembly_time_periodSerializers
 from .serializers import Panchayat_time_periodSerializers
 from .serializers import Municipal_corporation_time_periodSerializers
@@ -28,22 +28,28 @@ from .serializers import Grama_panchayatSerializers
 from .serializers import CorporationSerializers
 from .serializers import Panchayat_Ward_NumberSerializers
 from .serializers import Corporation_Ward_NumberSerializers
-from .serializers import CarsSerializer
 from .serializers import PMSerializers
 from .serializers import PresidentSerializers
 from .serializers import Vice_PresidentSerializers
 from .serializers import Rajyasabha_ChairmanSerializers
-from .serializers import Locksabha_ChairmanSerializers
-from .serializers import Locksabha_Complete_SessionSerializers
+from .serializers import Loksabha_ChairmanSerializers
+from .serializers import Loksabha_Complete_SessionSerializers
 from .serializers import Rajyasabha_Complete_SessionSerializers
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from .forms import SignupForm, User_infoForm
+from .forms import SignupForm, User_infoForm, PasswordForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+import string
+from passlib.hash import pbkdf2_sha256
+from django.contrib.auth.models import User
+
 
 
 # sign_up view function
@@ -91,8 +97,8 @@ def party_login(request):
             fm = AuthenticationForm(request=request, data=request.POST)
             if fm.is_valid():
                 username = fm.cleaned_data['username']
-                password = fm.cleaned_data['password']
-                user = authenticate(username=username, password=password)
+                raw_password = fm.cleaned_data['password']
+                user = authenticate(username=username, password=raw_password)
 
                 if user is not None:
                     login(request, user)
@@ -115,8 +121,55 @@ def profile(request):
     context = {'form': form}
     return render(request, 'n/profile.html', context)
 
+
+
+
 @login_required
 def partyprofile(request):
+    logged_user = request.user
+    form = PartywiseMLA.objects.filter(party=logged_user)
+    post = PartywiseMP.objects.filter(party=logged_user)
+    password = 123
+    count = 0
+    if request.method == "POST":
+        password = "Parq@123"
+        count = 0
+        obj = User()
+        email = request.POST['myvalue']
+        print(email)
+        obj.username = email
+        obj.password = password
+        obj.email = email
+        obj.save()
+        members = User.objects.filter(username=email)
+        for member in members:
+            password = User.objects.make_random_password()
+            member.set_password(password)
+            member.save()
+            for candidate in post:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+            for candidate in form:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+            
+            count = 1
+            print(count)
+        send_mail('Welcome to adhikar',
+            "Password: " + password +  "\nUsername: " + email,
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False)
+    context = {'form': form , 'post' : post , 'count':count}
+    #context2 = {'post' : post}
+    return render(request, 'n/partyprofile.html', context )
+
+
+
+def passwordsuccess(request):
+    return render(request, 'n/success.html')
     #if authenticate(username='BJP',password='Bjp@1234'):
      #   posts = Rajyasabha.objects.filter(Party = 'BJP')
         #return render(request, 'n/partyprofile.html')
@@ -327,53 +380,80 @@ class States_api(APIView):
         serializer = statesSerializers(data, many=True)
         return Response(serializer.data)
 
-class CarsAPIView(viewsets.ModelViewSet):
-    serializer_class = CarsSerializer
-    
-    def get_queryset(self):
-        cars_specs = Rajyasabha.objects.all()
-        return cars_specs
 
-    def retrieve(self, request, *args, **kwargs):
-        params = kwargs
-        print(params['pk'])
-        cars = Rajyasabha.objects.filter(id = params['pk'])
-        serializer = CarsSerializer(cars, many = True)
-
-        return Response((serializer.data))
-
-class Rajyasabha_api(APIView):
+####################################################################################
+class Rajyasabha_Members_api(APIView):
     def get(self,request):
         data = Rajyasabha.objects.all()
         serializer = RajyasabhaSerializers(data, many=True)
         return Response(serializer.data)
 
+class State_Wise_Rajyasabha_Candidates_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = State_RajyasabhaSerializer(data, many=True)
+        return Response(serializer.data)
 
-class LokSabha_api(APIView):
+####################################################################################################
+
+class LokSabha_Members_api(APIView):
     def get(self,request):
         data = LokSabha.objects.all()
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
 
+class State_Wise_Loksabha_Candidates_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = State_loksabhaSerializer(data, many=True)
+        return Response(serializer.data)
 
-class Assembly_api(APIView):
+######################################################################################################
+
+class Legislative_Assembly_Members_api(APIView):
     def get(self,request):
         data = Legislative_Assembly.objects.all()
         serializer = Legislative_AssemblySerializers(data, many=True)
         return Response(serializer.data)
 
-
-class Legislative_Council_api(APIView):
+class State_Wise_Assembly_Candidates_api(APIView):
     def get(self, request):
-        data = Legislative_Council.objects.all()
-        serializer = Legislative_CouncilSerializers(data, many=True)
+        data = State.objects.all()
+        serializer = State_AssemblySerializer(data, many=True)
         return Response(serializer.data)
 
+class District_Wise_Assembly_Candidates_api(APIView):
+    def get(self, request):
+        data = Districts.objects.all()
+        serializer = District_Wise_AssemblySerializer(data, many=True)
+        return Response(serializer.data)
+
+######################################################################################################
+
+class Legislative_councils_Members_api(APIView):
+    def get(self, request):
+        data = Legislative_councils.objects.all()
+        serializer = Legislative_councilsSerializer(data, many=True)
+        return Response(serializer.data)
+
+class State_Wise_Council_Candidates_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = State_councilSerializer(data, many=True)
+        return Response(serializer.data)
+
+#########################################################################################################
+
+class Legislative_Council_Presence_api(APIView):
+    def get(self, request):
+        data = Legislative_Council_Presence.objects.all()
+        serializer = Legislative_CouncilSerializers(data, many=True)
+        return Response(serializer.data)
 
 class Assembly_time_period_api(APIView):
     def get(self, request):
         data = Assembly_time_period.objects.all()
-        serializer = Assembly_time_periodSerializers(data, many=True)
+        serializer = Legislative_Council_PresenceSerializers(data, many=True)
         return Response(serializer.data)
 
 
@@ -450,10 +530,10 @@ class Legislative_Assembly_Session_api(APIView):
         serializer = Legislative_Assembly_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
-class Legislative_counsil_Session_api(APIView):
+class Legislative_council_Session_api(APIView):
     def get(self, request):
-        data = Legislative_counsil_Session.objects.all()
-        serializer = Legislative_counsil_SessionSerializers(data, many=True)
+        data = Legislative_council_Session.objects.all()
+        serializer = Legislative_council_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class PM_api(APIView):
@@ -480,20 +560,76 @@ class Rajyasabha_Chairman_api(APIView):
         serializer = Rajyasabha_ChairmanSerializers(data, many=True)
         return Response(serializer.data)
 
-class Locksabha_Chairman_api(APIView):
+class Loksabha_Chairman_api(APIView):
     def get(self, request):
-        data = Locksabha_Chairman.objects.all()
-        serializer = Locksabha_ChairmanSerializers(data, many=True)
+        data = Loksabha_Chairman.objects.all()
+        serializer = Loksabha_ChairmanSerializers(data, many=True)
         return Response(serializer.data)
 
-class Locksabha_Complete_Session_api(APIView):
+class Loksabha_Complete_Session_api(APIView):
     def get(self, request):
-        data = Locksabha_Complete_Session.objects.all()
-        serializer = Locksabha_Complete_SessionSerializers(data, many=True)
+        data = Loksabha_Complete_Session.objects.all()
+        serializer = Loksabha_Complete_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 class Rajyasabha_Complete_Session_api(APIView):
     def get(self, request):
         data = Rajyasabha_Complete_Session.objects.all()
         serializer = Rajyasabha_Complete_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+##############################################################################################################
+
+class Current_Prime_Minister_api(APIView):
+    def get(self, request):
+        data = Current_Prime_Minister.objects.all()
+        serializer = Current_Prime_MinisterSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_President_api(APIView):
+    def get(self, request):
+        data = Current_President.objects.all()
+        serializer = Current_PresidentSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Vice_President_api(APIView):
+    def get(self, request):
+        data = Current_Vice_President.objects.all()
+        serializer = Current_Vice_PresidentSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Loksabha_Speaker_api(APIView):
+    def get(self, request):
+        data = Current_Loksabha_Speaker.objects.all()
+        serializer = Current_Loksabha_SpeakerSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Loksabha_Deputy_Speaker_api(APIView):
+    def get(self, request):
+        data = Current_Loksabha_Deputy_Speaker.objects.all()
+        serializer = Current_Loksabha_Deputy_SpeakerSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Loksabha_Opposition_Leader_api(APIView):
+    def get(self, request):
+        data = Current_Loksabha_Opposition_Leader.objects.all()
+        serializer = Current_Loksabha_Opposition_LeaderSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Rajyasabha_House_Leader_api(APIView):
+    def get(self, request):
+        data = Current_Rajyasabha_House_Leader.objects.all()
+        serializer = Current_Rajyasabha_House_LeaderSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Rajyasabha_Deputy_Speaker_api(APIView):
+    def get(self, request):
+        data = Current_Rajyasabha_Deputy_Speaker.objects.all()
+        serializer = Current_Rajyasabha_Deputy_SpeakerSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Current_Rajyasabha_Opposition_Leader_api(APIView):
+    def get(self, request):
+        data = Current_Rajyasabha_Opposition_Leader.objects.all()
+        serializer = Current_Rajyasabha_Opposition_LeaderSerializers(data, many=True)
         return Response(serializer.data)

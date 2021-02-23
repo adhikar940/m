@@ -3,13 +3,23 @@ from django.contrib import admin
 from .models import *
 
 
-
 # Register your models here.
+admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
+
+admin.site.register(PartywiseMP, ImportExportModelAdmin)
+
+admin.site.register(PartywiseMLA, ImportExportModelAdmin)
+
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
+
 admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
+
 admin.site.register(Legislative_Assembly_Session, ImportExportModelAdmin)
-admin.site.register(Legislative_counsil_Session, ImportExportModelAdmin)
+
+admin.site.register(Legislative_council_Session, ImportExportModelAdmin)
+
 admin.site.register(user_profile, ImportExportModelAdmin)
+
 admin.site.register(Movie, ImportExportModelAdmin)
 
 admin.site.register(BiharCandidate, ImportExportModelAdmin)
@@ -62,10 +72,6 @@ admin.site.register(Panchayat_Ward_Number, ImportExportModelAdmin)
 
 admin.site.register(Corporation_Ward_Number, ImportExportModelAdmin)
 
-admin.site.register(PartywiseMLA, ImportExportModelAdmin)
-
-admin.site.register(PartywiseMP, ImportExportModelAdmin)
-
 admin.site.register(PM, ImportExportModelAdmin)
 
 admin.site.register(President, ImportExportModelAdmin)
@@ -74,8 +80,26 @@ admin.site.register(Vice_President, ImportExportModelAdmin)
 
 admin.site.register(Rajyasabha_Chairman, ImportExportModelAdmin)
 
-admin.site.register(Locksabha_Chairman, ImportExportModelAdmin)
+admin.site.register(Loksabha_Chairman, ImportExportModelAdmin)
 
-admin.site.register(Locksabha_Complete_Session, ImportExportModelAdmin)
+admin.site.register(Loksabha_Complete_Session, ImportExportModelAdmin)
 
 admin.site.register(Rajyasabha_Complete_Session, ImportExportModelAdmin)
+
+admin.site.register(Current_Prime_Minister, ImportExportModelAdmin)
+
+admin.site.register(Current_President, ImportExportModelAdmin)
+
+admin.site.register(Current_Vice_President, ImportExportModelAdmin)
+
+admin.site.register(Current_Loksabha_Speaker, ImportExportModelAdmin)
+
+admin.site.register(Current_Loksabha_Deputy_Speaker, ImportExportModelAdmin)
+
+admin.site.register(Current_Loksabha_Opposition_Leader, ImportExportModelAdmin)
+
+admin.site.register(Current_Rajyasabha_House_Leader, ImportExportModelAdmin)
+
+admin.site.register(Current_Rajyasabha_Deputy_Speaker, ImportExportModelAdmin)
+
+admin.site.register(Current_Rajyasabha_Opposition_Leader, ImportExportModelAdmin)

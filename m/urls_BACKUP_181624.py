@@ -15,9 +15,11 @@ router.register(r'movies', views.MovieViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/',admin.site.urls),
-
+<<<<<<< HEAD
 path('', include(router.urls)),
-
+=======
+    url(r'^', include(router.urls)),
+>>>>>>> c4a900c2f2cab4e811a6080e5001199744fc605d
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('signup/', views.sign_up, name='signup'),
