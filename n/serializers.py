@@ -181,7 +181,6 @@ class Legislative_councilsSerializer(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
-    Party = serializers.StringRelatedField()
 
     class Meta:
         model = Legislative_councils
@@ -376,63 +375,63 @@ class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
 class Current_Prime_MinisterSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Prime_Minister
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_PresidentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_President
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Vice_PresidentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Vice_President
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Loksabha_SpeakerSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Loksabha_Speaker
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Loksabha_Deputy_SpeakerSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Loksabha_Deputy_Speaker
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Loksabha_Opposition_LeaderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Loksabha_Opposition_Leader
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Rajyasabha_House_LeaderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Rajyasabha_House_Leader
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Rajyasabha_Deputy_SpeakerSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Rajyasabha_Deputy_Speaker
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 
 class Current_Rajyasabha_Opposition_LeaderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Rajyasabha_Opposition_Leader
-        fields = ['party_name', 'party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'childhood_and_Education', 'About_Me', 'aims_Goal_and_Dream',
                   'Message_For_Followers']
 

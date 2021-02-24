@@ -37,7 +37,7 @@ from .serializers import Loksabha_Complete_SessionSerializers
 from .serializers import Rajyasabha_Complete_SessionSerializers
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from .forms import SignupForm, User_infoForm, PasswordForm
+from .forms import User_infoForm, PasswordForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -54,17 +54,7 @@ from django.contrib.auth.models import User
 
 # sign_up view function
 
-def sign_up(request):
-    if request.method == "POST":
-        fm = SignupForm(request.POST)
 
-        if fm.is_valid():
-            messages.success(request, 'Account Created Successfully..!')
-            fm.save()
-
-    else:
-        fm = SignupForm()
-    return render(request, 'n/Signup.html', {'form': fm})
 
 
 # Login view form

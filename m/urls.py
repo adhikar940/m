@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('signup/', views.sign_up, name='signup'),
+
     path('login/', views.user_login, name='login'),
     path('partylogin/', views.party_login, name='partylogin'),
     path('profile/', views.profile, name='profile'),

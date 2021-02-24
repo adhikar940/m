@@ -7,13 +7,6 @@ from n.models import *
 from django.contrib.auth.forms import UserCreationForm
 
 
-class SignupForm(UserCreationForm):
-    password2 = forms.CharField(label='Confirm Password (Again)', widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
-        labels = {'email': 'Email'}
 
 
 class User_infoForm(ModelForm):
