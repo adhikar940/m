@@ -183,8 +183,8 @@ class Rajyasabha(Parliament):
         unique_together = ['state', 'order']
         ordering = ['order']
 
-    def __str__(self):
-        return '%d: %s' % (self.order, self.MP_name)
+    '''def __str__(self):
+        return '%d: %s' % (self.order, self.MP_name)'''
 
 
 class LokSabha(Parliament):
@@ -199,8 +199,8 @@ class LokSabha(Parliament):
         unique_together = ['state', 'order']
         ordering = ['order']
 
-    def __str__(self):
-        return '%d: %s' % (self.order, self.MP_name)
+    '''def __str__(self):
+        return '%d: %s' % (self.order, self.MP_name)'''
 
 
 class Legislative_Assembly(Parliament):
