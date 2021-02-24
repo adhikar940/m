@@ -174,33 +174,20 @@ class Rajyasabha(Parliament):
     )
     state = models.ForeignKey(State, related_name='Rajyasabha_Candidates', on_delete=models.CASCADE, null=True,
                               default='')
-    order = models.IntegerField(null=True)
+
     MP_name = models.CharField(max_length=300, default='')
     elected = models.CharField(max_length=500, choices=choice, default='')
 
 
-    class Meta:
-        unique_together = ['state', 'order']
-        ordering = ['order']
-
-    '''def __str__(self):
-        return '%d: %s' % (self.order, self.MP_name)'''
 
 
 class LokSabha(Parliament):
     state = models.ForeignKey(State, related_name='Loksabha_Candidates', on_delete=models.CASCADE, null=True,
                               default='')
-    order = models.IntegerField(null=True)
     MP_name = models.CharField(max_length=300,null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
 
-    class Meta:
-        unique_together = ['state', 'order']
-        ordering = ['order']
-
-    '''def __str__(self):
-        return '%d: %s' % (self.order, self.MP_name)'''
 
 
 class Legislative_Assembly(Parliament):
@@ -208,17 +195,12 @@ class Legislative_Assembly(Parliament):
                               default='')
     District = models.ForeignKey(Districts, related_name='Assembly_Candidates', on_delete=models.CASCADE,
                                  null=True, default='')
-    order = models.IntegerField(null=True)
     MLA_name = models.CharField(max_length=300, default='')
     total_member = models.IntegerField(null=True)
     constituency_name = models.CharField(max_length=200, default='')
 
-    class Meta:
-        unique_together = ['state', 'District', 'order']
-        ordering = ['order']
-
     def __str__(self):
-        return '%d: %s' % (self.order, self.MLA_name)
+        return str(self.MLA_name)
 
 
 class Legislative_councils(models.Model):
@@ -231,19 +213,14 @@ class Legislative_councils(models.Model):
     )
     state = models.ForeignKey(State, related_name='Legislative_Council_Candidates', on_delete=models.CASCADE,
                               null=True, default='')
-    order = models.IntegerField(null=True)
     elected = models.CharField(max_length=500, choices=elected, default='governer')
     MLC_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
     total_member = models.IntegerField(null=True)
 
-    class Meta:
-        unique_together = ['state', 'order']
-        ordering = ['order']
-
     def __str__(self):
-        return '%d: %s' % (self.order, self.MLC_name)
+        return str(self.MLC_name)
 
 
 class Legislative_Council_Presence(models.Model):

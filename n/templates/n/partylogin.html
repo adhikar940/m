@@ -27,8 +27,8 @@ style="background-color:DodgerBlue;">
     {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br><br>
  {% endfor %}
  <input type="submit" value="login"><br><br>
- <a href="{% url 'signup' %}">Signup</a>
- <a href="{% url 'forgotpassword' %}">ForgotPassword</a>
+ <a href="{% url 'login' %}">User Login</a>
+ <a href="{% url 'forgotpassword' %}">Forgot Password</a>
 </form>
 {% if messages %}
  {% for message in messages %}
