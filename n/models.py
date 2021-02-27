@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from embed_video.fields import EmbedVideoField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 # Create your models here.
@@ -34,12 +35,15 @@ class City(models.Model):
 
 
 class Ecandidates(models.Model):
+
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     partyname = models.CharField(max_length=100, default='')
     Candidate = models.CharField(max_length=100, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Residence = models.TextField(max_length=200, default='')
     Photo = models.ImageField(upload_to='photo/', default='')
+    Email_address = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True)
 
     class Meta:
         abstract = True
@@ -162,6 +166,8 @@ class Parliament(models.Model):
     University = models.CharField(max_length=100, default='')
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
     address = models.TextField(max_length=600, default='')
+    Email_address = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True, default='+91')
 
     class Meta:
         abstract = True
@@ -178,6 +184,9 @@ class Rajyasabha(Parliament):
     MP_name = models.CharField(max_length=300, default='')
     elected = models.CharField(max_length=500, choices=choice, default='')
 
+    class Meta:
+        unique_together = ['MP_name']
+
     def __str__(self):
         return str(self.MP_name)
 
@@ -185,9 +194,12 @@ class Rajyasabha(Parliament):
 class LokSabha(Parliament):
     state = models.ForeignKey(State, related_name='Loksabha_Candidates', on_delete=models.CASCADE, null=True,
                               default='')
-    MP_name = models.CharField(max_length=300,null=True)
+    MP_name = models.CharField(max_length=300, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
+
+    class Meta:
+        unique_together = ['MP_name']
 
     def __str__(self):
         return '%s: %s' % (self.state, self.MP_name)
@@ -201,6 +213,9 @@ class Legislative_Assembly(Parliament):
     MLA_name = models.CharField(max_length=300, default='')
     total_member = models.IntegerField(null=True)
     constituency_name = models.CharField(max_length=200, default='')
+
+    class Meta:
+        unique_together = ['MLA_name']
 
     def __str__(self):
         return str(self.MLA_name)
@@ -216,11 +231,14 @@ class Legislative_councils(models.Model):
     )
     state = models.ForeignKey(State, related_name='Legislative_Council_Candidates', on_delete=models.CASCADE,
                               null=True, default='')
-    elected = models.CharField(max_length=500, choices=elected, default='governer')
+    elected = models.CharField(max_length=500, choices=elected, default='Governor')
     MLC_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
     total_member = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = ['MLC_name']
 
     def __str__(self):
         return str(self.MLC_name)
@@ -264,6 +282,7 @@ class Panchayat_time_period(Time_period):
 
 
 class Municipal_corporation_time_period(Time_period):
+
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
     corporation_name = models.CharField(max_length=100, default='')
@@ -287,6 +306,8 @@ class Panchayat_and_corporation(models.Model):
     University = models.CharField(max_length=100, default='')
     photo = models.ImageField(upload_to='photo/', null=True)
     address = models.TextField(max_length=600, default='')
+    Email_address = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True)
 
     class Meta:
         abstract = True
@@ -332,6 +353,7 @@ class Corporation_Ward_Number(Panchayat_and_corporation):
     def __str__(self):
         return str(self.State)
 
+
 class user_profile(Rajyasabha):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -351,7 +373,9 @@ class user_profile(Rajyasabha):
     def __str__(self):
         return str(self.user)
 
+
 class Loksabha_Session(models.Model):
+
     loksabha = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -362,6 +386,7 @@ class Loksabha_Session(models.Model):
 
 
 class Rajyasabha_Session(models.Model):
+
     rajyasabha = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -372,6 +397,7 @@ class Rajyasabha_Session(models.Model):
 
 
 class Legislative_Assembly_Session(models.Model):
+
     legislative_assembly = models.ForeignKey(Legislative_Assembly, on_delete=models.SET_NULL, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -382,6 +408,7 @@ class Legislative_Assembly_Session(models.Model):
 
 
 class Legislative_council_Session(models.Model):
+
     legislative_councils = models.ForeignKey(Legislative_councils, on_delete=models.SET_NULL, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -390,33 +417,45 @@ class Legislative_council_Session(models.Model):
     def __str__(self):
         return str(self.legislative_councils)
 
+
 class PartywiseMLA(models.Model):
-    party = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default='')
+
+    party = models.ForeignKey(User, on_delete=models.CASCADE,  null=True, default='')
     MLA_name = models.CharField(max_length=100, default='')
     constituency_name = models.CharField(max_length=100, default='')
     district = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
     email = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True)
     status = models.CharField(max_length=100, default='not activated')
 
+    class Meta:
+        unique_together = ['MLA_name']
 
     def __str__(self):
         return str(self.party)
 
+
 class PartywiseMP(models.Model):
+
     party = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default='')
     MP_name = models.CharField(max_length=100, default='')
     constituency_name = models.CharField(max_length=100, default='')
     district = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
     email = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True)
     status = models.CharField(max_length=100, default='not activated')
 
+    class Meta:
+        unique_together = ['MP_name']
 
     def __str__(self):
         return str(self.party)
 
+
 class PartyMemberPassword(models.Model):
+
     password = models.CharField(max_length=100, default='')
     email = models.EmailField(max_length=100, default='')
 
@@ -425,6 +464,7 @@ class PartyMemberPassword(models.Model):
 
 
 class PM(models.Model):
+
     PM_name = models.CharField(max_length=100, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -433,7 +473,9 @@ class PM(models.Model):
     def __str__(self):
         return str(self.PM_name)
 
+
 class President(models.Model):
+
     President_name = models.CharField(max_length=100, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -441,6 +483,7 @@ class President(models.Model):
 
     def __str__(self):
         return str(self.President_name)
+
 
 class Vice_President(models.Model):
     Vice_President_name = models.CharField(max_length=100, default='')
@@ -451,6 +494,7 @@ class Vice_President(models.Model):
     def __str__(self):
         return str(self.Vice_President_name)
 
+
 class Rajyasabha_Chairman(models.Model):
     Rajyasabha_Chairman_name = models.CharField(max_length=100, default='')
     date = models.DateField()
@@ -459,6 +503,7 @@ class Rajyasabha_Chairman(models.Model):
 
     def __str__(self):
         return str(self.Rajyasabha_Chairman_name)
+
 
 class Loksabha_Chairman(models.Model):
     Loksabha_Chairman_name = models.CharField(max_length=100, default='')
@@ -469,6 +514,7 @@ class Loksabha_Chairman(models.Model):
     def __str__(self):
         return str(self.Loksabha_Chairman_name)
 
+
 class Loksabha_Complete_Session(models.Model):
     Description = models.CharField(max_length=100, default='')
     date = models.DateField()
@@ -477,6 +523,7 @@ class Loksabha_Complete_Session(models.Model):
 
     def __str__(self):
         return str(self.Description)
+
 
 class Rajyasabha_Complete_Session(models.Model):
     Description = models.CharField(max_length=100, default='')
@@ -493,26 +540,32 @@ class Parliament_Leaders(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female')
     )
-    party_name = models.CharField(max_length=100, default='')
-    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     gender = models.CharField(max_length=10, choices=Gender, default='Male')
     fathers_Name = models.CharField(max_length=100, default='')
     Spouse_Name = models.CharField(max_length=100, default='')
     Highest_Education = models.CharField(max_length=100, default='')
     University = models.CharField(max_length=100, default='')
-    photo = models.ImageField(upload_to='photo/', null=True, blank=True)
-    address = models.TextField(max_length=600, default='')
+    Profile_photo = models.ImageField(upload_to='photo/', null=True, blank=True)
+    Address = models.TextField(max_length=600, default='')
     childhood_and_Education = models.TextField(default='')
+    childhood_and_Education_Photo = models.ImageField(upload_to='uploads/', blank=True)
     About_Me = models.TextField(default='')
+    About_Me_Photo = models.ImageField(upload_to='uploads/', blank=True)
     aims_Goal_and_Dream = models.TextField(default='')
+    aims_Goal_and_Dream_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Message_For_Followers = models.TextField(default='')
+    Email_address = models.EmailField(max_length=100, default='')
+    Mobile = PhoneNumberField(blank=True)
 
     class Meta:
         abstract = True
 
+
 class Current_Prime_Minister(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='Narendra Damodardas Modi')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return str(self.Full_Name)
@@ -537,8 +590,12 @@ class Current_Vice_President(Parliament_Leaders):
 class Current_Loksabha_Speaker(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='OM Birla')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
@@ -547,44 +604,68 @@ class Current_Loksabha_Speaker(Parliament_Leaders):
 class Current_Loksabha_Deputy_Speaker(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='M Thambi Durai')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
+
 
 class Current_Loksabha_Opposition_Leader(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
+
 
 class Current_Rajyasabha_House_Leader(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='Thawar Chand Gehlot')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
+
 
 class Current_Rajyasabha_Deputy_Speaker(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='Harivansh Narayan Singh')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
+
 class Current_Rajyasabha_Opposition_Leader(Parliament_Leaders):
 
     Full_Name = models.CharField(max_length=100, default='Gulam Nabi Azad')
+    party_name = models.CharField(max_length=100, default='')
+    Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     Personal_Life = models.TextField(default='')
+    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
     Political_Career = models.TextField(default='')
+    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)

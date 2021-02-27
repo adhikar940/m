@@ -51,12 +51,6 @@ from passlib.hash import pbkdf2_sha256
 from django.contrib.auth.models import User
 
 
-
-# sign_up view function
-
-
-
-
 # Login view form
 
 def user_login(request):
@@ -434,16 +428,18 @@ class State_Wise_Council_Candidates_api(APIView):
 
 #########################################################################################################
 
+
 class Legislative_Council_Presence_api(APIView):
     def get(self, request):
         data = Legislative_Council_Presence.objects.all()
-        serializer = Legislative_CouncilSerializers(data, many=True)
+        serializer = Legislative_Council_PresenceSerializers(data, many=True)
         return Response(serializer.data)
+
 
 class Assembly_time_period_api(APIView):
     def get(self, request):
         data = Assembly_time_period.objects.all()
-        serializer = Legislative_Council_PresenceSerializers(data, many=True)
+        serializer = Assembly_time_periodSerializers(data, many=True)
         return Response(serializer.data)
 
 

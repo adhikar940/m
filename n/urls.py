@@ -12,82 +12,81 @@ router = DefaultRouter()
 
 
 urlpatterns = [
-url(r'^', include(router.urls)),
+    url(r'^', include(router.urls)),
+    url(r'^bihar_api/', user_views.Bihar_api.as_view()),
+    url(r'^dubbakka_api/', user_views.Dubbaka_api.as_view()),
+    url(r'^dubbakkawinner_api/', user_views.DubbakaWinner_api.as_view()),
+    url(r'^dubbakkarunner_api/', user_views.DubbakaRunner_api.as_view()),
+    url(r'^biharwinner_api/', user_views.BiharWinner_api.as_view()),
+    url(r'^biharrunner_api/', user_views.BiharRunner_api.as_view()),
+    url(r'^party_api/', user_views.Party_api.as_view()),
+    url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
+    url(r'^leading_api/', user_views.Leadingseats_api.as_view()),
+    url(r'^states_api/', user_views.States_api.as_view()),
 
-url(r'^bihar_api/', user_views.Bihar_api.as_view()),
-url(r'^dubbakka_api/', user_views.Dubbaka_api.as_view()),
-url(r'^dubbakkawinner_api/', user_views.DubbakaWinner_api.as_view()),
-url(r'^dubbakkarunner_api/', user_views.DubbakaRunner_api.as_view()),
-url(r'^biharwinner_api/', user_views.BiharWinner_api.as_view()),
-url(r'^biharrunner_api/', user_views.BiharRunner_api.as_view()),
-url(r'^party_api/', user_views.Party_api.as_view()),
-url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
-url(r'^leading_api/', user_views.Leadingseats_api.as_view()),
-url(r'^states_api/', user_views.States_api.as_view()),
+    ###############################################################################
 
-###############################################################################
+    url(r'^Rajyasabha_Candidates_api/', user_views.Rajyasabha_Members_api.as_view()),
 
-url(r'^Rajyasabha_Candidates_api/', user_views.Rajyasabha_Members_api.as_view()),
+    url(r'^State_Wise_Rajyasabha_Candidates_api/', user_views.State_Wise_Rajyasabha_Candidates_api.as_view()),
 
-url(r'^State_Wise_Rajyasabha_Candidates_api/', user_views.State_Wise_Rajyasabha_Candidates_api.as_view()),
+    ##############################################################################
 
-##############################################################################
+    url(r'^LokSabha_Candidates_api/', user_views.LokSabha_Members_api.as_view()),
 
-url(r'^LokSabha_Candidates_api/', user_views.LokSabha_Members_api.as_view()),
+    url(r'^State_Wise_Loksabha_Candidates_api/', user_views.State_Wise_Loksabha_Candidates_api.as_view()),
 
-url(r'^State_Wise_Loksabha_Candidates_api/', user_views.State_Wise_Loksabha_Candidates_api.as_view()),
+    ######################################################################################
 
-######################################################################################
+    url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
 
-url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
+    url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
 
-url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
+    url(r'^District_Wise_Assembly_Candidates_api/', user_views.District_Wise_Assembly_Candidates_api.as_view()),
 
-url(r'^District_Wise_Assembly_Candidates_api/', user_views.District_Wise_Assembly_Candidates_api.as_view()),
+    #########################################################################################
 
-#########################################################################################
+    url(r'^Legislative_Councils_Candidates_api/', user_views.Legislative_councils_Members_api.as_view()),
 
-url(r'^Legislative_Councils_Candidates_api/', user_views.Legislative_councils_Members_api.as_view()),
+    url(r'^State_Wise_Council_Candidates_api/', user_views.State_Wise_Council_Candidates_api.as_view()),
 
-url(r'^State_Wise_Council_Candidates_api/', user_views.State_Wise_Council_Candidates_api.as_view()),
+    #########################################################################################
 
-#########################################################################################
+    url(r'^Assembly_time_period_api/', user_views.Assembly_time_period_api.as_view()),
+    url(r'^Panchayat_time_period_api/', user_views.Panchayat_time_period_api.as_view()),
+    url(r'^Municipal_time_period_api/', user_views.Municipal_time_period_api.as_view()),
+    url(r'^State_api/', user_views.State_api.as_view()),
+    url(r'^Districts_api/', user_views.Districts_api.as_view()),
+    url(r'^City_api/', user_views.City_api.as_view()),
+    url(r'^Grama_panchayat_api/', user_views.Grama_panchayat_api.as_view()),
+    url(r'^Corporation_api/', user_views.Corporation_api.as_view()),
+    url(r'^Panchayat_Ward_Number_api/', user_views.Panchayat_Ward_Number_api.as_view()),
+    url(r'^Corporation_Ward_Number_api/', user_views.Corporation_Ward_Number_api.as_view()),
+    url(r'^loksabhasession_api/', user_views.Loksabha_Session_api.as_view()),
+    url(r'^rajyasabhasession_api/', user_views.Rajyasabha_Session_api.as_view()),
+    url(r'^Legislative_Assembly_Session_api/', user_views.Legislative_Assembly_Session_api.as_view()),
+    url(r'^Legislative_council_Session_api/', user_views.Legislative_council_Session_api.as_view()),
+    url(r'^PM_api/', user_views.PM_api.as_view()),
+    url(r'^President_api/', user_views.President_api.as_view()),
+    url(r'^Vice_President_api/', user_views.Vice_President_api.as_view()),
+    url(r'^Rajyasabha_Chairman_api/', user_views.Rajyasabha_Chairman_api.as_view()),
+    url(r'^Loksabha_Chairman_api/', user_views.Loksabha_Chairman_api.as_view()),
+    url(r'^Loksabha_Complete_Session_api/', user_views.Loksabha_Complete_Session_api.as_view()),
+    url(r'^Rajyasabha_Complete_Session_api/', user_views.Rajyasabha_Complete_Session_api.as_view()),
 
-url(r'^Assembly_time_period_api/', user_views.Assembly_time_period_api.as_view()),
-url(r'^Panchayat_time_period_api/', user_views.Panchayat_time_period_api.as_view()),
-url(r'^Municipal_time_period_api/', user_views.Municipal_time_period_api.as_view()),
-url(r'^State_api/', user_views.State_api.as_view()),
-url(r'^Districts_api/', user_views.Districts_api.as_view()),
-url(r'^City_api/', user_views.City_api.as_view()),
-url(r'^Grama_panchayat_api/', user_views.Grama_panchayat_api.as_view()),
-url(r'^Corporation_api/', user_views.Corporation_api.as_view()),
-url(r'^Panchayat_Ward_Number_api/', user_views.Panchayat_Ward_Number_api.as_view()),
-url(r'^Corporation_Ward_Number_api/', user_views.Corporation_Ward_Number_api.as_view()), 
-url(r'^loksabhasession_api/', user_views.Loksabha_Session_api.as_view()),
-url(r'^rajyasabhasession_api/', user_views.Rajyasabha_Session_api.as_view()),
-url(r'^Legislative_Assembly_Session_api/', user_views.Legislative_Assembly_Session_api.as_view()),
-url(r'^Legislative_council_Session_api/', user_views.Legislative_council_Session_api.as_view()),
-url(r'^PM_api/', user_views.PM_api.as_view()),
-url(r'^President_api/', user_views.President_api.as_view()),
-url(r'^Vice_President_api/', user_views.Vice_President_api.as_view()),
-url(r'^Rajyasabha_Chairman_api/', user_views.Rajyasabha_Chairman_api.as_view()),
-url(r'^Loksabha_Chairman_api/', user_views.Loksabha_Chairman_api.as_view()),
-url(r'^Loksabha_Complete_Session_api/', user_views.Loksabha_Complete_Session_api.as_view()),
-url(r'^Rajyasabha_Complete_Session_api/', user_views.Rajyasabha_Complete_Session_api.as_view()),
+    ##################################################################################################
 
-##################################################################################################
+    url(r'^Current_Prime_Minister_api/', user_views.Current_Prime_Minister_api.as_view()),
+    url(r'^Current_President_api/', user_views.Current_President_api.as_view()),
+    url(r'^Current_Vice_President_api/', user_views.Current_Vice_President_api.as_view()),
+    url(r'^Current_Loksabha_Speaker_api/', user_views.Current_Loksabha_Speaker_api.as_view()),
+    url(r'^Current_Loksabha_Deputy_Speaker_api/', user_views.Current_Loksabha_Deputy_Speaker_api.as_view()),
+    url(r'^Current_Loksabha_Opposition_Leader_api/', user_views.Current_Loksabha_Opposition_Leader_api.as_view()),
+    url(r'^Current_Rajyasabha_House_Leader_api/', user_views.Current_Rajyasabha_House_Leader_api.as_view()),
+    url(r'^Current_Rajyasabha_Deputy_Speaker_api/', user_views.Current_Rajyasabha_Deputy_Speaker_api.as_view()),
+    url(r'^Current_Rajyasabha_Opposition_Leader_api/', user_views.Current_Rajyasabha_Opposition_Leader_api.as_view()),
 
-url(r'^Current_Prime_Minister_api/', user_views.Current_Prime_Minister_api.as_view()),
-url(r'^Current_President_api/', user_views.Current_President_api.as_view()),
-url(r'^Current_Vice_President_api/', user_views.Current_Vice_President_api.as_view()),
-url(r'^Current_Loksabha_Speaker_api/', user_views.Current_Loksabha_Speaker_api.as_view()),
-url(r'^Current_Loksabha_Deputy_Speaker_api/', user_views.Current_Loksabha_Deputy_Speaker_api.as_view()),
-url(r'^Current_Loksabha_Opposition_Leader_api/', user_views.Current_Loksabha_Opposition_Leader_api.as_view()),
-url(r'^Current_Rajyasabha_House_Leader_api/', user_views.Current_Rajyasabha_House_Leader_api.as_view()),
-url(r'^Current_Rajyasabha_Deputy_Speaker_api/', user_views.Current_Rajyasabha_Deputy_Speaker_api.as_view()),
-url(r'^Current_Rajyasabha_Opposition_Leader_api/', user_views.Current_Rajyasabha_Opposition_Leader_api.as_view()),
-
-#######################################################################################################
+    #######################################################################################################
 
 
 
