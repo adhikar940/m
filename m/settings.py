@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'import_export',
     'drf_multiple_model',
-    'embed_video'
+    'embed_video',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
