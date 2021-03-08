@@ -103,3 +103,5 @@ admin.site.register(Current_Rajyasabha_House_Leader, ImportExportModelAdmin)
 admin.site.register(Current_Rajyasabha_Deputy_Speaker, ImportExportModelAdmin)
 
 admin.site.register(Current_Rajyasabha_Opposition_Leader, ImportExportModelAdmin)
+
+admin.site.register(Flag, ImportExportModelAdmin)
