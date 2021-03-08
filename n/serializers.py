@@ -492,3 +492,9 @@ class Current_Rajyasabha_Opposition_LeaderSerializers(serializers.ModelSerialize
                   'Message_For_Followers', 'Email_address', 'Mobile']
 
 #####################################################################################################################
+
+
+class FlagSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Flag
+        fields = ['Red1', 'Red2', 'Red3', 'White1', 'White2', 'White3', 'Green1', 'Green2', 'Green3']

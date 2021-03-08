@@ -673,3 +673,18 @@ class Current_Rajyasabha_Opposition_Leader(Parliament_Leaders):
 
     def __str__(self):
         return str(self.Full_Name)
+
+class Flag(models.Model):
+
+    Red1 = models.CharField(max_length=100, null=True, blank=True)
+    Red2 = models.CharField(max_length=100, null=True, blank=True)
+    Red3 = models.CharField(max_length=100, null=True, blank=True)
+    White1 = models.CharField(max_length=100, null=True, blank=True)
+    White2 = models.CharField(max_length=100, null=True, blank=True)
+    White3 = models.CharField(max_length=100, null=True, blank=True)
+    Green1 = models.CharField(max_length=100, null=True, blank=True)
+    Green2 = models.CharField(max_length=100, null=True, blank=True)
+    Green3 = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.Red1)

@@ -35,6 +35,7 @@ from .serializers import Rajyasabha_ChairmanSerializers
 from .serializers import Loksabha_ChairmanSerializers
 from .serializers import Loksabha_Complete_SessionSerializers
 from .serializers import Rajyasabha_Complete_SessionSerializers
+from .serializers import FlagSerializers
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .forms import User_infoForm, PasswordForm
@@ -618,4 +619,10 @@ class Current_Rajyasabha_Opposition_Leader_api(APIView):
     def get(self, request):
         data = Current_Rajyasabha_Opposition_Leader.objects.all()
         serializer = Current_Rajyasabha_Opposition_LeaderSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Flag_api(APIView):
+    def get(self, request):
+        data = Flag.objects.all()
+        serializer = FlagSerializers(data, many=True)
         return Response(serializer.data)
