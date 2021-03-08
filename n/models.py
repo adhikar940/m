@@ -184,15 +184,12 @@ class Rajyasabha(Parliament):
     MP_name = models.CharField(max_length=300, default='')
     elected = models.CharField(max_length=500, choices=choice, default='')
 
-<<<<<<< HEAD
-
-=======
     class Meta:
         unique_together = ['MP_name']
 
     def __str__(self):
         return str(self.MP_name)
->>>>>>> 8249ca00741990ccef5fc3243907b50a493ab8cf
+
 
 
 class LokSabha(Parliament):
@@ -202,14 +199,13 @@ class LokSabha(Parliament):
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
 
-<<<<<<< HEAD
-=======
+
+
     class Meta:
         unique_together = ['MP_name']
 
     def __str__(self):
         return '%s: %s' % (self.state, self.MP_name)
->>>>>>> 8249ca00741990ccef5fc3243907b50a493ab8cf
 
 
 class Legislative_Assembly(Parliament):
