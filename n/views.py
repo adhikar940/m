@@ -499,17 +499,35 @@ class Corporation_Ward_Number_api(APIView):
         serializer = Corporation_Ward_NumberSerializers(data, many=True)
         return Response(serializer.data)
 
+#############################################################################################################
+
 class Loksabha_Session_api(APIView):
     def get(self, request):
         data = Loksabha_Session.objects.all()
         serializer = Loksabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
+class Loksabha_Individual_Session_api(APIView):
+    def get(self, request):
+        data = Parliamentary_Loksabha_Sessions.objects.all()
+        serializer = Loksabha_Individual_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+#############################################################################################################
+
 class Rajyasabha_Session_api(APIView):
     def get(self, request):
         data = Rajyasabha_Session.objects.all()
         serializer = Rajyasabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
+
+class Rajyasabha_Individual_Session_api(APIView):
+    def get(self, request):
+        data = Parliamentary_Rajyasabha_Sessions.objects.all()
+        serializer = Rajyasabha_Individual_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+#############################################################################################################
 
 class Legislative_Assembly_Session_api(APIView):
     def get(self, request):
@@ -552,17 +570,29 @@ class Loksabha_Chairman_api(APIView):
         data = Loksabha_Chairman.objects.all()
         serializer = Loksabha_ChairmanSerializers(data, many=True)
         return Response(serializer.data)
-
+#############################################################################################################
 class Loksabha_Complete_Session_api(APIView):
     def get(self, request):
         data = Loksabha_Complete_Session.objects.all()
         serializer = Loksabha_Complete_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
+class Complete_Loksabha_Session_api(APIView):
+    def get(self, request):
+        data = Parliamentary_Loksabha_Sessions.objects.all()
+        serializer = Complete_Loksabha_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
 class Rajyasabha_Complete_Session_api(APIView):
     def get(self, request):
         data = Rajyasabha_Complete_Session.objects.all()
         serializer = Rajyasabha_Complete_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Complete_Rajyasabha_Session_api(APIView):
+    def get(self, request):
+        data = Parliamentary_Rajyasabha_Sessions.objects.all()
+        serializer = Complete_Rajyasabha_SessionSerializers(data, many=True)
         return Response(serializer.data)
 
 ##############################################################################################################
@@ -625,4 +655,41 @@ class Flag_api(APIView):
     def get(self, request):
         data = Flag.objects.all()
         serializer = FlagSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Municipal_Corporation_api(APIView):
+    def get(self, request):
+        data = Municipal_Corporation.objects.all()
+        serializer = Municipal_CorporationSerializer(data, many=True)
+        return Response(serializer.data)
+
+class Mayor_api(APIView):
+    def get(self, request):
+        data = Mayor.objects.all()
+        serializer = MayorSerializer(data, many=True)
+        return Response(serializer.data)
+
+class State_wise_Mayor_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = state_wise_MayorsSerializer(data, many=True)
+        return Response(serializer.data)
+
+
+class Corporator_api(APIView):
+    def get(self, request):
+        data = Corporator.objects.all()
+        serializer = CorporatorSerializer(data, many=True)
+        return Response(serializer.data)
+
+class state_wise_Corporator_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = state_wise_CorporatorSerializer(data, many=True)
+        return Response(serializer.data)
+
+class Corporation_wise_Corporator_api(APIView):
+    def get(self, request):
+        data = Municipal_Corporation.objects.all()
+        serializer = Corporation_wise_CorporatorSerializer(data, many=True)
         return Response(serializer.data)

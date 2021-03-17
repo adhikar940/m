@@ -158,12 +158,12 @@ class State_loksabhaSerializer(serializers.ModelSerializer):
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
 
     # State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
 
     class Meta:
         model = Legislative_Assembly
-        fields = ['Districts', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'total_member', 'gender',
+        fields = ['District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'total_member', 'gender',
                   'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
                   'Email_address', 'Mobile']
 
@@ -323,24 +323,74 @@ class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
         fields = ['State', 'Districts', 'City', 'Ward_name', 'partyname', 'Corporator_name', 'gender', 'fathersName',
                   'SpouseName', 'HighestEducation', 'University', 'photo', 'address', 'Email_address', 'Mobile']
 
+######################################################################################################################
 
 class Loksabha_SessionSerializers(serializers.ModelSerializer):
 
-    loksabha = serializers.StringRelatedField()
+    Loksabha_MP_Name = serializers.StringRelatedField()
 
     class Meta:
         model = Loksabha_Session
-        fields = ['loksabha', 'date', 'session', 'link']
+        fields = ['Loksabha_MP_Name', 'date', 'session', 'link']
 
+class Loksabha_Individual_SessionSerializers(serializers.ModelSerializer):
+
+    Session_Details = Loksabha_SessionSerializers(many=True, read_only=True)
+
+    class Meta:
+        model = Parliamentary_Loksabha_Sessions
+        fields = ['Session_Title', 'Session_Details']
+
+class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Loksabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link']
+
+
+class Complete_Loksabha_SessionSerializers(serializers.ModelSerializer):
+
+    Loksabha_Session_Details = Loksabha_Complete_SessionSerializers(many=True, read_only=True)
+
+    class Meta:
+        model = Parliamentary_Loksabha_Sessions
+        fields = ['Session_Title', 'Loksabha_Session_Details']
+
+
+class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Rajyasabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link']
+
+class Complete_Rajyasabha_SessionSerializers(serializers.ModelSerializer):
+
+    Rajyasabha_Session_Details = Rajyasabha_Complete_SessionSerializers(many=True, read_only=True)
+
+    class Meta:
+        model = Parliamentary_Loksabha_Sessions
+        fields = ['Session_Title', 'Rajyasabha_Session_Details']
+
+
+
+
+#######################################################################################################################
 
 class Rajyasabha_SessionSerializers(serializers.ModelSerializer):
 
-    rajyasabha = serializers.StringRelatedField()
+    Rajyasabha = serializers.StringRelatedField()
 
     class Meta:
         model = Rajyasabha_Session
-        fields = ['rajyasabha', 'date', 'session', 'link']
+        fields = ['Rajyasabha', 'date', 'session', 'link']
 
+
+class Rajyasabha_Individual_SessionSerializers(serializers.ModelSerializer):
+
+    Session_Details = Rajyasabha_SessionSerializers(many=True, read_only=True)
+
+
+    class Meta:
+        model = Parliamentary_Rajyasabha_Sessions
+        fields = ['Session_Title', 'Session_Details']
 
 class Legislative_Assembly_SessionSerializers(serializers.ModelSerializer):
 
@@ -391,16 +441,7 @@ class Loksabha_ChairmanSerializers(serializers.ModelSerializer):
         fields = ['Loksabha_Chairman_name', 'date', 'session', 'link']
 
 
-class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Loksabha_Complete_Session
-        fields = ['Description', 'date', 'session', 'video_link']
 
-
-class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Rajyasabha_Complete_Session
-        fields = ['Description', 'date', 'session', 'video_link']
 
 ###########################################################################################################
 
@@ -498,3 +539,62 @@ class FlagSerializers(serializers.ModelSerializer):
     class Meta:
         model = Flag
         fields = ['Red1', 'Red2', 'Red3', 'White1', 'White2', 'White3', 'Green1', 'Green2', 'Green3']
+
+################################################################################################################
+
+
+class Municipal_CorporationSerializer(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+
+    class Meta:
+        model = Municipal_Corporation
+        fields = ['State', 'District', 'Name']
+
+class MayorSerializer(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+
+    class Meta:
+        model = Mayor
+        fields = ['State', 'District', 'Municipal_Corporation_Name', 'Mayor_Name']
+
+class state_wise_MayorsSerializer(serializers.ModelSerializer):
+
+    Corporation_Details = MayorSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = State
+        fields = ['State_name', 'Corporation_Details']
+
+
+
+
+class CorporatorSerializer(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+    Municipal_Corporation_Name = serializers.StringRelatedField()
+
+    class Meta:
+        model = Corporator
+        fields = ['State', 'District', 'Municipal_Corporation_Name', 'Ward_Name', 'Corporator_Name']
+
+class state_wise_CorporatorSerializer(serializers.ModelSerializer):
+
+    Corporation_Name = CorporatorSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = State
+        fields = ['State_name', 'Corporation_Name']
+
+class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
+
+    Corporation_Namees = CorporatorSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Municipal_Corporation
+        fields = ['Municipal_Corporation_Name', 'Corporation_Namees']
+
