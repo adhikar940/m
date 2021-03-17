@@ -1,5 +1,5 @@
 from django.urls import include, path
-from django.conf.urls import url,include
+from django.conf.urls import url, include
 from rest_framework import routers
 from django.contrib import admin
 from n import views
@@ -18,7 +18,6 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
     path('login/', views.user_login, name='login'),
     path('partylogin/', views.party_login, name='partylogin'),
     path('profile/', views.profile, name='profile'),
