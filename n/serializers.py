@@ -556,10 +556,12 @@ class MayorSerializer(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
     District = serializers.StringRelatedField()
+    city = serializers.StringRelatedField()
+    party = serializers.StringRelatedField()
 
     class Meta:
         model = Mayor
-        fields = ['State', 'District', 'Municipal_Corporation_Name', 'Mayor_Name']
+        fields = ['State', 'District', 'city','Municipal_Corporation_Name', 'Mayor_Name','party','areainkm2','population','formationyear','lastelectionyear']
 
 class state_wise_MayorsSerializer(serializers.ModelSerializer):
 
@@ -597,4 +599,3 @@ class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Municipal_Corporation
         fields = ['Municipal_Corporation_Name', 'Corporation_Namees']
-
