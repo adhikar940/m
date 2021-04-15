@@ -728,6 +728,13 @@ class Mayor(models.Model):
     District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Municipal_Corporation_Name = models.CharField(max_length=100, default='')
     Mayor_Name = models.CharField(max_length=100, default='')
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
+    areainkm2 =  models.CharField(max_length=100, default='')
+    population = models.CharField(max_length=100, default='')
+    formationyear = models.CharField(max_length=100, default='')
+    lastelectionyear = models.CharField(max_length=100, default='')
+
 
     def __str__(self):
         return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
