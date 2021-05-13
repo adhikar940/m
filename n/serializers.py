@@ -8,7 +8,7 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = ['id', 'name']
 
-
+'''
 class BiharCandidateSerializers(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
@@ -26,7 +26,7 @@ class DubbakaCandidateSerializers(serializers.ModelSerializer):
     class Meta:
         model = DubbakaCandidate
         fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo']
-
+'''
 
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
@@ -34,7 +34,7 @@ class PartySerializers(serializers.ModelSerializer):
         fields = ['party_status', 'partyname', 'abbreviation', 'President', 'founder', 'chairperson', 'founded_date',
                   'headquarters', 'seats_in_rajyasabha', 'seats_in_loksabha', 'party_symbol', 'founderPhoto',
                   'chairpersonPhoto']
-
+'''
 
 class Bihar_Coalition_PartySerializers(serializers.ModelSerializer):
     class Meta:
@@ -85,7 +85,7 @@ class BiharRunnersSerializers(serializers.ModelSerializer):
         model = BiharRunners
         fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo',
                   'total_contested', 'no_of_votes']
-
+'''
 
 class statesSerializers(serializers.ModelSerializer):
 
@@ -95,13 +95,13 @@ class statesSerializers(serializers.ModelSerializer):
         model = States
         fields = ['State', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
 
-
+'''
 class LeadingSeatsSerializers(serializers.ModelSerializer):
     class Meta:
         model = LeadingSeats
         fields = ['MGB', 'NDA', 'LJP', 'Others']
 
-
+'''
 ##########################################################################################
 
 # FOR RAJYASABHA
