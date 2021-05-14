@@ -88,6 +88,8 @@ admin.site.register(Rajyasabha_Complete_Session, ImportExportModelAdmin)
 
 admin.site.register(Current_Prime_Minister, ImportExportModelAdmin)
 
+admin.site.register(collector, ImportExportModelAdmin)
+
 admin.site.register(Current_President, ImportExportModelAdmin)
 
 admin.site.register(Current_Vice_President, ImportExportModelAdmin)
