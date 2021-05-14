@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
+'''
 from .serializers import BiharCandidateSerializers
 from .serializers import BiharRunnersSerializers
 from .serializers import BiharWinnersSerializers
@@ -36,7 +37,7 @@ from .serializers import Loksabha_ChairmanSerializers
 from .serializers import Loksabha_Complete_SessionSerializers
 from .serializers import Rajyasabha_Complete_SessionSerializers
 from .serializers import FlagSerializers
-
+'''
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .forms import User_infoForm, PasswordForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -139,7 +140,7 @@ def partyprofile(request):
                 if candidate.email == member.email:
                     candidate.status = 'activated'
                     candidate.save()
-            
+
             count = 1
             print(count)
         send_mail('Welcome to adhikar',
@@ -168,7 +169,7 @@ def passwordsuccess(request):
 
 # USER INFO
 
-                 
+
 def model_form_upload(request):
     if request.user.is_authenticated:
         user = request.user
@@ -242,7 +243,7 @@ def update_user_info(request):
             model_instance.aims_Goal_and_Dream_Photo = form.cleaned_data.get('aims_Goal_and_Dream_Photo')
             model_instance.Message_For_Followers = form.cleaned_data.get('Message_For_Followers')
             model_instance.Photo = form.cleaned_data.get('Photo')
-            
+
             model_instance.save()
             return redirect('profile')
     else:
@@ -293,7 +294,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     #permission_classes = [permissions.IsAuthenticated]
-    
+
 
 
 class Bihar_api(APIView):
@@ -693,16 +694,3 @@ class Corporation_wise_Corporator_api(APIView):
         data = Municipal_Corporation.objects.all()
         serializer = Corporation_wise_CorporatorSerializer(data, many=True)
         return Response(serializer.data)
-
-
-
-
-
-
-
-
-
-
-
-
-    
