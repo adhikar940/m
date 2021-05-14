@@ -600,15 +600,6 @@ class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
         model = Municipal_Corporation
         fields = ['Municipal_Corporation_Name', 'Corporation_Namees']
 
-# class CollectorSerializers(serializers.ModelSerializer):
-
- #   State = serializers.StringRelatedField()
-  #  Districts = serializers.StringRelatedField()
-
- #   class Meta:
-   #     model = Collector
-    #    fields = ['State','Districts','Collector_name']
-
 
 
 

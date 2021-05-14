@@ -694,12 +694,6 @@ class Corporation_wise_Corporator_api(APIView):
         serializer = Corporation_wise_CorporatorSerializer(data, many=True)
         return Response(serializer.data)
 
-#class Collector_api(APIView):
- #   def get(self, request):
-   #     data = CollectorCandidate.objects.all()
-  #     serializer = CollectorCandidateSerializers(data, many=True)
-    #    return Response(serializer.data)
-
 
 
 
