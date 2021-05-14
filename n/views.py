@@ -693,3 +693,22 @@ class Corporation_wise_Corporator_api(APIView):
         data = Municipal_Corporation.objects.all()
         serializer = Corporation_wise_CorporatorSerializer(data, many=True)
         return Response(serializer.data)
+
+#class Collector_api(APIView):
+ #   def get(self, request):
+   #     data = CollectorCandidate.objects.all()
+  #     serializer = CollectorCandidateSerializers(data, many=True)
+    #    return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+    

@@ -755,3 +755,28 @@ class Corporator(models.Model):
 
     def __str__(self):
         return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
+
+class Collector(models.Model):
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Collector_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.Collector_name)
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+    
