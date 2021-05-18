@@ -64,6 +64,8 @@ admin.site.register(Districts, ImportExportModelAdmin)
 
 admin.site.register(City, ImportExportModelAdmin)
 
+admin.site.register(Assembly_Constituency, ImportExportModelAdmin)
+
 admin.site.register(Grama_panchayat, ImportExportModelAdmin)
 
 admin.site.register(Corporation, ImportExportModelAdmin)

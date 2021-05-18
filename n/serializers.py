@@ -154,6 +154,17 @@ class State_loksabhaSerializer(serializers.ModelSerializer):
 
 # ASSEMBLY
 
+class Assembly_ConstituencySerializers(serializers.ModelSerializer):
+
+    # State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
+
+    class Meta:
+        model = Assembly_Constituency
+        fields = ['District', 'constituency_name']
+
+
 
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
 

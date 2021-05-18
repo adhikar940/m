@@ -45,6 +45,8 @@ urlpatterns = [
 
     ###########################################################################################################
 
+    url(r'^Assembly_Constituency_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
+    
     url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
 
     url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),

@@ -396,6 +396,12 @@ class State_Wise_Loksabha_Candidates_api(APIView):
 
 ######################################################################################################
 
+class Assembly_Constituency_Members_api(APIView):
+    def get(self,request):
+        data = Assembly_Constituency.objects.all()
+        serializer = Assembly_ConstituencySerializers(data, many=True)
+        return Response(serializer.data)
+    
 class Legislative_Assembly_Members_api(APIView):
     def get(self,request):
         data = Legislative_Assembly.objects.all()
