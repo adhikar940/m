@@ -23,14 +23,14 @@ class State(models.Model):
 
 
 class Districts(models.Model):
-    State = models.ForeignKey(State, on_delete=models.CASCADE)
+    State = models.ForeignKey(State,related_name='District', on_delete=models.CASCADE)
     District_name = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.District_name)
 class collector(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True, default='', unique='True')
+    Districts = models.OneToOneField( Districts, on_delete=models.CASCADE, primary_key=True,default='')
     collector = models.CharField(max_length=100)
     def __str__(self):
         return str(self.collector)
