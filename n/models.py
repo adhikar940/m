@@ -2,9 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from embed_video.fields import EmbedVideoField
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-# Create your models here.
+choice2 = (
+    ('no', 'no'),
+    ('yes', 'yes')
+)
+choice1 = (
+    ('present', 'present'),
+    ('x', 'x')
+)
 
 class Movie(models.Model):
     name = models.CharField(max_length=32)
@@ -50,65 +55,6 @@ class Ecandidates(models.Model):
     def __str__(self):
         return str(self.State)
 
-
-class BiharCandidate(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='')
-
-
-class BiharWinners(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='', unique='True')
-    total_contested = models.IntegerField()
-    no_of_votes = models.IntegerField()
-
-
-class BiharRunners(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='', unique='True')
-    total_contested = models.IntegerField()
-    no_of_votes = models.IntegerField()
-
-
-class DubbakaCandidate(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='')
-
-
-class DubbakaWinners(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='', unique='True')
-    total_contested = models.IntegerField()
-    no_of_votes = models.IntegerField()
-
-
-class DubbakaRunners(Ecandidates):
-    constituency_name = models.CharField(max_length=100, default='', unique='True')
-    total_contested = models.IntegerField()
-    no_of_votes = models.IntegerField()
-
-    def __str__(self):
-        return str(self.State)
-
-
-class Bihar_Coalition_Party(models.Model):
-    choice = (
-        ('Regional', 'regional'),
-        ('National', 'national'),
-    )
-    party_status = models.CharField(max_length=30, choices=choice)
-    partyname = models.CharField(max_length=100)
-    abbreviation = models.CharField(null=True, max_length=20)
-    President = models.CharField(max_length=100, null=True)
-    founder = models.CharField(max_length=100, null=True)
-    chairperson = models.CharField(max_length=100, null=True)
-    founded_date = models.DateField()
-    headquarters = models.CharField(max_length=1000)
-    seats_in_rajyasabha = models.IntegerField()
-    seats_in_loksabha = models.IntegerField()
-    party_symbol = models.ImageField(upload_to='photo/', null=True)
-    founderPhoto = models.ImageField(upload_to='photo/', null=True)
-    chairpersonPhoto = models.ImageField(upload_to='photo/', null=True)
-
-    def __str__(self):
-        return str(self.partyname)
-
-
 class Party(models.Model):
     choice = (
         ('Regional', 'regional'),
@@ -127,18 +73,10 @@ class Party(models.Model):
     party_symbol = models.ImageField(upload_to='photo/', null=True)
     founderPhoto = models.ImageField(upload_to='photo/', null=True)
     chairpersonPhoto = models.ImageField(upload_to='photo/', null=True)
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
     def __str__(self):
         return str(self.abbreviation)
-
-
-class LeadingSeats(models.Model):
-    MGB = models.IntegerField()
-    NDA = models.IntegerField()
-    LJP = models.IntegerField()
-    Others = models.IntegerField()
-
-
 class States(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     capital = models.CharField(max_length=100, default='', unique=True)
@@ -182,6 +120,8 @@ class Rajyasabha(Parliament):
 
     MP_name = models.CharField(max_length=300, default='')
     elected = models.CharField(max_length=500, choices=choice, default='')
+    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
     class Meta:
         unique_together = ['MP_name']
@@ -197,6 +137,8 @@ class LokSabha(Parliament):
     MP_name = models.CharField(max_length=300, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
+    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
 
 
@@ -215,6 +157,8 @@ class Legislative_Assembly(Parliament):
     MLA_name = models.CharField(max_length=300, default='')
     total_member = models.IntegerField(null=True)
     constituency_name = models.CharField(max_length=200, default='')
+    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
     class Meta:
         unique_together = ['MLA_name']
@@ -237,7 +181,8 @@ class Legislative_councils(models.Model):
     MLC_name = models.CharField(max_length=300, default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
-    total_member = models.IntegerField(null=True)
+    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
     class Meta:
         unique_together = ['MLC_name']
