@@ -8,25 +8,6 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = ['id', 'name']
 
-'''
-class BiharCandidateSerializers(serializers.ModelSerializer):
-
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = BiharCandidate
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo']
-
-
-class DubbakaCandidateSerializers(serializers.ModelSerializer):
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = DubbakaCandidate
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo']
-'''
 
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
@@ -34,58 +15,6 @@ class PartySerializers(serializers.ModelSerializer):
         fields = ['party_status', 'partyname', 'abbreviation', 'President', 'founder', 'chairperson', 'founded_date',
                   'headquarters', 'seats_in_rajyasabha', 'seats_in_loksabha', 'party_symbol', 'founderPhoto',
                   'chairpersonPhoto']
-'''
-
-class Bihar_Coalition_PartySerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Bihar_Coalition_Party
-        fields = ['party_status', 'partyname', 'abbreviation', 'President', 'founder', 'chairperson', 'founded_date',
-                  'headquarters', 'seats_in_rajyasabha', 'seats_in_loksabha', 'party_symbol', 'founderPhoto',
-                  'chairpersonPhoto']
-
-
-class DubbakaRunnersSerializers(serializers.ModelSerializer):
-
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = DubbakaRunners
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo',
-                  'total_contested', 'no_of_votes']
-
-
-class DubbakaWinnersSerializers(serializers.ModelSerializer):
-
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = DubbakaWinners
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo',
-                  'total_contested', 'no_of_votes']
-
-
-class BiharWinnersSerializers(serializers.ModelSerializer):
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = BiharWinners
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo',
-                  'total_contested', 'no_of_votes']
-
-
-class BiharRunnersSerializers(serializers.ModelSerializer):
-
-    State = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-
-    class Meta:
-        model = BiharRunners
-        fields = ['State', 'partyname', 'Candidate', 'constituency_name', 'Districts', 'Residence', 'Photo',
-                  'total_contested', 'no_of_votes']
-'''
 
 class statesSerializers(serializers.ModelSerializer):
 
@@ -95,13 +24,7 @@ class statesSerializers(serializers.ModelSerializer):
         model = States
         fields = ['State', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
 
-'''
-class LeadingSeatsSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = LeadingSeats
-        fields = ['MGB', 'NDA', 'LJP', 'Others']
 
-'''
 ##########################################################################################
 
 # FOR RAJYASABHA
@@ -109,7 +32,7 @@ class LeadingSeatsSerializers(serializers.ModelSerializer):
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
     # State = serializers.StringRelatedField()
-    Party = serializers.StringRelatedField()
+    #Party = serializers.StringRelatedField()
 
     class Meta:
         model = Rajyasabha
@@ -153,6 +76,17 @@ class State_loksabhaSerializer(serializers.ModelSerializer):
 ##########################################################################################################
 
 # ASSEMBLY
+
+class Assembly_ConstituencySerializers(serializers.ModelSerializer):
+
+    # State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
+
+    class Meta:
+        model = Assembly_Constituency
+        fields = ['District', 'constituency_name']
+
 
 
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
@@ -260,11 +194,37 @@ class StateSerializers(serializers.ModelSerializer):
 
 class DistrictsSerializers(serializers.ModelSerializer):
 
-    State = serializers.StringRelatedField()
+    #State = serializers.StringRelatedField()
 
     class Meta:
         model = Districts
-        fields = ['State', 'District_name']
+        fields = [ 'District_name',]
+'''
+class RajyasabhaSerializers(serializers.ModelSerializer):
+
+    # State = serializers.StringRelatedField()
+    #Party = serializers.StringRelatedField()
+
+    class Meta:
+        model = Rajyasabha
+        fields = ['MP_name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+                  'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile']
+
+
+class State_RajyasabhaSerializer(serializers.ModelSerializer):
+
+    Rajyasabha_Candidates = RajyasabhaSerializers(many=True, read_only=True)
+
+    class Meta:
+        model = State
+        fields = ['State_name', 'Rajyasabha_Candidates']'''
+
+class State_DistrictsSerializers(serializers.ModelSerializer):
+
+    District= DistrictsSerializers(many=True, read_only=True)
+    class Meta:
+        model = State
+        fields = ['State_name', 'District']
 
 
 class CitySerializers(serializers.ModelSerializer):
@@ -599,3 +559,16 @@ class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Municipal_Corporation
         fields = ['Municipal_Corporation_Name', 'Corporation_Namees']
+
+
+
+
+
+
+
+
+
+
+        
+
+

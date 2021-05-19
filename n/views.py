@@ -3,41 +3,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
-'''
-from .serializers import BiharCandidateSerializers
-from .serializers import BiharRunnersSerializers
-from .serializers import BiharWinnersSerializers
-from .serializers import Bihar_Coalition_PartySerializers
-from .serializers import DubbakaCandidateSerializers
-from .serializers import DubbakaRunnersSerializers
-from .serializers import DubbakaWinnersSerializers
-from .serializers import LeadingSeatsSerializers
-from .serializers import MovieSerializer
-from .serializers import PartySerializers
-from .serializers import statesSerializers
-from .serializers import LokSabhaSerializers
-from .serializers import RajyasabhaSerializers
-from .serializers import Legislative_AssemblySerializers
-from .serializers import Legislative_Council_PresenceSerializers
-from .serializers import Assembly_time_periodSerializers
-from .serializers import Panchayat_time_periodSerializers
-from .serializers import Municipal_corporation_time_periodSerializers
-from .serializers import StateSerializers
-from .serializers import DistrictsSerializers
-from .serializers import CitySerializers
-from .serializers import Grama_panchayatSerializers
-from .serializers import CorporationSerializers
-from .serializers import Panchayat_Ward_NumberSerializers
-from .serializers import Corporation_Ward_NumberSerializers
-from .serializers import PMSerializers
-from .serializers import PresidentSerializers
-from .serializers import Vice_PresidentSerializers
-from .serializers import Rajyasabha_ChairmanSerializers
-from .serializers import Loksabha_ChairmanSerializers
-from .serializers import Loksabha_Complete_SessionSerializers
-from .serializers import Rajyasabha_Complete_SessionSerializers
-from .serializers import FlagSerializers
-'''
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from .forms import User_infoForm, PasswordForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -304,12 +269,6 @@ class Bihar_api(APIView):
         return Response(serializer.data)
 
 
-class Dubbaka_api(APIView):
-    def get(self, request):
-        data = DubbakaCandidate.objects.all()
-        serializer = DubbakaCandidateSerializers(data, many=True)
-        return Response(serializer.data)
-
 
 class Party_api(APIView):
     def get(self, request):
@@ -325,39 +284,6 @@ class Coalition_Party_api(APIView):
         return Response(serializer.data)
 
 
-class BiharRunner_api(APIView):
-    def get(self, request):
-        data = BiharRunners.objects.all()
-        serializer = BiharRunnersSerializers(data, many=True)
-        return Response(serializer.data)
-
-
-class BiharWinner_api(APIView):
-    def get(self, request):
-        data = BiharWinners.objects.all()
-        serializer = BiharWinnersSerializers(data, many=True)
-        return Response(serializer.data)
-
-
-class DubbakaWinner_api(APIView):
-    def get(self, request):
-        data = DubbakaWinners.objects.all()
-        serializer = DubbakaWinnersSerializers(data, many=True)
-        return Response(serializer.data)
-
-
-class DubbakaRunner_api(APIView):
-    def get(self, request):
-        data = DubbakaRunners.objects.all()
-        serializer = DubbakaRunnersSerializers(data, many=True)
-        return Response(serializer.data)
-
-
-class Leadingseats_api(APIView):
-    def get(self, request):
-        data = LeadingSeats.objects.all()
-        serializer = LeadingSeatsSerializers(data, many=True)
-        return Response(serializer.data)
 
 
 class States_api(APIView):
@@ -396,6 +322,12 @@ class State_Wise_Loksabha_Candidates_api(APIView):
 
 ######################################################################################################
 
+class Assembly_Constituency_Members_api(APIView):
+    def get(self,request):
+        data = Assembly_Constituency.objects.all()
+        serializer = Assembly_ConstituencySerializers(data, many=True)
+        return Response(serializer.data)
+    
 class Legislative_Assembly_Members_api(APIView):
     def get(self,request):
         data = Legislative_Assembly.objects.all()
@@ -468,6 +400,11 @@ class Districts_api(APIView):
     def get(self,request):
         data = Districts.objects.all()
         serializer = DistrictsSerializers(data, many=True)
+        return Response(serializer.data)
+class State_Wise_Districts_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = State_DistrictsSerializers(data, many=True)
         return Response(serializer.data)
 
 class City_api(APIView):
