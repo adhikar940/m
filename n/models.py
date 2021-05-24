@@ -168,8 +168,8 @@ class Legislative_Assembly(Parliament):
                                  null=True, default='')
     MLA_name = models.CharField(max_length=300, default='')
     total_member = models.IntegerField(null=True)
-    constituency_name = models.ForeignKey(Assembly_Constituency, related_name='Assembly_Candidates', on_delete=models.CASCADE,
-                                 null=True, default='')
+    #constituency_name = models.CharField(max_length=300, default='')
+    constituency_name = models.ForeignKey(Assembly_Constituency, related_name='Assembly_Candidates', on_delete=models.CASCADE, null=True, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
