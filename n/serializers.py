@@ -134,7 +134,7 @@ class Legislative_councilsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Legislative_councils
         fields = ['State', 'Districts', 'constituency_name', 'MLC_name', 'elected', 'total_member', 'Email_address',
-                  'Mobile']
+                  'Mobile','Party']
 
 
 class State_councilSerializer(serializers.ModelSerializer):
