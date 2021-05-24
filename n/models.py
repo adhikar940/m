@@ -193,6 +193,7 @@ class Legislative_councils(models.Model):
     constituency_name = models.CharField(max_length=200, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, null=True, default='')
 
     class Meta:
         unique_together = ['MLC_name']
