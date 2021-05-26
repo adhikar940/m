@@ -189,7 +189,7 @@ class Legislative_councils(models.Model):
                               null=True, default='')
     elected = models.CharField(max_length=500, choices=elected, default='Governor')
     MLC_name = models.CharField(max_length=300, default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Districts = models.CharField(max_length=100,default='') 
     constituency_name = models.CharField(max_length=200, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
