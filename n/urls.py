@@ -6,13 +6,19 @@ from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from rest_framework.routers import DefaultRouter
-
-
+from rest_framework import routers
+from . import views
+from django.contrib.auth import views as auth_views
+from rest_framework.authtoken.views import obtain_auth_token
+from .views import PartyViewSet
 router = DefaultRouter()
 
 
+
 urlpatterns = [
-    url(r'^', include(router.urls)),
+
+    path('', include(router.urls)),
+    path('login/', views.loginPage, name="login"),
     ##########################################################################################################
 
     url(r'^State_api/', user_views.State_api.as_view()),
@@ -42,7 +48,7 @@ urlpatterns = [
     ###########################################################################################################
 
     url(r'^Assembly_Constituency_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
-    
+
     url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
 
     url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
@@ -125,6 +131,7 @@ urlpatterns = [
     url(r'^Corporation_wise_Corporator_api/', user_views.Corporation_wise_Corporator_api.as_view()),
 
     #############################################################################################################
+
 
 
 ]

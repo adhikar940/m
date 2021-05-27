@@ -4,7 +4,8 @@ from embed_video.fields import EmbedVideoField
 from phonenumber_field.modelfields import PhoneNumberField
 choice2 = (
     ('no', 'no'),
-    ('yes', 'yes')
+    ('yes', 'yes'),
+    ('process','process')
 )
 choice1 = (
     ('present', 'present'),
@@ -66,7 +67,7 @@ class Party(models.Model):
     )
     party_status = models.CharField(max_length=30, choices=choice)
     partyname = models.CharField(max_length=100)
-    abbreviation = models.CharField(null=True, max_length=20)
+    abbreviation = models.CharField(null=True, max_length=20, unique=True)
     President = models.CharField(max_length=100, null=True)
     founder = models.CharField(max_length=100, null=True)
     chairperson = models.CharField(max_length=100, null=True)
@@ -718,22 +719,3 @@ class Corporator(models.Model):
 
     def __str__(self):
         return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-    
