@@ -141,6 +141,7 @@ class Legislative_councilsSerializer(serializers.ModelSerializer):
 
     State = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
+    party = serializers.StringRelatedField()
 
     class Meta:
         model = Legislative_councils
