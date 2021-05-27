@@ -5,20 +5,27 @@ from django.contrib import admin
 from n import views
 from django.conf.urls.static import static
 from m import settings
+from rest_framework.authtoken.views import obtain_auth_token
+#from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r'movies', views.MovieViewSet)
+router.register('party', views.PartyViewSet)
+#urlpatterns = router.urls
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+#path('api-token-auth/',views.obtain_auth_token,name='api-token-auth'),
+path('auth/', obtain_auth_token),
     path('admin/',admin.site.urls),
     url(r'^', include(router.urls)),
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('login/', views.user_login, name='login'),
+    #path('login/', views.user_login, name='login'),
+    path('p/', views.p, name='p'),
     path('partylogin/', views.party_login, name='partylogin'),
     path('profile/', views.profile, name='profile'),
     path('partyprofile/', views.partyprofile, name='partyprofile'),
@@ -28,7 +35,7 @@ urlpatterns = [
     #url(r'^password_mla/(?P<party>\w+)/(?P<MLA_name>)/$', views.passwordcreation, name='mlapassword'),
     path('postuserinfo/', views.model_form_upload, name='postuserinfo'),
     path('updateuserinfo/', views.update_user_info, name='updateuserinfo'),
-    path('logout/', views.user_logout, name='logout'),
+    path('/', views.user_logout, name='logout'),
     path('partylogout/', views.party_logout, name='partylogout'),
     path('change_password/', views.user_change_password, name='changepassword'),
     path('forgot_password/', views.user_forgot_password, name='forgotpassword'),

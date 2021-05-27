@@ -10,15 +10,53 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
+from .serializers import *
 from django.core.mail import send_mail
 from django.conf import settings
 import random
 import string
 from passlib.hash import pbkdf2_sha256
 from django.contrib.auth.models import User
-
-
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAdminUser
+'''class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny,)'''
+class PartyViewSet(viewsets.ModelViewSet):
+    queryset = Party.objects.all()
+    serializer_class = PartySerializers
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAdminUser, )
 # Login view form
+def loginPage(request):
+	if request.user.is_authenticated:
+		return redirect('p')
+	else:
+		if request.method == 'POST':
+			username = request.POST.get('username')
+			password =request.POST.get('password')
+
+			user = authenticate(request, username=username, password=password)
+
+			if user is not None:
+				login(request, user)
+				return redirect('p')
+			else:
+				messages.info(request, 'Username OR password is incorrect')
+
+		context = {}
+		return render(request, 'accounts/login.html', context)
+@login_required(login_url='login')
+def a(request):
+	party = Party.objects.all()
+	context = {'party':party,  }
+
+	return render(request, 'accounts/party.html', context)
+
+
+
 
 def user_login(request):
     if not request.user.is_authenticated:
@@ -66,12 +104,16 @@ def party_login(request):
 
 @login_required
 def profile(request):
-
     logged_user = request.user
     form = user_profile.objects.filter(user=logged_user)
     context = {'form': form}
     return render(request, 'n/profile.html', context)
 
+@login_required(login_url='login')
+def p(request):
+    party = Party.objects.all()
+    context = {'party':party,  }
+    return render(request, 'accounts/party.html', context)
 
 
 
@@ -219,7 +261,7 @@ def update_user_info(request):
 # logout
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/login/')
+    return HttpResponseRedirect('n/login/')
 
 def party_logout(request):
     logout(request)
@@ -327,7 +369,7 @@ class Assembly_Constituency_Members_api(APIView):
         data = Assembly_Constituency.objects.all()
         serializer = Assembly_ConstituencySerializers(data, many=True)
         return Response(serializer.data)
-    
+
 class Legislative_Assembly_Members_api(APIView):
     def get(self,request):
         data = Legislative_Assembly.objects.all()

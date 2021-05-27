@@ -50,7 +50,13 @@ INSTALLED_APPS = [
     'drf_multiple_model',
     'embed_video',
     'phonenumber_field',
+    'rest_framework.authtoken',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
      'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
 ]
 
 ROOT_URLCONF = 'm.urls'
@@ -149,7 +156,7 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-AUTHENTICATION_BACKENDS = ['n.authentication.EmailBackend']
+#AUTHENTICATION_BACKENDS = ['n.authentication.EmailBackend']
 
 
 
