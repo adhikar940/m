@@ -109,7 +109,7 @@ class Parliament(models.Model):
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
     address = models.TextField(max_length=600, default='')
     Email_address = models.EmailField(max_length=100, default='')
-    Mobile = PhoneNumberField(blank=True, default='+91')
+    Mobile = models.CharField(max_length=100, default='+91')
 
     class Meta:
         abstract = True
