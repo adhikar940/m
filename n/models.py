@@ -29,12 +29,14 @@ class Districts(models.Model):
 
     def __str__(self):
         return str(self.District_name)
-class collector(models.Model):
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default='')
-    Districts = models.OneToOneField( Districts, on_delete=models.CASCADE, primary_key=True,default='')
-    collector = models.CharField(max_length=100)
-    def __str__(self):
-        return str(self.collector)
+
+class Collector(models.Model):
+    State=models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Collector_name=models.CharField(max_length=100,default='')
+    CollectorPhoto = models.ImageField(upload_to='photo/', default='')
+
+    
 class City(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)

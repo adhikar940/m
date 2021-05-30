@@ -571,3 +571,23 @@ class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Municipal_Corporation
         fields = ['Municipal_Corporation_Name', 'Corporation_Namees']
+
+
+
+class CollectorSerializer(serializers.ModelSerializer):
+
+    State = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
+    class Meta:
+        model = Collector
+        fields = ['State', 'District','Collector_Name','Collector_Photo']
+
+
+
+
+
+
+
+
+        
+    
