@@ -335,6 +335,7 @@ class States_api(APIView):
         return Response(serializer.data)
 
 
+
 ####################################################################################
 class Rajyasabha_Members_api(APIView):
     def get(self,request):
