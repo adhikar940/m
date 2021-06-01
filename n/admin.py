@@ -21,21 +21,7 @@ admin.site.register(Legislative_council_Session, ImportExportModelAdmin)
 admin.site.register(user_profile, ImportExportModelAdmin)
 
 admin.site.register(Movie, ImportExportModelAdmin)
-'''
-admin.site.register(BiharCandidate, ImportExportModelAdmin)
 
-admin.site.register(BiharWinners, ImportExportModelAdmin)
-
-admin.site.register(BiharRunners, ImportExportModelAdmin)
-
-admin.site.register(DubbakaCandidate, ImportExportModelAdmin)
-
-admin.site.register(DubbakaWinners, ImportExportModelAdmin)
-
-admin.site.register(DubbakaRunners, ImportExportModelAdmin)
-
-admin.site.register(Bihar_Coalition_Party, ImportExportModelAdmin)
-'''
 admin.site.register(Party, ImportExportModelAdmin)
 
 admin.site.register(States, ImportExportModelAdmin)
