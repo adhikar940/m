@@ -105,3 +105,5 @@ admin.site.register(Municipal_Corporation, ImportExportModelAdmin)
 admin.site.register(Mayor, ImportExportModelAdmin)
 
 admin.site.register(Corporator, ImportExportModelAdmin)
+
+admin.site.register(Mannkibaat, ImportExportModelAdmin)

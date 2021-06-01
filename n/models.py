@@ -30,12 +30,6 @@ class Districts(models.Model):
     def __str__(self):
         return str(self.District_name)
 
-class Collector(models.Model):
-    State=models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Collector_name=models.CharField(max_length=100,default='')
-    CollectorPhoto = models.ImageField(upload_to='photo/', default='')
-
     
 class City(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
@@ -721,3 +715,24 @@ class Corporator(models.Model):
 
     def __str__(self):
         return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
+
+
+class Collector(models.Model):
+    State=models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Collector_name=models.CharField(max_length=100,default='')
+    CollectorPhoto = models.ImageField(upload_to='photo/', default='')
+
+class Mannkibaat(models.Model):
+    Date = models.DateField()
+    videolink=models.CharField(max_length=300,default='')
+    
+
+
+
+
+
+
+
+
+

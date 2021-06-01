@@ -387,7 +387,7 @@ class PMSerializers(serializers.ModelSerializer):
     class Meta:
         model = PM
         fields = ['PM_name', 'date', 'session', 'link']
-
+        
 
 class PresidentSerializers(serializers.ModelSerializer):
     class Meta:
@@ -580,10 +580,13 @@ class CollectorSerializer(serializers.ModelSerializer):
     District = serializers.StringRelatedField()
     class Meta:
         model = Collector
-        fields = ['State', 'District','Collector_Name','Collector_Photo']
+        fields = ['State', 'District','Collector_name','CollectorPhoto']
 
+class MannkibaatSerializer(serializers.ModelSerializer):
 
-
+    class Meta:
+        model = Mannkibaat
+        fields = ['Date','videolink'] 
 
 
 
