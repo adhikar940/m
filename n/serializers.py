@@ -42,8 +42,8 @@ class statesSerializers(serializers.ModelSerializer):
 
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
-    # State = serializers.StringRelatedField()
-    #Party = serializers.StringRelatedField()
+    #State = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
 
     class Meta:
         model = Rajyasabha
@@ -576,11 +576,19 @@ class Corporation_wise_CorporatorSerializer(serializers.ModelSerializer):
 
 class CollectorSerializer(serializers.ModelSerializer):
 
-    State = serializers.StringRelatedField()
+    state = serializers.StringRelatedField()
     District = serializers.StringRelatedField()
     class Meta:
         model = Collector
-        fields = ['State', 'District','Collector_name','CollectorPhoto']
+        fields = ['state', 'District','Collector_name','CollectorPhoto']
+
+class state_wise_CollectorSerializer(serializers.ModelSerializer):
+
+    Collector_name = CollectorSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = State
+        fields = ['State_name', 'Collector_name']
 
 class MannkibaatSerializer(serializers.ModelSerializer):
 
