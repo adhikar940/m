@@ -682,6 +682,12 @@ class Collector_api(APIView):
         serializer = CollectorSerializer(data, many=True)
         return Response(serializer.data)
 
+class state_wise_Collector_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = state_wise_CollectorSerializer(data, many=True)
+        return Response(serializer.data)
+    
 class Mannkibaat_api(APIView):
     def get(self, request):
         data = Mannkibaat.objects.all()

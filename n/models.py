@@ -718,18 +718,23 @@ class Corporator(models.Model):
 
 
 class Collector(models.Model):
-    State=models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    state=models.ForeignKey(State, related_name='Collector_name', on_delete=models.CASCADE, null=True,default='')
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Collector_name=models.CharField(max_length=100,default='')
     CollectorPhoto = models.ImageField(upload_to='photo/', default='')
+
+    class Meta:
+        unique_together = ['Collector_name']
+
+    def __str__(self):
+        return str(self.Collector_name)
 
 class Mannkibaat(models.Model):
     Date = models.DateField()
     videolink=models.CharField(max_length=300,default='')
     
 
-
-
+ 
 
 
 
