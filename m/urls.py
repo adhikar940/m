@@ -24,7 +24,9 @@ path('auth/', obtain_auth_token),
  path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
  path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('admin/',admin.site.urls),
-    url(r'^', include(router.urls)),
+
+path('', include(router.urls)),
+
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #path('login/', views.user_login, name='login'),
@@ -38,7 +40,7 @@ path('auth/', obtain_auth_token),
     #url(r'^password_mla/(?P<party>\w+)/(?P<MLA_name>)/$', views.passwordcreation, name='mlapassword'),
     path('postuserinfo/', views.model_form_upload, name='postuserinfo'),
     path('updateuserinfo/', views.update_user_info, name='updateuserinfo'),
-    path('/', views.user_logout, name='logout'),
+    path('', views.user_logout, name='logout'),
     path('partylogout/', views.party_logout, name='partylogout'),
     path('change_password/', views.user_change_password, name='changepassword'),
     path('forgot_password/', views.user_forgot_password, name='forgotpassword'),
@@ -66,4 +68,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
 
+
 path('', include(router.urls)),
+

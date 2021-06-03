@@ -49,12 +49,7 @@ class Districts(models.Model):
     def __str__(self):
         return str(self.District_name)
 
-class collector(models.Model):
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True, default='')
-    collector = models.CharField(max_length=100)
-    def __str__(self):
-        return str(self.collector)
+    
 class City(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
@@ -129,7 +124,7 @@ class Parliament(models.Model):
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
     address = models.TextField(max_length=600, default='')
     Email_address = models.EmailField(max_length=100, default='')
-    Mobile = PhoneNumberField(blank=True, default='+91')
+    Mobile = models.CharField(max_length=100, default='+91')
 
     class Meta:
         abstract = True
@@ -155,6 +150,7 @@ class Rajyasabha(Parliament):
         return str(self.MP_name)
 
 
+
 class LokSabha(Parliament):
     state = models.ForeignKey(State, related_name='Loksabha_Candidates', on_delete=models.CASCADE, null=True,
                               default='')
@@ -163,6 +159,8 @@ class LokSabha(Parliament):
     constituency_name = models.CharField(max_length=200, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
+
+
 
     class Meta:
         unique_together = ['MP_name']
@@ -186,8 +184,8 @@ class Legislative_Assembly(Parliament):
                                  null=True, default='')
     MLA_name = models.CharField(max_length=300, default='')
     total_member = models.IntegerField(null=True)
-    constituency_name = models.ForeignKey(Assembly_Constituency, related_name='Assembly_Candidates', on_delete=models.CASCADE,
-                                 null=True, default='')
+    #constituency_name = models.CharField(max_length=300, default='')
+    constituency_name = models.ForeignKey(Assembly_Constituency, related_name='Assembly_Candidates', on_delete=models.CASCADE, null=True, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
@@ -439,6 +437,7 @@ class Legislative_Assembly_Session(models.Model):
     date = models.DateField()
     session = models.TextField(default='')
     link = EmbedVideoField()
+
 
     def __str__(self):
         return str(self.legislative_assembly)
@@ -735,3 +734,20 @@ class Corporator(models.Model):
 
     def __str__(self):
         return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
+
+
+class Collector(models.Model):
+    state=models.ForeignKey(State, related_name='Collector_name', on_delete=models.CASCADE, null=True,default='')
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Collector_name=models.CharField(max_length=100,default='')
+    CollectorPhoto = models.ImageField(upload_to='photo/', default='')
+
+    class Meta:
+        unique_together = ['Collector_name']
+
+    def __str__(self):
+        return str(self.Collector_name)
+
+class Mannkibaat(models.Model):
+    Date = models.DateField()
+    videolink=models.CharField(max_length=300,default='')

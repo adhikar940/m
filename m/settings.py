@@ -28,11 +28,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-
+'''
 CORS_ALLOWED_ORIGINS = [
 'http://localhost:4200',
-]
-#CORS_ALLOW_ALL_ORIGINS = True
+'https://www.adhikar.net',
+'http://localhost:8100',
+'*',
+
+]'''
+CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [

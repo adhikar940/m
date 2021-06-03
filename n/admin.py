@@ -50,6 +50,8 @@ admin.site.register(Districts, ImportExportModelAdmin)
 
 admin.site.register(City, ImportExportModelAdmin)
 
+admin.site.register(Collector, ImportExportModelAdmin)
+
 admin.site.register(Assembly_Constituency, ImportExportModelAdmin)
 
 admin.site.register(Grama_panchayat, ImportExportModelAdmin)
@@ -75,7 +77,6 @@ admin.site.register(Loksabha_Complete_Session, ImportExportModelAdmin)
 admin.site.register(Rajyasabha_Complete_Session, ImportExportModelAdmin)
 
 admin.site.register(Current_Prime_Minister, ImportExportModelAdmin)
-admin.site.register(collector, ImportExportModelAdmin)
 
 admin.site.register(Current_President, ImportExportModelAdmin)
 
@@ -104,3 +105,5 @@ admin.site.register(Municipal_Corporation, ImportExportModelAdmin)
 admin.site.register(Mayor, ImportExportModelAdmin)
 
 admin.site.register(Corporator, ImportExportModelAdmin)
+
+admin.site.register(Mannkibaat, ImportExportModelAdmin)

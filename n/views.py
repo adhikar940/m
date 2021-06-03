@@ -390,6 +390,7 @@ class States_api(APIView):
         return Response(serializer.data)
 
 
+
 ####################################################################################
 class Rajyasabha_Members_api(APIView):
     def get(self,request):
@@ -728,3 +729,39 @@ class Corporation_wise_Corporator_api(APIView):
         data = Municipal_Corporation.objects.all()
         serializer = Corporation_wise_CorporatorSerializer(data, many=True)
         return Response(serializer.data)
+
+
+class Collector_api(APIView):
+    def get(self, request):
+        data = Collector.objects.all()
+        serializer = CollectorSerializer(data, many=True)
+        return Response(serializer.data)
+
+class state_wise_Collector_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = state_wise_CollectorSerializer(data, many=True)
+        return Response(serializer.data)
+    
+class Mannkibaat_api(APIView):
+    def get(self, request):
+        data = Mannkibaat.objects.all()
+        serializer = MannkibaatSerializer(data, many=True)
+        return Response(serializer.data)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

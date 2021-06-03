@@ -131,6 +131,26 @@ urlpatterns = [
     url(r'^Corporation_wise_Corporator_api/', user_views.Corporation_wise_Corporator_api.as_view()),
 
     #############################################################################################################
+    url(r'^Collector_api/', user_views.Collector_api.as_view()),
+    url(r'^Mannkibaat_api/', user_views.Mannkibaat_api.as_view()),
+    url(r'^state_wise_Collector_api/', user_views.state_wise_Collector_api.as_view()),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 
