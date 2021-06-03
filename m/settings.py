@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'embed_video',
     'phonenumber_field',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

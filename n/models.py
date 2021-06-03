@@ -2,6 +2,27 @@ from django.db import models
 from django.contrib.auth.models import User
 from embed_video.fields import EmbedVideoField
 from phonenumber_field.modelfields import PhoneNumberField
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+
+    email_plaintext_message = "https://k.adhikar.net/{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "adhikar869@gmail.com",
+        # to:
+        [reset_password_token.user.email]
+    )
 choice2 = (
     ('no', 'no'),
     ('yes', 'yes'),
@@ -14,8 +35,6 @@ choice1 = (
 
 class Movie(models.Model):
     name = models.CharField(max_length=32)
-
-
 class State(models.Model):
     State_name = models.CharField(max_length=1000)
 
@@ -29,9 +48,10 @@ class Districts(models.Model):
 
     def __str__(self):
         return str(self.District_name)
+
 class collector(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default='')
-    Districts = models.OneToOneField( Districts, on_delete=models.CASCADE, primary_key=True,default='')
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True, default='')
     collector = models.CharField(max_length=100)
     def __str__(self):
         return str(self.collector)
@@ -190,7 +210,7 @@ class Legislative_councils(models.Model):
                               null=True, default='')
     elected = models.CharField(max_length=500, choices=elected, default='Governor')
     MLC_name = models.CharField(max_length=300, default='')
-    Districts = models.CharField(max_length=100,default='') 
+    Districts = models.CharField(max_length=100,default='')
     constituency_name = models.CharField(max_length=200, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')

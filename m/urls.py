@@ -8,6 +8,7 @@ from m import settings
 from rest_framework.authtoken.views import obtain_auth_token
 #from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
+from n.views import ChangePasswordView
 
 router = routers.DefaultRouter()
 router.register(r'movies', views.MovieViewSet)
@@ -20,6 +21,8 @@ router.register('party', views.PartyViewSet)
 urlpatterns = [
 #path('api-token-auth/',views.obtain_auth_token,name='api-token-auth'),
 path('auth/', obtain_auth_token),
+ path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
+ path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('admin/',admin.site.urls),
     url(r'^', include(router.urls)),
     path('n/',include('n.urls')),

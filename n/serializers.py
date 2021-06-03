@@ -3,6 +3,14 @@ from rest_framework import serializers
 from . models import *
 from rest_framework.authtoken.models import Token
 
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,7 +27,10 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = ['id', 'name']
 
-
+class PSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Party
+        fields = ['id','partyname', 'abbreviation','actvated']
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
@@ -28,7 +39,6 @@ class PartySerializers(serializers.ModelSerializer):
                   'chairpersonPhoto','actvated']
 
 class statesSerializers(serializers.ModelSerializer):
-
     State = serializers.StringRelatedField()
 
     class Meta:
