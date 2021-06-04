@@ -25,7 +25,19 @@ from rest_framework import generics
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from .serializers import ChangePasswordSerializer
+from validate_email import validate_email
+from RandomWordGenerator import RandomWord
+import re
+regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+def check(email):
+    # pass the regular expression
+    # and the string in search() method
+    if(re.search(regex, email)):
+        print("Valid Email")
 
+    else:
+        print("Invalid Email")
+#from django.core.validators import email_re
 
 class ChangePasswordView(generics.UpdateAPIView):
     """
@@ -72,13 +84,37 @@ class PartyViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['POST'])
     def k(self,request,pk=None):
         if 'email' in request.data:
-            party=Party.objects.get(id=pk)
-            print(party.partyname)
-            response = {'m':'Got the mail'}
-            return Response(response, status=status.HTTP_200_OK)
+            e = request.data['email']
+            is_valid = validate_email(e)
+            print(is_valid)
+            print(re.search(regex, e))
+            if(is_valid == True):
+                e=e.lower()
+                party=Party.objects.get(id=pk)
+                p = party.abbreviation
+                p1=party.partyname
+                print(p)
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email alerady exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=True)
+                    passw=r.generate()
+                    print(passw)
+                    user =User(email=e,password=passw,first_name=p,last_name=p1,username=e)
+                    user.save()
+                    response = {'m':'Got the mail'}
+                    return Response(response, status=status.HTTP_200_OK)
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
         else:
             response = {'m':'Kindly provide the mail'}
-            return Response(response, status=status.HTTP_400_BADREQUEST)
+            return Response(response, status=status.HTTP_200_OK)
 '''class PartyViewSet(viewsets.ModelViewSet):
     queryset = Party.objects.all()
     serializer_class = PartySerializers
@@ -742,26 +778,9 @@ class state_wise_Collector_api(APIView):
         data = State.objects.all()
         serializer = state_wise_CollectorSerializer(data, many=True)
         return Response(serializer.data)
-    
+
 class Mannkibaat_api(APIView):
     def get(self, request):
         data = Mannkibaat.objects.all()
         serializer = MannkibaatSerializer(data, many=True)
         return Response(serializer.data)
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
