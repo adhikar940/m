@@ -49,7 +49,7 @@ class Districts(models.Model):
     def __str__(self):
         return str(self.District_name)
 
-    
+
 class City(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
