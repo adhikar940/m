@@ -11,7 +11,9 @@ from django.core.mail import send_mail
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
+
     email_plaintext_message = "Click on this link for resetting the adhikar.net password - https://adhikar.net/password_reset/?token={}".format(reset_password_token.key)
+
 
     send_mail(
         # title:
