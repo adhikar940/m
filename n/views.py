@@ -28,6 +28,7 @@ from .serializers import ChangePasswordSerializer
 from validate_email import validate_email
 from RandomWordGenerator import RandomWord
 import re
+from django.core.mail import send_mail
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 def check(email):
     # pass the regular expression
@@ -88,9 +89,13 @@ class PartyViewSet(viewsets.ModelViewSet):
             is_valid = validate_email(e)
             print(is_valid)
             print(re.search(regex, e))
-            if(is_valid == True):
+            is_valid = True
+            party=Party.objects.get(id=pk)
+            if(party.actvated == 'yes'):
+                response = {'m':'This party is already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
                 e=e.lower()
-                party=Party.objects.get(id=pk)
                 p = party.abbreviation
                 p1=party.partyname
                 print(p)
@@ -102,13 +107,29 @@ class PartyViewSet(viewsets.ModelViewSet):
                     constant_word_size=True,
                     include_digits=True,
                     special_chars=r"@_!#$%^&*()<>?/\|}{~:",
-                    include_special_chars=True)
+                    include_special_chars=False)
                     passw=r.generate()
                     print(passw)
-                    user =User(email=e,password=passw,first_name=p,last_name=p1,username=e)
-                    user.save()
-                    response = {'m':'Got the mail'}
-                    return Response(response, status=status.HTTP_200_OK)
+                    try:
+                        send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                            # from:
+                            "adhikar869@gmail.com",
+                            # to:
+                            [e,]
+                        )
+                        user =User(email=e,password=passw,first_name=p,last_name=p1,username=e)
+                        user.save()
+                        party.actvated = 'yes'
+                        party.save()
+                        response = {'m':'Account created'}
+                        return Response(response, status=status.HTTP_200_OK)
+                    except :
+                        response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
+                        return Response(response, status=status.HTTP_200_OK)
             else :
                 response = {'m':'Kindly provide a valid email'}
                 return Response(response, status=status.HTTP_200_OK)
