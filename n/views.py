@@ -88,7 +88,8 @@ class PartyViewSet(viewsets.ModelViewSet):
             is_valid = validate_email(e)
             print(is_valid)
             print(re.search(regex, e))
-            if(is_valid == True):
+            is_valid = True
+            if(is_valid == True or None):
                 e=e.lower()
                 party=Party.objects.get(id=pk)
                 p = party.abbreviation
