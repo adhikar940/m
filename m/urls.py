@@ -13,6 +13,7 @@ from n.views import ChangePasswordView
 router = routers.DefaultRouter()
 router.register(r'movies', views.MovieViewSet)
 router.register('party', views.PartyViewSet)
+router.register('lokmp', views.lokViewSet)
 #urlpatterns = router.urls
 
 
@@ -70,4 +71,3 @@ if settings.DEBUG:
 
 
 path('', include(router.urls)),
-

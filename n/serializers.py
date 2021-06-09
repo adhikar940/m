@@ -31,6 +31,19 @@ class PSerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
         fields = ['id','partyname', 'abbreviation','actvated']
+class LSerializers(serializers.ModelSerializer):
+    state = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
+    Party = serializers.StringRelatedField()
+    class Meta:
+        model = LokSabha
+        fields = ['id','MP_name', 'state','Districts','constituency_name','Party','actvated']
+class LPSerializers(serializers.ModelSerializer):
+    LP = LSerializers(many=True, read_only=True)
+    class Meta:
+        model = Party
+        fields = ['abbreviation', 'Rajyasabha_Candidates']
+
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
@@ -397,7 +410,7 @@ class PMSerializers(serializers.ModelSerializer):
     class Meta:
         model = PM
         fields = ['PM_name', 'date', 'session', 'link']
-        
+
 
 class PresidentSerializers(serializers.ModelSerializer):
     class Meta:
@@ -604,11 +617,4 @@ class MannkibaatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mannkibaat
-        fields = ['Date','videolink'] 
-
-
-
-
-
-        
-    
+        fields = ['Date','videolink']
