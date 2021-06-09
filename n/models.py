@@ -162,8 +162,6 @@ class LokSabha(Parliament):
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
 
-
-
     class Meta:
         unique_together = ['MP_name']
 
@@ -215,6 +213,7 @@ class Legislative_councils(models.Model):
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
     party = models.ForeignKey(Party, on_delete=models.CASCADE, null=True, default='')
+    photo = models.ImageField(upload_to='photo/', null=True, blank=True)
 
     class Meta:
         unique_together = ['MLC_name']

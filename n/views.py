@@ -29,6 +29,7 @@ from validate_email import validate_email
 from RandomWordGenerator import RandomWord
 import re
 from django.core.mail import send_mail
+from .decorators import *
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 def check(email):
     # pass the regular expression
@@ -73,10 +74,6 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (AllowAny,)'''
 class PartyViewSet(viewsets.ModelViewSet):
     queryset = Party.objects.all()
     serializer_class = PSerializers
@@ -123,7 +120,8 @@ class PartyViewSet(viewsets.ModelViewSet):
                             # to:
                             [e,]
                         )
-                        user =User(email=e,password=passw,first_name=p,last_name=p1,username=e)
+                        q="party-"+p
+                        user =User(email=e,password=passw,first_name=q,last_name=p1,username=e)
                         user.save()
                         party.actvated = 'yes'
                         party.save()
@@ -138,11 +136,12 @@ class PartyViewSet(viewsets.ModelViewSet):
         else:
             response = {'m':'Kindly provide the mail'}
             return Response(response, status=status.HTTP_200_OK)
-'''class PartyViewSet(viewsets.ModelViewSet):
-    queryset = Party.objects.all()
-    serializer_class = PartySerializers
+#@group_required('party')
+class lokViewSet(viewsets.ModelViewSet):
+    queryset = LokSabha.objects.all()
+    serializer_class = LPSerializers
     authentication_classes = (TokenAuthentication, )
-    permission_classes = (IsAdminUser, )'''
+    permission_classes = (IsAdminUser, )
 # Login view form
 def loginPage(request):
 	if request.user.is_authenticated:
