@@ -13,7 +13,10 @@ from n.views import ChangePasswordView
 router = routers.DefaultRouter()
 router.register(r'movies', views.MovieViewSet)
 router.register('party', views.PartyViewSet)
-router.register('lokmp', views.lokViewSet)
+#router.register('lokmp', views.lokViewSet)
+router.register('authors', views.AuthorViewSet)
+router.register('lokperson', views.loksabhapersonalViewSet,basename='lok')
+#router.register('Ll', views.LlViewSet)
 #urlpatterns = router.urls
 
 
