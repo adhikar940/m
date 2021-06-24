@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'rest_framework.authtoken',
     'django_rest_passwordreset',
+    'rest_framework_tricks',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

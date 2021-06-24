@@ -30,7 +30,32 @@ from RandomWordGenerator import RandomWord
 import re
 from django.core.mail import send_mail
 from .decorators import *
+from rest_framework.viewsets import ModelViewSet
+from django.contrib.auth.models import Group
+from rest_framework.decorators import api_view
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+'''class LlViewSet(ModelViewSet):
+    queryset = LokSabha.objects.all()
+    serializer_class = LlSerializer
+    permission_classes = [AllowAny]'''
+from rest_framework.permissions import BasePermission
+
+class IsGroupUser(BasePermission):
+    group = None
+    def has_permission(self, request, view):
+        user = request.user
+        return user.is_authenticated and user.groups.filter(name=self.group).exists()
+class Isparty(IsGroupUser):
+    group = 'party'
+class Isadmin(IsGroupUser):
+    group = 'admin'
+class IsloksabhaMP(IsGroupUser):
+    group = 'loksabhaMP'
+class AuthorViewSet(ModelViewSet):
+    """Author ViewSet."""
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    permission_classes = [AllowAny]
 def check(email):
     # pass the regular expression
     # and the string in search() method
@@ -119,8 +144,13 @@ class PartyViewSet(viewsets.ModelViewSet):
                             [e,]
                         )
                         q="party-"+p
-                        user =User(email=e,password=passw,first_name=q,last_name=p1,username=e)
+                        user =User(email=e,first_name=q,last_name=p1,username=e)
+                        user.set_password(passw)
                         user.save()
+                        new_group = Group.objects.get(name = 'party')
+                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                        user = User.objects.get(username = e)
+                        user.groups.add(new_group)
                         party.actvated = 'yes'
                         party.save()
                         response = {'m':'Account created'}
@@ -134,282 +164,13 @@ class PartyViewSet(viewsets.ModelViewSet):
         else:
             response = {'m':'Kindly provide the mail'}
             return Response(response, status=status.HTTP_200_OK)
-#@group_required('party')
-class lokViewSet(viewsets.ModelViewSet):
-    queryset = LokSabha.objects.all()
-    serializer_class = LPSerializers
-    authentication_classes = (TokenAuthentication, )
-    permission_classes = (IsAdminUser, )
-# Login view form
-def loginPage(request):
-	if request.user.is_authenticated:
-		return redirect('p')
-	else:
-		if request.method == 'POST':
-			username = request.POST.get('username')
-			password =request.POST.get('password')
-
-			user = authenticate(request, username=username, password=password)
-
-			if user is not None:
-				login(request, user)
-				return redirect('p')
-			else:
-				messages.info(request, 'Username OR password is incorrect')
-
-		context = {}
-		return render(request, 'accounts/login.html', context)
-@login_required(login_url='login')
-def a(request):
-	party = Party.objects.all()
-	context = {'party':party,  }
-
-	return render(request, 'accounts/party.html', context)
-
-
-
-
-def user_login(request):
-    if not request.user.is_authenticated:
-        if request.method == "POST":
-
-            fm = AuthenticationForm(request=request, data=request.POST)
-            if fm.is_valid():
-                username = fm.cleaned_data['username']
-                password = fm.cleaned_data['password']
-                user = authenticate(username=username, password=password)
-
-                if user is not None:
-                    login(request, user)
-                    messages.success(request, 'Account loggedin Successfully..!')
-                    return HttpResponseRedirect('/profile/')
-
-        else:
-            fm = AuthenticationForm()
-        return render(request, 'n/userlogin.html', {'form': fm})
-    else:
-        return HttpResponseRedirect('/profile/')
-
-def party_login(request):
-    if not request.user.is_authenticated:
-        if request.method == "POST":
-
-            fm = AuthenticationForm(request=request, data=request.POST)
-            if fm.is_valid():
-                username = fm.cleaned_data['username']
-                raw_password = fm.cleaned_data['password']
-                user = authenticate(username=username, password=raw_password)
-
-                if user is not None:
-                    login(request, user)
-                    messages.success(request, 'Account loggedin Successfully..!')
-                    return HttpResponseRedirect('/partyprofile/')
-
-        else:
-            fm = AuthenticationForm()
-        return render(request, 'n/partylogin.html', {'form': fm})
-    else:
-        return HttpResponseRedirect('/partyprofile/')
-
-# home profile
-
-@login_required
-def profile(request):
-    logged_user = request.user
-    form = user_profile.objects.filter(user=logged_user)
-    context = {'form': form}
-    return render(request, 'n/profile.html', context)
-
-@login_required(login_url='login')
-def p(request):
-    party = Party.objects.all()
-    context = {'party':party,  }
-    return render(request, 'accounts/party.html', context)
-
-
-
-@login_required
-def partyprofile(request):
-    logged_user = request.user
-    form = PartywiseMLA.objects.filter(party=logged_user)
-    post = PartywiseMP.objects.filter(party=logged_user)
-    password = 123
-    count = 0
-    if request.method == "POST":
-        password = "Parq@123"
-        count = 0
-        obj = User()
-        email = request.POST['myvalue']
-        print(email)
-        obj.username = email
-        obj.password = password
-        obj.email = email
-        obj.save()
-        members = User.objects.filter(username=email)
-        for member in members:
-            password = User.objects.make_random_password()
-            member.set_password(password)
-            member.save()
-            for candidate in post:
-                if candidate.email == member.email:
-                    candidate.status = 'activated'
-                    candidate.save()
-            for candidate in form:
-                if candidate.email == member.email:
-                    candidate.status = 'activated'
-                    candidate.save()
-
-            count = 1
-            print(count)
-        send_mail('Welcome to adhikar',
-            "Password: " + password +  "\nUsername: " + email,
-            settings.EMAIL_HOST_USER,
-            [email],
-            fail_silently=False)
-    context = {'form': form , 'post' : post , 'count':count}
-    #context2 = {'post' : post}
-    return render(request, 'n/partyprofile.html', context )
-
-
-
-def passwordsuccess(request):
-    return render(request, 'n/success.html')
-    #if authenticate(username='BJP',password='Bjp@1234'):
-     #   posts = Rajyasabha.objects.filter(Party = 'BJP')
-        #return render(request, 'n/partyprofile.html')
-
-    logged_user = request.user
-    form = PartywiseMLA.objects.filter(party=logged_user)
-    post = PartywiseMP.objects.filter(party=logged_user)
-    context = {'form': form, 'post': post}
-    # context2 = {'post' : post}
-    return render(request, 'n/partyprofile.html', context)
-
-# USER INFO
-
-
-def model_form_upload(request):
-    if request.user.is_authenticated:
-        user = request.user
-        if request.method == 'POST':
-            form = User_infoForm(request.POST, request.FILES)
-            if form.is_valid():
-                childhood_and_Education = form.cleaned_data.get('childhood_and_Education_Photo')
-                childhood_and_Education_Photo = form.cleaned_data.get('childhood_and_Education_Photo')
-                About_Me = form.cleaned_data.get('About_Me')
-                About_Me_Photo = form.cleaned_data.get('About_Me_Photo')
-                Personal_Life = form.cleaned_data.get('Personal_Life')
-                Personal_Life_Photo = form.cleaned_data.get('Personal_Life_Photo')
-                Political_Career = form.cleaned_data.get('Political_Career')
-                Political_Career_Photo = form.cleaned_data.get('Political_Career_Photo')
-                aims_Goal_and_Dream = form.cleaned_data.get('aims_Goal_and_Dream')
-                aims_Goal_and_Dream_Photo = form.cleaned_data.get('aims_Goal_and_Dream_Photo')
-                Message_For_Followers = form.cleaned_data.get('Message_For_Followers')
-                Photo = form.cleaned_data.get('Photo')
-                user_profile.objects.create(
-                    user = user,
-                    childhood_and_Education = childhood_and_Education,
-                    childhood_and_Education_Photo = childhood_and_Education_Photo,
-                    About_Me = About_Me,
-                    About_Me_Photo =About_Me_Photo,
-                    Personal_Life = Personal_Life,
-                    Personal_Life_Photo = Personal_Life_Photo,
-                    Political_Career = Political_Career,
-                    Political_Career_Photo =Political_Career_Photo,
-                    aims_Goal_and_Dream = aims_Goal_and_Dream,
-                    aims_Goal_and_Dream_Photo = aims_Goal_and_Dream_Photo,
-                    Message_For_Followers = Message_For_Followers,
-                    Photo = Photo,
-                )
-                return redirect('profile')
-        else:
-            form = User_infoForm()
-        return render(request, 'n/Post_user_info.html', {'form': form})
-
-
-def user_info(request):
-
-    instance = user_profile(user=request.user)
-    form = User_infoForm(instance=instance)
-    if request.method == 'POST':
-        form = User_infoForm(request.POST)
-        if form.is_valid():
-            return redirect('profile')
-
-    context = {'form': form}
-    return render(request, "n/Post_user_info.html", context)
-
-
-# TO UPDATE THE USER_INFO
-
-@login_required
-def update_user_info(request):
-    if request.method  == 'POST':
-        form = User_infoForm(request.POST, request.FILES, instance=request.user.user_profile)
-        if form.is_valid():
-            model_instance = form.save()
-            model_instance.user=request.user
-            model_instance.childhood_and_Education = form.cleaned_data.get('childhood_and_Education')
-            model_instance.childhood_and_Education_Photo = form.cleaned_data.get('childhood_and_Education_Photo')
-            model_instance.About_Me = form.cleaned_data.get('About_Me')
-            model_instance.About_Me_Photo = form.cleaned_data.get('About_Me_Photo')
-            model_instance.Personal_Life = form.cleaned_data.get('Personal_Life')
-            model_instance.Personal_Life_Photo = form.cleaned_data.get('Personal_Life_Photo')
-            model_instance.Political_Career = form.cleaned_data.get('Political_Career')
-            model_instance.Political_Career_Photo = form.cleaned_data.get('Political_Career_Photo')
-            model_instance.aims_Goal_and_Dream = form.cleaned_data.get('aims_Goal_and_Dream')
-            model_instance.aims_Goal_and_Dream_Photo = form.cleaned_data.get('aims_Goal_and_Dream_Photo')
-            model_instance.Message_For_Followers = form.cleaned_data.get('Message_For_Followers')
-            model_instance.Photo = form.cleaned_data.get('Photo')
-
-            model_instance.save()
-            return redirect('profile')
-    else:
-         form = User_infoForm(instance=request.user.user_profile)
-    return render(request, 'n/update_user_info.html', {'form': form})
-
-
-# logout
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect('n/login/')
-
-def party_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/partylogin/')
-
-
-# Change Password using old Password
-
-def user_change_password(request):
-
-    if request.user.is_authenticated:
-        if request.method == "POST":
-
-            fm = PasswordChangeForm(user=request.user, data=request.POST)
-            if fm.is_valid():
-                fm.save()
-                return HttpResponseRedirect('/login/')
-        else:
-            fm = PasswordChangeForm(user=request.user)
-        return render(request, 'n/changepassword.html', {'form': fm})
-    else:
-        return HttpResponseRedirect('/login/')
-
-
-# Forgot Password..
-def user_forgot_password(request):
-    return HttpResponseRedirect('/reset_password/')
-
-
-
 
 
 class MovieViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Movie.objects.all()
+    queryset = Movie.objects.all().filter(name='df')
     serializer_class = MovieSerializer
     #permission_classes = [permissions.IsAuthenticated]
 
@@ -459,59 +220,189 @@ class State_Wise_Rajyasabha_Candidates_api(APIView):
         data = State.objects.all()
         serializer = State_RajyasabhaSerializer(data, many=True)
         return Response(serializer.data)
-
+class RajyaSabha_Members(APIView):
+    def get(self,request):
+        data = Rajyasabha.objects.all()
+        serializer = RSerializers(data, many=True)
+        return Response(serializer.data)
+class Party_Wise_Rajyasabha_Candidates_api(APIView):
+    def get(self, request):
+        data = Party.objects.all()
+        serializer = RPSerializers(data, many=True)
+        return Response(serializer.data)
 ####################################################################################################
-
 class LokSabha_Members_api(APIView):
     def get(self,request):
         data = LokSabha.objects.all()
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
-
 class State_Wise_Loksabha_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
         serializer = State_loksabhaSerializer(data, many=True)
         return Response(serializer.data)
+class LokSabha_Members(APIView):
+    def get(self,request):
+        data = LokSabha.objects.all()
+        serializer = LSerializers(data, many=True)
+        return Response(serializer.data)
+#@allowed_users(allowed_roles=['admin'])
+class Party_Wise_Loksabha_Candidates_api(APIView):
+    def get(self, request):
+        z=request.user.first_name
+        z=z[6:]
+        print(z)
+        data = Party.objects.all().filter(abbreviation=z)
+        serializer = LPSerializers(data, many=True)
+        return Response(serializer.data)
+    def post(self, request):
+        if 'email' in request.data:
+            e = request.data['email']
+            f=request.data['id']
+            print(e)
+            print(f)
+            #print(LokSabha.objects.get(id=3))
+            loksabha=LokSabha.objects.get(id=f)
+            #print(int(loksabha))
+            is_valid = validate_email(e)
+            if(loksabha.actvated == 'yes'):
+                response = {'m':'This account is already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
+                e=e.lower()
+                p = loksabha.MP_name
+                print(p)
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email alerady exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=False)
+                    passw=r.generate()
+                    print(passw)
+                    print(type(loksabha))
+                    try:
+                        q="LoksabhaMP-"+f+'-'+p
+                        user =User(email=e,first_name=q,username=e)
+                        user.set_password(passw)
+                        user.save()
+                        new_group = Group.objects.get(name = 'loksabhaMP')
+                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                        user = User.objects.get(username = e)
+                        user.groups.add(new_group)
+                        loksabha.actvated = 'yes'
+                        lp = loksabhapersonal(mp=loksabha)
+                        lp.save()
+                        loksabha.save()
+                        #response = {'m':'Account created'}
+                        send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                            # from:
+                            "adhikar869@gmail.com",
+                            # to:
+                            [e,]
+                        )
+                        '''q="LoksabhaMP-"+f+'-'+p
+                        user =User(email=e,first_name=q,last_name=p1,username=e)
+                        user.set_password(passw)
+                        user.save()
+                        new_group = Group.objects.get(name = 'loksabhaMP')
+                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                        user = User.objects.get(username = e)
+                        user.groups.add(new_group)
+                        loksabha.actvated = 'yes'
+                        loksabha.save()'''
+                        response = {'m':'Account created'}
+                        return Response(response, status=status.HTTP_200_OK)
+                    except :
+                        response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
+                        return Response(response, status=status.HTTP_200_OK)
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {'m':'Kindly provide the mail'}
+            return Response(response, status=status.HTTP_200_OK)
+        #return Response({'m':'fm'}, status=status.HTTP_200_OK)
+class loksabhapersonal_api(APIView):
+    permission_classes = (IsloksabhaMP,)
+    def get(self, request):
+        z=request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        data = loksabhapersonal.objects.all().filter(mp=p[1])
+        serializer = loksabhapersonalSerializer(data, many=True)
+        return Response(serializer.data)
+class loksabhapersonalViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsloksabhaMP,)
+    #queryset = loksabhapersonal.objects.all()
+    serializer_class = loksabhapersonalSerializer
+    def get_queryset(self):
+        z=self.request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        return loksabhapersonal.objects.all().filter(mp=p[1])
+    @action(detail=True, methods=['put'])
+    def loksabhapersonal(self,request,pk=None):
+        u=self.get_object
 
 ######################################################################################################
-
 class Assembly_Constituency_Members_api(APIView):
     def get(self,request):
         data = Assembly_Constituency.objects.all()
         serializer = Assembly_ConstituencySerializers(data, many=True)
         return Response(serializer.data)
-
 class Legislative_Assembly_Members_api(APIView):
     def get(self,request):
         data = Legislative_Assembly.objects.all()
         serializer = Legislative_AssemblySerializers(data, many=True)
         return Response(serializer.data)
-
 class State_Wise_Assembly_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
         serializer = State_AssemblySerializer(data, many=True)
         return Response(serializer.data)
-
 class District_Wise_Assembly_Candidates_api(APIView):
     def get(self, request):
         data = Districts.objects.all()
         serializer = District_Wise_AssemblySerializer(data, many=True)
         return Response(serializer.data)
-
+class Assembly_Members(APIView):
+    def get(self,request):
+        data =Legislative_Assembly.objects.all()
+        serializer = ASerializers(data, many=True)
+        return Response(serializer.data)
+class Party_Wise_Assembly_Candidates_api(APIView):
+    def get(self, request):
+        data = Party.objects.all()
+        serializer = APSerializers(data, many=True)
+        return Response(serializer.data)
 ######################################################################################################
-
 class Legislative_councils_Members_api(APIView):
     def get(self, request):
         data = Legislative_councils.objects.all()
         serializer = Legislative_councilsSerializer(data, many=True)
         return Response(serializer.data)
-
 class State_Wise_Council_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
         serializer = State_councilSerializer(data, many=True)
+        return Response(serializer.data)
+class Council_Members(APIView):
+    def get(self,request):
+        data =Legislative_councils.objects.all()
+        serializer = LCSerializers(data, many=True)
+        return Response(serializer.data)
+class Party_Wise_Council_Candidates_api(APIView):
+    def get(self, request):
+        data = Party.objects.all()
+        serializer = LCPSerializers(data, many=True)
         return Response(serializer.data)
 
 #########################################################################################################
@@ -804,3 +695,264 @@ class Mannkibaat_api(APIView):
         data = Mannkibaat.objects.all()
         serializer = MannkibaatSerializer(data, many=True)
         return Response(serializer.data)
+
+# Login view form
+def loginPage(request):
+	if request.user.is_authenticated:
+		return redirect('p')
+	else:
+		if request.method == 'POST':
+			username = request.POST.get('username')
+			password =request.POST.get('password')
+
+			user = authenticate(request, username=username, password=password)
+
+			if user is not None:
+				login(request, user)
+				return redirect('p')
+			else:
+				messages.info(request, 'Username OR password is incorrect')
+
+		context = {}
+		return render(request, 'accounts/login.html', context)
+@login_required(login_url='login')
+def a(request):
+	party = Party.objects.all()
+	context = {'party':party,  }
+
+	return render(request, 'accounts/party.html', context)
+
+
+
+
+def user_login(request):
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+
+            fm = AuthenticationForm(request=request, data=request.POST)
+            if fm.is_valid():
+                username = fm.cleaned_data['username']
+                password = fm.cleaned_data['password']
+                user = authenticate(username=username, password=password)
+
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, 'Account loggedin Successfully..!')
+                    return HttpResponseRedirect('/profile/')
+
+        else:
+            fm = AuthenticationForm()
+        return render(request, 'n/userlogin.html', {'form': fm})
+    else:
+        return HttpResponseRedirect('/profile/')
+
+def party_login(request):
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+
+            fm = AuthenticationForm(request=request, data=request.POST)
+            if fm.is_valid():
+                username = fm.cleaned_data['username']
+                raw_password = fm.cleaned_data['password']
+                user = authenticate(username=username, password=raw_password)
+
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, 'Account loggedin Successfully..!')
+                    return HttpResponseRedirect('/partyprofile/')
+
+        else:
+            fm = AuthenticationForm()
+        return render(request, 'n/partylogin.html', {'form': fm})
+    else:
+        return HttpResponseRedirect('/partyprofile/')
+
+# home profile
+
+@login_required
+def profile(request):
+    logged_user = request.user
+    form = user_profile.objects.filter(user=logged_user)
+    context = {'form': form}
+    return render(request, 'n/profile.html', context)
+
+@login_required(login_url='login')
+def p(request):
+    party = Party.objects.all()
+    context = {'party':party,  }
+    return render(request, 'accounts/party.html', context)
+
+
+
+@login_required
+def partyprofile(request):
+    logged_user = request.user
+    form = PartywiseMLA.objects.filter(party=logged_user)
+    post = PartywiseMP.objects.filter(party=logged_user)
+    password = 123
+    count = 0
+    if request.method == "POST":
+        password = "Parq@123"
+        count = 0
+        obj = User()
+        email = request.POST['myvalue']
+        print(email)
+        obj.username = email
+        obj.password = password
+        obj.email = email
+        obj.save()
+        members = User.objects.filter(username=email)
+        for member in members:
+            password = User.objects.make_random_password()
+            member.set_password(password)
+            member.save()
+            for candidate in post:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+            for candidate in form:
+                if candidate.email == member.email:
+                    candidate.status = 'activated'
+                    candidate.save()
+
+            count = 1
+            print(count)
+        send_mail('Welcome to adhikar',
+            "Password: " + password +  "\nUsername: " + email,
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False)
+    context = {'form': form , 'post' : post , 'count':count}
+    #context2 = {'post' : post}
+    return render(request, 'n/partyprofile.html', context )
+
+
+
+def passwordsuccess(request):
+    return render(request, 'n/success.html')
+    #if authenticate(username='BJP',password='Bjp@1234'):
+     #   posts = Rajyasabha.objects.filter(Party = 'BJP')
+        #return render(request, 'n/partyprofile.html')
+
+    logged_user = request.user
+    form = PartywiseMLA.objects.filter(party=logged_user)
+    post = PartywiseMP.objects.filter(party=logged_user)
+    context = {'form': form, 'post': post}
+    # context2 = {'post' : post}
+    return render(request, 'n/partyprofile.html', context)
+
+# USER INFO
+
+
+def model_form_upload(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if request.method == 'POST':
+            form = User_infoForm(request.POST, request.FILES)
+            if form.is_valid():
+                childhood_and_Education = form.cleaned_data.get('childhood_and_Education_Photo')
+                childhood_and_Education_Photo = form.cleaned_data.get('childhood_and_Education_Photo')
+                About_Me = form.cleaned_data.get('About_Me')
+                About_Me_Photo = form.cleaned_data.get('About_Me_Photo')
+                Personal_Life = form.cleaned_data.get('Personal_Life')
+                Personal_Life_Photo = form.cleaned_data.get('Personal_Life_Photo')
+                Political_Career = form.cleaned_data.get('Political_Career')
+                Political_Career_Photo = form.cleaned_data.get('Political_Career_Photo')
+                aims_Goal_and_Dream = form.cleaned_data.get('aims_Goal_and_Dream')
+                aims_Goal_and_Dream_Photo = form.cleaned_data.get('aims_Goal_and_Dream_Photo')
+                Message_For_Followers = form.cleaned_data.get('Message_For_Followers')
+                Photo = form.cleaned_data.get('Photo')
+                user_profile.objects.create(
+                    user = user,
+                    childhood_and_Education = childhood_and_Education,
+                    childhood_and_Education_Photo = childhood_and_Education_Photo,
+                    About_Me = About_Me,
+                    About_Me_Photo =About_Me_Photo,
+                    Personal_Life = Personal_Life,
+                    Personal_Life_Photo = Personal_Life_Photo,
+                    Political_Career = Political_Career,
+                    Political_Career_Photo =Political_Career_Photo,
+                    aims_Goal_and_Dream = aims_Goal_and_Dream,
+                    aims_Goal_and_Dream_Photo = aims_Goal_and_Dream_Photo,
+                    Message_For_Followers = Message_For_Followers,
+                    Photo = Photo,
+                )
+                return redirect('profile')
+        else:
+            form = User_infoForm()
+        return render(request, 'n/Post_user_info.html', {'form': form})
+
+
+def user_info(request):
+
+    instance = user_profile(user=request.user)
+    form = User_infoForm(instance=instance)
+    if request.method == 'POST':
+        form = User_infoForm(request.POST)
+        if form.is_valid():
+            return redirect('profile')
+
+    context = {'form': form}
+    return render(request, "n/Post_user_info.html", context)
+
+
+# TO UPDATE THE USER_INFO
+
+@login_required
+def update_user_info(request):
+    if request.method  == 'POST':
+        form = User_infoForm(request.POST, request.FILES, instance=request.user.user_profile)
+        if form.is_valid():
+            model_instance = form.save()
+            model_instance.user=request.user
+            model_instance.childhood_and_Education = form.cleaned_data.get('childhood_and_Education')
+            model_instance.childhood_and_Education_Photo = form.cleaned_data.get('childhood_and_Education_Photo')
+            model_instance.About_Me = form.cleaned_data.get('About_Me')
+            model_instance.About_Me_Photo = form.cleaned_data.get('About_Me_Photo')
+            model_instance.Personal_Life = form.cleaned_data.get('Personal_Life')
+            model_instance.Personal_Life_Photo = form.cleaned_data.get('Personal_Life_Photo')
+            model_instance.Political_Career = form.cleaned_data.get('Political_Career')
+            model_instance.Political_Career_Photo = form.cleaned_data.get('Political_Career_Photo')
+            model_instance.aims_Goal_and_Dream = form.cleaned_data.get('aims_Goal_and_Dream')
+            model_instance.aims_Goal_and_Dream_Photo = form.cleaned_data.get('aims_Goal_and_Dream_Photo')
+            model_instance.Message_For_Followers = form.cleaned_data.get('Message_For_Followers')
+            model_instance.Photo = form.cleaned_data.get('Photo')
+
+            model_instance.save()
+            return redirect('profile')
+    else:
+         form = User_infoForm(instance=request.user.user_profile)
+    return render(request, 'n/update_user_info.html', {'form': form})
+
+
+# logout
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('n/login/')
+
+def party_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/partylogin/')
+
+
+# Change Password using old Password
+
+def user_change_password(request):
+
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            fm = PasswordChangeForm(user=request.user, data=request.POST)
+            if fm.is_valid():
+                fm.save()
+                return HttpResponseRedirect('/login/')
+        else:
+            fm = PasswordChangeForm(user=request.user)
+        return render(request, 'n/changepassword.html', {'form': fm})
+    else:
+        return HttpResponseRedirect('/login/')
+
+
+# Forgot Password..
+def user_forgot_password(request):
+    return HttpResponseRedirect('/reset_password/')

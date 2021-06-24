@@ -2,7 +2,7 @@ from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
 from .models import *
 
-
+admin.site.register(Author, ImportExportModelAdmin)
 # Register your models here.
 admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
 
@@ -10,7 +10,7 @@ admin.site.register(PartywiseMP, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMLA, ImportExportModelAdmin)
 
-admin.site.register(Loksabha_Session, ImportExportModelAdmin)
+
 
 admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
 
@@ -26,11 +26,13 @@ admin.site.register(Party, ImportExportModelAdmin)
 
 admin.site.register(States, ImportExportModelAdmin)
 
-#admin.site.register(LeadingSeats, ImportExportModelAdmin)
-
 admin.site.register(Rajyasabha, ImportExportModelAdmin)
-
+##### Loksabha
 admin.site.register(LokSabha, ImportExportModelAdmin)
+admin.site.register(Loksabha_Session, ImportExportModelAdmin)
+class loksabhapersonalAdmin(admin.ModelAdmin):
+    search_fields = ('mp',)
+admin.site.register(loksabhapersonal, loksabhapersonalAdmin)
 
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
