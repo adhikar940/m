@@ -135,27 +135,30 @@ class PartyViewSet(viewsets.ModelViewSet):
                     passw=r.generate()
                     print(passw)
                     try:
-                        send_mail(
+                        kk=send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
                             # from:
-                            "adhikar869@gmail.com",
+                            "mn@k.adhikar.net",
                             # to:
                             [e,]
                         )
-                        q="party-"+p
-                        user =User(email=e,first_name=q,last_name=p1,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'party')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        party.actvated = 'yes'
-                        party.save()
-                        response = {'m':'Account created'}
+                        if(kk==1):
+                            q="party-"+p
+                            user =User(email=e,first_name=q,last_name=p1,username=e)
+                            user.set_password(passw)
+                            user.save()
+                            new_group = Group.objects.get(name = 'party')
+                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                            user = User.objects.get(username = e)
+                            user.groups.add(new_group)
+                            party.actvated = 'yes'
+                            party.save()
+                            response = {'m':'Account created'}
+                        else :
+                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
                         return Response(response, status=status.HTTP_200_OK)
                     except :
                         response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
@@ -253,7 +256,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
     def get(self, request):
         z=request.user.first_name
         z=z[6:]
-        print(z)
+        #print(z)
         data = Party.objects.all().filter(abbreviation=z)
         serializer = LPSerializers(data, many=True)
         return Response(serializer.data)
@@ -267,6 +270,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
             loksabha=LokSabha.objects.get(id=f)
             #print(int(loksabha))
             is_valid = validate_email(e)
+            is_valid = True
             if(loksabha.actvated == 'yes'):
                 response = {'m':'This account is already activated'}
                 return Response(response, status=status.HTTP_200_OK)
@@ -286,45 +290,60 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                     passw=r.generate()
                     print(passw)
                     print(type(loksabha))
-                    try:
-                        q="LoksabhaMP-"+f+'-'+p
-                        user =User(email=e,first_name=q,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'loksabhaMP')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        loksabha.actvated = 'yes'
-                        lp = loksabhapersonal(mp=loksabha)
-                        lp.save()
-                        loksabha.save()
-                        #response = {'m':'Account created'}
-                        send_mail(
+                    send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "adhikar869@gmail.com",
+                            "mn@k.adhikar.net",
+                            # to:
+                            [e,]                             )
+                    q="LoksabhaMP-"+f
+                    user =User(email=e,first_name=q,last_name=p,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'loksabhaMP')
+                    print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    lp = loksabhapersonal(mp=loksabha)
+                    lp.save()
+                    loksabha.actvated = 'yes'
+                    loksabha.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+                    '''try:
+                        kk=send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            # from:
+                            "mn@k.adhikar.net",
                             # to:
                             [e,]
                         )
-                        '''q="LoksabhaMP-"+f+'-'+p
-                        user =User(email=e,first_name=q,last_name=p1,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'loksabhaMP')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        loksabha.actvated = 'yes'
-                        loksabha.save()'''
-                        response = {'m':'Account created'}
+                        if(kk==1):
+                            q="LoksabhaMP-"+f+'-'+p
+                            user =User(email=e,first_name=q,last_name=p1,username=e)
+                            user.set_password(passw)
+                            user.save()
+                            new_group = Group.objects.get(name = 'loksabhaMP')
+                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                            user = User.objects.get(username = e)
+                            user.groups.add(new_group)
+                            loksabha.actvated = 'yes'
+                            loksabha.save()
+                            response = {'m':'Account created'}
+                            return Response(response, status=status.HTTP_200_OK)
+                        else :
+                            response = {'m':'Ffailed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
                         return Response(response, status=status.HTTP_200_OK)
+                            
                     except :
                         response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                        return Response(response, status=status.HTTP_200_OK)
+                        return Response(response, status=status.HTTP_200_OK)'''
             else :
                 response = {'m':'Kindly provide a valid email'}
                 return Response(response, status=status.HTTP_200_OK)
