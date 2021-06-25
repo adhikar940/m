@@ -95,9 +95,7 @@ class ChangePasswordView(generics.UpdateAPIView):
                 'message': 'Password updated successfully',
                 'data': []
             }
-
             return Response(response)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class PartyViewSet(viewsets.ModelViewSet):
     queryset = Party.objects.all()
@@ -248,6 +246,7 @@ class LokSabha_Members(APIView):
         return Response(serializer.data)
 #@allowed_users(allowed_roles=['admin'])
 class Party_Wise_Loksabha_Candidates_api(APIView):
+    permission_classes = (Isparty,)
     def get(self, request):
         z=request.user.first_name
         z=z[6:]
@@ -265,6 +264,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
             loksabha=LokSabha.objects.get(id=f)
             #print(int(loksabha))
             is_valid = validate_email(e)
+            is_valid = True
             if(loksabha.actvated == 'yes'):
                 response = {'m':'This account is already activated'}
                 return Response(response, status=status.HTTP_200_OK)
@@ -283,9 +283,9 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                     include_special_chars=False)
                     passw=r.generate()
                     print(passw)
-                    print(type(loksabha))
+                    #print(type(loksabha))
                     try:
-                        q="LoksabhaMP-"+f+'-'+p
+                        '''q="LoksabhaMP-"+f+'-'+p
                         user =User(email=e,first_name=q,username=e)
                         user.set_password(passw)
                         user.save()
@@ -297,8 +297,8 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                         lp = loksabhapersonal(mp=loksabha)
                         lp.save()
                         loksabha.save()
-                        #response = {'m':'Account created'}
-                        send_mail(
+                        #response = {'m':'Account created'}'''
+                        k=send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
@@ -308,18 +308,24 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                             # to:
                             [e,]
                         )
-                        '''q="LoksabhaMP-"+f+'-'+p
-                        user =User(email=e,first_name=q,last_name=p1,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'loksabhaMP')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        loksabha.actvated = 'yes'
-                        loksabha.save()'''
-                        response = {'m':'Account created'}
-                        return Response(response, status=status.HTTP_200_OK)
+                        if(k==1):
+                            q="LoksabhaMP-"+f
+                            user =User(email=e,first_name=q,last_name=p,username=e)
+                            user.set_password(passw)
+                            user.save()
+                            new_group = Group.objects.get(name = 'loksabhaMP')
+                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                            user = User.objects.get(username = e)
+                            user.groups.add(new_group)
+                            lp = loksabhapersonal(mp=loksabha)
+                            lp.save()
+                            loksabha.actvated = 'yes'
+                            loksabha.save()
+                            response = {'m':'Account created'}
+                            return Response(response, status=status.HTTP_200_OK)
+                        else:
+                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
+                            return Response(response, status=status.HTTP_200_OK)
                     except :
                         response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
                         return Response(response, status=status.HTTP_200_OK)
