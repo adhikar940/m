@@ -6,6 +6,7 @@ from rest_framework_tricks.serializers import (
     HyperlinkedModelSerializer,
     ModelSerializer,
 )
+
 class PersonalContactInformationSerializer(serializers.ModelSerializer):
     """Personal contact information serializer."""
 
@@ -69,63 +70,6 @@ class AuthorSerializer(ModelSerializer):
             'biography',
             'contact_information',
         )
-'''class PContactInformationSerializer(serializers.ModelSerializer):
-    """Personal contact information serializer."""
-
-    class Meta(object):
-        """Meta options."""
-
-        model = LokSabha
-        fields = (
-            'state',
-            'MP_name',
-        )
-        nested_proxy_field = True
-class BContactInformationSerializer(serializers.ModelSerializer):
-    """Business contact information serializer."""
-
-    class Meta(object):
-        """Meta options."""
-
-        model = LokSabha
-        fields = (
-            'Districts',
-        )
-        nested_proxy_field = True
-class CInformationSerializer(serializers.ModelSerializer):
-    """Contact information serializer."""
-
-    p_contact_information = PContactInformationSerializer(
-        required=False
-    )
-    b_contact_information = BContactInformationSerializer(
-        required=False
-    )
-
-    class Meta(object):
-        """Meta options."""
-
-        model = LokSabha
-        fields = (
-            'p_contact_information',
-            'b_contact_information',
-        )
-        nested_proxy_field = True
-class LlSerializer(ModelSerializer):
-    """Author serializer."""
-
-    c_information = CInformationSerializer(required=False)
-
-    class Meta(object):
-        """Meta options."""
-
-        model = LokSabha
-        fields = (
-            'Party',
-            'c_information',
-
-        )'''
-
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
 
@@ -194,7 +138,7 @@ class RajyasabhaSerializers(serializers.ModelSerializer):
     class Meta:
         model = Rajyasabha
         fields = ['MP_name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
-                  'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile']
+                  'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile', 'chldid']
 
 class State_RajyasabhaSerializer(serializers.ModelSerializer):
     Rajyasabha_Candidates = RajyasabhaSerializers(many=True, read_only=True)
@@ -207,26 +151,37 @@ class RSerializers(serializers.ModelSerializer):
     Party = serializers.StringRelatedField()
     class Meta:
         model = Rajyasabha
-        fields = ['state','Districts', 'constituency_name', 'MP_name', 'Party',
+        fields = ['id','state','Districts', 'MP_name', 'Party',
                    'photo','presentorx','actvated']
 class RPSerializers(serializers.ModelSerializer):
     RP = RSerializers(many=True, read_only=True)
     class Meta:
         model = Party
         fields = ['abbreviation', 'RP']
+class rajyasabhapersonalSerializer(serializers.ModelSerializer):
+    mp = serializers.StringRelatedField()
+    class Meta:
+        model = rajyasabhapersonal
+        fields = ['id','profilename','mp', 'presentparty','About_Me','childhood_and_Education','Political_Career','Personal_Life','aims_Goal_and_Dream','Message_For_Followers','About_Mephoto','childhood_and_Educationphoto','Profilephoto','Political_Careerphoto','Personal_Lifephoto','aims_Goal_and_Dreamphoto','Message_For_Followersphoto']
+class rajyasabhapersonal1Serializer(serializers.ModelSerializer):
+    #mp = serializers.StringRelatedField()
+    class Meta:
+        model = rajyasabhapersonal
+        fields = ['id', ]
+        #extra_kwargs = {'mp': {'read_only': True}}
+
+
 #################################################################################
 
 # LOKSABHA
 class LokSabhaSerializers(serializers.ModelSerializer):
-
-    # State = serializers.StringRelatedField()
+    state = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
-
     class Meta:
         model = LokSabha
-        fields = ['Districts', 'constituency_name', 'MP_name', 'party_name', 'Party', 'gender', 'fathers_Name',
-                  'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address', 'Email_address', 'Mobile']
+        fields = ['state','Districts', 'constituency_name', 'MP_name', 'party_name', 'Party', 'gender', 'fathers_Name',
+                  'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address', 'Email_address', 'Mobile','chldid']
 class State_loksabhaSerializer(serializers.ModelSerializer):
     Loksabha_Candidates = LokSabhaSerializers(many=True, read_only=True)
     class Meta:
@@ -249,7 +204,7 @@ class loksabhapersonalSerializer(serializers.ModelSerializer):
     mp = serializers.StringRelatedField()
     class Meta:
         model = loksabhapersonal
-        fields = ['id', 'profilename','mp', 'presentparty','About_Me','About_Me_Photo','childhood_and_Education','childhood_and_Education_Photo','Profile_photo','Political_Career','Political_Career_Photo','Personal_Life','Personal_Life_Photo','aims_Goal_and_Dream','aims_Goal_and_Dream_Photo','Message_For_Followers','Message_For_Followers_photo',]
+        fields = ['id', 'profilename','mp', 'presentparty','About_Me','childhood_and_Education','Political_Career','Personal_Life','aims_Goal_and_Dream','Message_For_Followers','About_Mephoto','childhood_and_Educationphoto','Profilephoto','Political_Careerphoto','Personal_Lifephoto','aims_Goal_and_Dreamphoto','Message_For_Followersphoto']
         #extra_kwargs = {'mp': {'read_only': True}}
 ##########################################################################################################
 # ASSEMBLY
@@ -263,15 +218,15 @@ class Assembly_ConstituencySerializers(serializers.ModelSerializer):
         model = Assembly_Constituency
         fields = ['District', 'constituency_name']
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
-    # State = serializers.StringRelatedField()
+    State = serializers.StringRelatedField()
     District = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
-
+    constituency_name =  serializers.StringRelatedField()
     class Meta:
         model = Legislative_Assembly
-        fields = ['District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'total_member', 'gender',
+        fields = ['State','District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'gender',
                   'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
-                  'Email_address', 'Mobile']
+                  'Email_address', 'Mobile', 'chldid']
 class State_AssemblySerializer(serializers.ModelSerializer):
     Assembly_Candidates = Legislative_AssemblySerializers(many=True, read_only=True)
     class Meta:
@@ -282,20 +237,27 @@ class District_Wise_AssemblySerializer(serializers.ModelSerializer):
     Assembly_Candidates = Legislative_AssemblySerializers(many=True, read_only=True)
     class Meta:
         model = Districts
-        fields = ['State', 'District_name', 'Assembly_Candidates']
+        fields = ['State', 'District_name','Assembly_Candidates']
 class ASerializers(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
+    constituency_name = serializers.StringRelatedField()
     class Meta:
         model = Legislative_Assembly
-        fields = ['state','Districts', 'constituency_name', 'MP_name', 'Party',
+        fields = ['id','state','Districts', 'constituency_name', 'MLA_name', 'Party',
                    'photo','presentorx','actvated']
 class APSerializers(serializers.ModelSerializer):
     LA = LSerializers(many=True, read_only=True)
     class Meta:
         model = Party
         fields = ['abbreviation', 'LA']
+class assemblypersonalSerializer(serializers.ModelSerializer):
+    mla = serializers.StringRelatedField()
+    class Meta:
+        model = assemblypersonal
+        fields = ['parentid','id', 'profilename','mla', 'presentparty','About_Me','childhood_and_Education','Political_Career','Personal_Life','aims_Goal_and_Dream','Message_For_Followers','About_Mephoto','childhood_and_Educationphoto','Profilephoto','Political_Careerphoto','Personal_Lifephoto','aims_Goal_and_Dreamphoto','Message_For_Followersphoto']
+        #extra_kwargs = {'mp': {'read_only': True}}
 #################################################################################################
 
 # FOR COUNCIL
@@ -306,7 +268,8 @@ class Legislative_councilsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Legislative_councils
         fields = ['State', 'Districts', 'constituency_name', 'MLC_name', 'elected', 'presentorx',
-                  'actvated','party']
+                  'actvated','party','party_name','gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
+                   'Email_address', 'Mobile','chldid']
 class State_councilSerializer(serializers.ModelSerializer):
     Legislative_Council_Candidates = Legislative_councilsSerializer(many=True, read_only=True)
     class Meta:
@@ -317,14 +280,20 @@ class LCSerializers(serializers.ModelSerializer):
     Districts = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
     class Meta:
-        model = Legislative_Assembly
-        fields = ['state','Districts', 'constituency_name', 'MP_name', 'Party',
+        model = Legislative_councils
+        fields = ['id','state','Districts', 'constituency_name', 'MLC_name', 'Party',
                    'photo','presentorx','actvated']
 class LCPSerializers(serializers.ModelSerializer):
     LC = LCSerializers(many=True, read_only=True)
     class Meta:
         model = Party
         fields = ['abbreviation', 'LC']
+class councilpersonalSerializer(serializers.ModelSerializer):
+    mlc = serializers.StringRelatedField()
+    class Meta:
+        model = councilpersonal
+        fields = ['id', 'profilename','mlc', 'presentparty','About_Me','childhood_and_Education','Political_Career','Personal_Life','aims_Goal_and_Dream','Message_For_Followers','About_Mephoto','childhood_and_Educationphoto','Profilephoto','Political_Careerphoto','Personal_Lifephoto','aims_Goal_and_Dreamphoto','Message_For_Followersphoto']
+        #extra_kwargs = {'mp': {'read_only': True}}
 ###########################################################################################
 
 
@@ -369,7 +338,7 @@ class Municipal_corporation_time_periodSerializers(serializers.ModelSerializer):
 class StateSerializers(serializers.ModelSerializer):
     class Meta:
         model = State
-        fields = ['State_name']
+        fields = ['id','State_name','Status','Map']
 
 
 class DistrictsSerializers(serializers.ModelSerializer):
@@ -378,7 +347,7 @@ class DistrictsSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Districts
-        fields = [ 'District_name',]
+        fields = ['id', 'District_name','Map']
 '''
 class RajyasabhaSerializers(serializers.ModelSerializer):
 
@@ -404,7 +373,7 @@ class State_DistrictsSerializers(serializers.ModelSerializer):
     District= DistrictsSerializers(many=True, read_only=True)
     class Meta:
         model = State
-        fields = ['State_name', 'District']
+        fields = ['id','State_name','Map', 'District']
 
 
 class CitySerializers(serializers.ModelSerializer):
@@ -414,7 +383,7 @@ class CitySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = City
-        fields = ['State', 'Districts', 'City_name']
+        fields = ['id','State', 'Districts', 'City_name']
 
 
 class Grama_panchayatSerializers(serializers.ModelSerializer):

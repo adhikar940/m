@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('', include(router.urls)),
     path('login/', views.loginPage, name="login"),
+    #url(r'^personalimages/', user_views.personalimages_api.as_view()),
     ##########################################################################################################
 
     url(r'^State_api/', user_views.State_api.as_view()),
@@ -30,29 +31,31 @@ urlpatterns = [
     url(r'^bihar_api/', user_views.Bihar_api.as_view()),
     url(r'^party_api/', user_views.Party_api.as_view()),
     url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
-
+url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^states_api/', user_views.States_api.as_view()),
 
-    ###########################################################################################################
+    ############################        Rajya Sabha           ####################################################
 
     url(r'^Rajyasabha_Candidates_api/', user_views.Rajyasabha_Members_api.as_view()),
     url(r'^State_Wise_Rajyasabha_Candidates_api/', user_views.State_Wise_Rajyasabha_Candidates_api.as_view()),
     url(r'^party_raj_api/', user_views.Party_Wise_Rajyasabha_Candidates_api.as_view()),
+
 
     ###########################################################################################################
 
     url(r'^LokSabha_Candidates_api/', user_views.LokSabha_Members_api.as_view()),
     url(r'^State_Wise_Loksabha_Candidates_api/', user_views.State_Wise_Loksabha_Candidates_api.as_view()),
     url(r'^party_lok_api/', user_views.Party_Wise_Loksabha_Candidates_api.as_view()),
+    url(r'^stateparty_lok_api/', user_views.PartyandstateWise_Loksabha_Candidates_api.as_view()),
     url(r'^lokpersonal_api/', user_views.loksabhapersonal_api.as_view()),
-    # url(r'^lokpersonal/(?P<pk>[0-9]+)$', views.loksabhapersonal_detail),
+    #url(r'^lokpersonal/(?P<pk>[0-9]+)$', views.loksabhapersonal_detail),
     ###########################################################################################################
 
-    url(r'^Assembly_Constituency_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
     url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
     url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
     url(r'^District_Wise_Assembly_Candidates_api/', user_views.District_Wise_Assembly_Candidates_api.as_view()),
     url(r'^party_assembly_api/', user_views.Party_Wise_Assembly_Candidates_api.as_view()),
+    url(r'^partyandstateassembly_api/', user_views.PartyandstateWise_assembly_Candidates_api.as_view()),
 
 
 

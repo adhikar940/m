@@ -16,6 +16,14 @@ router.register('party', views.PartyViewSet)
 #router.register('lokmp', views.lokViewSet)
 router.register('authors', views.AuthorViewSet)
 router.register('lokperson', views.loksabhapersonalViewSet,basename='lok')
+router.register('rajperson', views.rajyasabhapersonalViewSet,basename='raj')
+router.register('rajpersonal', views.rajyasabhapersonal1ViewSet,basename='raj1')
+router.register('assemblyperson', views.assemblypersonalViewSet,basename='assembly')
+router.register('councilperson', views.councilpersonalViewSet,basename='council')
+router.register('rajpersondisplay', views.rajpersonalViewSet,basename='r')
+router.register('councilpersondisplay', views.CouncilpersonalViewSet,basename='c')
+router.register('lokpersondisplay', views.LoksabhapersonalViewSet,basename='l')
+router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename='a')
 #router.register('Ll', views.LlViewSet)
 #urlpatterns = router.urls
 
@@ -23,14 +31,13 @@ router.register('lokperson', views.loksabhapersonalViewSet,basename='lok')
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-#path('api-token-auth/',views.obtain_auth_token,name='api-token-auth'),
+
 path('auth/', obtain_auth_token),
+url('authenticate/', views.CustomObtainAuthToken.as_view()),
  path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
  path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('admin/',admin.site.urls),
-
 path('', include(router.urls)),
-
     path('n/',include('n.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #path('login/', views.user_login, name='login'),

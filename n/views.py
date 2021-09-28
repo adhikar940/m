@@ -33,13 +33,24 @@ from .decorators import *
 from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth.models import Group
 from rest_framework.decorators import api_view
+import config
+from rest_framework.authtoken.views import ObtainAuthToken
+mnf = "adhikar869@gmail.com"
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 '''class LlViewSet(ModelViewSet):
     queryset = LokSabha.objects.all()
     serializer_class = LlSerializer
     permission_classes = [AllowAny]'''
 from rest_framework.permissions import BasePermission
-
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+        token = Token.objects.get(key=response.data['token'])
+        user = User.objects.get(id=token.user_id)
+        mnf=user.first_name
+        userSerilizer = UserSerializer(user, many=False)
+        #userSerilizer.data
+        return Response({'token': token.key, 'mn':mnf })
 class IsGroupUser(BasePermission):
     group = None
     def has_permission(self, request, view):
@@ -51,6 +62,12 @@ class Isadmin(IsGroupUser):
     group = 'admin'
 class IsloksabhaMP(IsGroupUser):
     group = 'loksabhaMP'
+class IsrajyasabhaMP(IsGroupUser):
+    group = 'rajyasabhaMP'
+class Ismla(IsGroupUser):
+    group = 'mla'
+class Ismlc(IsGroupUser):
+    group = 'mlc'
 class AuthorViewSet(ModelViewSet):
     """Author ViewSet."""
     queryset = Author.objects.all()
@@ -110,17 +127,20 @@ class PartyViewSet(viewsets.ModelViewSet):
             print(is_valid)
             print(re.search(regex, e))
             is_valid = True
+
             party=Party.objects.get(id=pk)
             if(party.actvated == 'yes'):
-                response = {'m':'This party is already activated'}
+                response = {'m':'Account already activated'}
                 return Response(response, status=status.HTTP_200_OK)
             elif(is_valid == True or None):
+
                 e=e.lower()
                 p = party.abbreviation
                 p1=party.partyname
+
                 print(p)
                 if User.objects.filter(email=e).exists():
-                    response = {'m':'This email alerady exists'}
+                    response = {'m':'This email already exists'}
                     return Response(response, status=status.HTTP_200_OK)
                 else :
                     r=RandomWord(max_word_size=10,
@@ -130,32 +150,58 @@ class PartyViewSet(viewsets.ModelViewSet):
                     include_special_chars=False)
                     passw=r.generate()
                     print(passw)
-                    try:
-                        send_mail(
+                    print(config)
+                    send_mail(
+                        # title:
+                        "Account created for {title}".format(title="www.adhikar.net"),
+                        # message:
+                        "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                        # from:
+                        mnf ,
+                        # to:
+                        [e,]
+                    )
+                    q="party-"+p+"-"+pk
+                    user =User(email=e,first_name=q,last_name=p1,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'party')
+                    print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    party.actvated = 'yes'
+                    party.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+                    '''try:
+                        kk=send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
                             # from:
-                            "adhikar869@gmail.com",
+                            config.EMAIL_ADDRESS,
                             # to:
                             [e,]
                         )
-                        q="party-"+p
-                        user =User(email=e,first_name=q,last_name=p1,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'party')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        party.actvated = 'yes'
-                        party.save()
-                        response = {'m':'Account created'}
+                        if(kk==1):
+                            q="party-"+p
+                            user =User(email=e,first_name=q,last_name=p1,username=e)
+                            user.set_password(passw)
+                            user.save()
+                            new_group = Group.objects.get(name = 'party')
+                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                            user = User.objects.get(username = e)
+                            user.groups.add(new_group)
+                            party.actvated = 'yes'
+                            party.save()
+                            response = {'m':'Account created'}
+                        else :
+                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
                         return Response(response, status=status.HTTP_200_OK)
                     except :
                         response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                        return Response(response, status=status.HTTP_200_OK)
+                        return Response(response, status=status.HTTP_200_OK)'''
             else :
                 response = {'m':'Kindly provide a valid email'}
                 return Response(response, status=status.HTTP_200_OK)
@@ -194,7 +240,11 @@ class Coalition_Party_api(APIView):
         data = Bihar_Coalition_Party.objects.all()
         serializer = Bihar_Coalition_PartySerializers(data, many=True)
         return Response(serializer.data)
-
+class State_api(APIView):
+    def get(self, request):
+        data = State.objects.all()
+        serializer = stateSerializers(data, many=True)
+        return Response(serializer.data)
 
 
 
@@ -224,13 +274,109 @@ class RajyaSabha_Members(APIView):
         serializer = RSerializers(data, many=True)
         return Response(serializer.data)
 class Party_Wise_Rajyasabha_Candidates_api(APIView):
+    permission_classes = (Isparty,)
     def get(self, request):
-        data = Party.objects.all()
+        z=request.user.first_name
+        z1=z.split("-")
+        #z='BJP'
+        data = Party.objects.all().filter(abbreviation=z1[1])
         serializer = RPSerializers(data, many=True)
         return Response(serializer.data)
+    def post(self, request):
+        if 'email' in request.data:
+            e = request.data['email']
+            f=request.data['id']
+            f=str(f)
+            #print(LokSabha.objects.get(id=3))
+            rajyasabha=Rajyasabha.objects.get(id=f)
+            #print(int(loksabha))
+            is_valid = validate_email(e)
+            is_valid = True
+            if(rajyasabha.actvated == 'yes'):
+                response = {'m':'Account already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
+                e=e.lower()
+                p = rajyasabha.MP_name
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email already exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=False)
+                    passw=r.generate()
+                    send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            # from:
+                            "mn@k.adhikar.net",
+                            # to:
+                            [e,]                             )
+                    q="RajyasabhaMP-"+f
+                    user =User(email=e,first_name=q,last_name=p,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    #new_group = Group.objects.get(name = 'rajyasabhaMP',parentid = f)
+                    new_group = Group.objects.get(name = 'rajyasabhaMP')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    lp = rajyasabhapersonal(mp=rajyasabha,parentid = f)
+                    lp.save()
+                    child=rajyasabhapersonal.objects.get(mp=rajyasabha)
+                    z=child.pk
+                    rajyasabha.actvated = 'yes'
+                    rajyasabha.chldid =str(z)
+                    rajyasabha.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {'m':'Kindly provide the mail'}
+            return Response(response, status=status.HTTP_200_OK)
+class rajpersonalViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing user instances.
+    """
+    serializer_class = rajyasabhapersonalSerializer
+    queryset = rajyasabhapersonal.objects.all()
+
+class rajyasabhapersonalViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsrajyasabhaMP,)
+    #queryset = loksabhapersonal.objects.all()
+    serializer_class = rajyasabhapersonalSerializer
+    def get_queryset(self):
+        z=self.request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        return rajyasabhapersonal.objects.all().filter(mp=p[1])
+    @action(detail=True, methods=['put'])
+    def rajyasabhapersonal(self,request,pk=None):
+        u=self.get_object
+    '''def post(self,request,*args,**kwargs):
+        About_Me_Photo = request.data('About_Me_Photo')'''
+class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsrajyasabhaMP,)
+    #queryset = loksabhapersonal.objects.all()
+    serializer_class = rajyasabhapersonal1Serializer
+    def get_queryset(self):
+        z=self.request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        return rajyasabhapersonal.objects.all().filter(mp=p[1])
+    @action(detail=True, methods=['put'])
+    def rajyasabhapersonal(self,request,pk=None):
+        u=self.get_object
 ####################################################################################################
 class LokSabha_Members_api(APIView):
     def get(self,request):
+        mnl=39
         data = LokSabha.objects.all()
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
@@ -245,35 +391,44 @@ class LokSabha_Members(APIView):
         serializer = LSerializers(data, many=True)
         return Response(serializer.data)
 #@allowed_users(allowed_roles=['admin'])
+class PartyandstateWise_Loksabha_Candidates_api(APIView):
+    permission_classes = (Isparty,)
+    def post(self, request):
+        if 'state' in request.data:
+            e = request.data['state']
+            z=request.user.first_name
+            z1=z.split("-")
+            data1 = Party.objects.all().filter(abbreviation=z1[1])
+            for i in data1 :
+                k=i.id
+            print(data1)
+            data = LokSabha.objects.all().filter(Party=k, state=e)
+            serializer = LSerializers(data, many=True)
+            return Response(serializer.data)
 class Party_Wise_Loksabha_Candidates_api(APIView):
     permission_classes = (Isparty,)
     def get(self, request):
         z=request.user.first_name
-        z=z[6:]
-        print(z)
-        data = Party.objects.all().filter(abbreviation=z)
+        z1=z.split("-")
+        data = Party.objects.all().filter(abbreviation=z1[1])
         serializer = LPSerializers(data, many=True)
         return Response(serializer.data)
     def post(self, request):
         if 'email' in request.data:
             e = request.data['email']
             f=request.data['id']
-            print(e)
-            print(f)
-            #print(LokSabha.objects.get(id=3))
+            f=str(f)
             loksabha=LokSabha.objects.get(id=f)
-            #print(int(loksabha))
             is_valid = validate_email(e)
             is_valid = True
             if(loksabha.actvated == 'yes'):
-                response = {'m':'This account is already activated'}
+                response = {'m':'Account already activated'}
                 return Response(response, status=status.HTTP_200_OK)
             elif(is_valid == True or None):
                 e=e.lower()
                 p = loksabha.MP_name
-                print(p)
                 if User.objects.filter(email=e).exists():
-                    response = {'m':'This email alerady exists'}
+                    response = {'m':'This email already exists'}
                     return Response(response, status=status.HTTP_200_OK)
                 else :
                     r=RandomWord(max_word_size=10,
@@ -282,53 +437,31 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                     special_chars=r"@_!#$%^&*()<>?/\|}{~:",
                     include_special_chars=False)
                     passw=r.generate()
-                    print(passw)
-                    #print(type(loksabha))
-                    try:
-                        '''q="LoksabhaMP-"+f+'-'+p
-                        user =User(email=e,first_name=q,username=e)
-                        user.set_password(passw)
-                        user.save()
-                        new_group = Group.objects.get(name = 'loksabhaMP')
-                        print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                        user = User.objects.get(username = e)
-                        user.groups.add(new_group)
-                        loksabha.actvated = 'yes'
-                        lp = loksabhapersonal(mp=loksabha)
-                        lp.save()
-                        loksabha.save()
-                        #response = {'m':'Account created'}'''
-                        k=send_mail(
+                    send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "adhikar869@gmail.com",
+                            "mn@k.adhikar.net",
                             # to:
-                            [e,]
-                        )
-                        if(k==1):
-                            q="LoksabhaMP-"+f
-                            user =User(email=e,first_name=q,last_name=p,username=e)
-                            user.set_password(passw)
-                            user.save()
-                            new_group = Group.objects.get(name = 'loksabhaMP')
-                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                            user = User.objects.get(username = e)
-                            user.groups.add(new_group)
-                            lp = loksabhapersonal(mp=loksabha)
-                            lp.save()
-                            loksabha.actvated = 'yes'
-                            loksabha.save()
-                            response = {'m':'Account created'}
-                            return Response(response, status=status.HTTP_200_OK)
-                        else:
-                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                            return Response(response, status=status.HTTP_200_OK)
-                    except :
-                        response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                        return Response(response, status=status.HTTP_200_OK)
+                            [e,]                             )
+                    q="LoksabhaMP-"+f
+                    user =User(email=e,first_name=q,last_name=p,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'loksabhaMP')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    lp = loksabhapersonal(mp=loksabha,parentid = f)
+                    lp.save()
+                    child=loksabhapersonal.objects.get(mp=loksabha)
+                    z=child.pk
+                    loksabha.actvated = 'yes'
+                    loksabha.chldid =str(z)
+                    loksabha.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
             else :
                 response = {'m':'Kindly provide a valid email'}
                 return Response(response, status=status.HTTP_200_OK)
@@ -357,7 +490,9 @@ class loksabhapersonalViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['put'])
     def loksabhapersonal(self,request,pk=None):
         u=self.get_object
-
+class LoksabhapersonalViewSet(viewsets.ModelViewSet):
+    serializer_class = loksabhapersonalSerializer
+    queryset = loksabhapersonal.objects.all()
 ######################################################################################################
 class Assembly_Constituency_Members_api(APIView):
     def get(self,request):
@@ -384,11 +519,107 @@ class Assembly_Members(APIView):
         data =Legislative_Assembly.objects.all()
         serializer = ASerializers(data, many=True)
         return Response(serializer.data)
+class PartyanstateWise_assembly_Candidates_api(APIView):
+    #data = Legislative_Assembly.objects.all().filter(Party='BJP', state='Andhra Pradesh')
+    def get(self,request):
+        k=39
+        data =Legislative_Assembly.objects.all().filter(state=k)
+        serializer = ASerializers(data, many=True)
+        return Response(serializer.data)
+class PartyandstateWise_assembly_Candidates_api(APIView):
+    permission_classes = (Isparty,)
+    def post(self, request):
+        if 'state' in request.data:
+            e = request.data['state']
+            z=request.user.first_name
+            z1=z.split("-")
+            data1 = Party.objects.all().filter(abbreviation=z1[1])
+            for i in data1 :
+                k=i.id
+            data = Legislative_Assembly.objects.all().filter(Party=k, state=e)
+            serializer = ASerializers(data, many=True)
+            return Response(serializer.data)
 class Party_Wise_Assembly_Candidates_api(APIView):
+    permission_classes = (Isparty,)
     def get(self, request):
-        data = Party.objects.all()
+        z=request.user.first_name
+        z1=z.split("-")
+        data = Party.objects.all().filter(abbreviation=z1[1])
         serializer = APSerializers(data, many=True)
         return Response(serializer.data)
+    def post(self, request):
+        if 'email' in request.data:
+            e = request.data['email']
+            f=request.data['id']
+            #print(LokSabha.objects.get(id=3))
+            l=Legislative_Assembly.objects.get(id=f)
+            #print(int(loksabha))
+            is_valid = validate_email(e)
+            is_valid = True
+            if(l.actvated == 'yes'):
+                response = {'m':'Account already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
+                e=e.lower()
+                p = l.MLA_name
+                print(p)
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email already exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=False)
+                    passw=r.generate()
+                    print(passw)
+                    send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            # from:
+                            "mn@k.adhikar.net",
+                            # to:
+                            [e,]                             )
+                    q="MLA-"+str(f)
+                    user =User(email=e,first_name=q,last_name=p,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'mla')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    lp = assemblypersonal(mla=l,parentid =str(f))
+                    lp.save()
+                    child=assemblypersonal.objects.get(mla=l)
+                    z=child.pk
+                    l.actvated = 'yes'
+                    l.chldid =str(z)
+                    l.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {'m':'Kindly provide the mail'}
+            return Response(response, status=status.HTTP_200_OK)
+class AssemblypersonalViewSet(viewsets.ModelViewSet):
+    serializer_class = assemblypersonalSerializer
+    queryset = assemblypersonal.objects.all()
+class assemblypersonalViewSet(viewsets.ModelViewSet):
+    permission_classes = (Ismla,)
+    #queryset = loksabhapersonal.objects.all()
+    serializer_class = assemblypersonalSerializer
+    def get_queryset(self):
+        z=self.request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        return assemblypersonal.objects.all().filter(mla=p[1])
+    @action(detail=True, methods=['put'])
+    def assemblypersonal(self,request,pk=None):
+        u=self.get_object
 ######################################################################################################
 class Legislative_councils_Members_api(APIView):
     def get(self, request):
@@ -406,11 +637,90 @@ class Council_Members(APIView):
         serializer = LCSerializers(data, many=True)
         return Response(serializer.data)
 class Party_Wise_Council_Candidates_api(APIView):
+    permission_classes = (Isparty,)
     def get(self, request):
-        data = Party.objects.all()
+        z=request.user.first_name
+        z1=z.split("-")
+        data = Party.objects.all().filter(abbreviation=z1[1])
         serializer = LCPSerializers(data, many=True)
         return Response(serializer.data)
+    def post(self, request):
+        if 'email' in request.data:
+            e = request.data['email']
+            f=request.data['id']
+            f=str(f)
+            #print(LokSabha.objects.get(id=3))
+            l=Legislative_councils.objects.get(id=f)
+            #print(int(loksabha))
+            is_valid = validate_email(e)
+            is_valid = True
+            if(l.actvated == 'yes'):
+                response = {'m':'This account is already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
+                e=e.lower()
+                p = l.MLC_name
+                print(p)
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email already exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=False)
+                    passw=r.generate()
+                    send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            # from:
+                            "mn@k.adhikar.net",
+                            # to:
+                            [e,]                             )
+                    q="MLC-"+f
+                    user =User(email=e,first_name=q,last_name=p,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'mlc')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    lp = councilpersonal(mlc=l,parentid = f)
+                    lp.save()
+                    child=councilpersonal.objects.get(mlc=l)
+                    z=child.pk
+                    l.actvated='yes'
+                    l.chldid =str(z)
+                    l.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {'m':'Kindly provide the mail'}
+            return Response(response, status=status.HTTP_200_OK)
+class councilpersonalViewSet(viewsets.ModelViewSet):
+    permission_classes = (Ismlc,)
+    #queryset = loksabhapersonal.objects.all()
+    serializer_class = councilpersonalSerializer
+    def get_queryset(self):
+        z=self.request.user.first_name
+        p=z.split("-")
+        print(p[1])
+        return councilpersonal.objects.all().filter(mlc=p[1])
+    @action(detail=True, methods=['put'])
+    def personal(self,request,pk=None):
+        u=self.get_object
 
+class CouncilpersonalViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing user instances.
+    """
+    serializer_class = councilpersonalSerializer
+    queryset = councilpersonal.objects.all()
 #########################################################################################################
 
 

@@ -26,14 +26,25 @@ admin.site.register(Party, ImportExportModelAdmin)
 
 admin.site.register(States, ImportExportModelAdmin)
 
-admin.site.register(Rajyasabha, ImportExportModelAdmin)
+class rajyasabhaAdmin(admin.ModelAdmin):
+    search_fields = ('MP_name',)
+admin.site.register(Rajyasabha,rajyasabhaAdmin)
+
 ##### Loksabha
 admin.site.register(LokSabha, ImportExportModelAdmin)
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
 class loksabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
 admin.site.register(loksabhapersonal, loksabhapersonalAdmin)
-
+class rajyasabhapersonalAdmin(admin.ModelAdmin):
+    search_fields = ('mp',)
+admin.site.register(rajyasabhapersonal, rajyasabhapersonalAdmin)
+class assemblypersonalAdmin(admin.ModelAdmin):
+    search_fields = ('mla',)
+admin.site.register(assemblypersonal, assemblypersonalAdmin)
+class councilpersonalAdmin(admin.ModelAdmin):
+    search_fields = ('mlc',)
+admin.site.register(councilpersonal, councilpersonalAdmin)
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
 admin.site.register(Legislative_councils, ImportExportModelAdmin)
