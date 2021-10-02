@@ -36,8 +36,6 @@ choice1 = (
     ('x', 'x')
 )
 
-class Movie(models.Model):
-    name = models.CharField(max_length=32)
 class State(models.Model):
     status = (
         ('state', 'state'),
@@ -65,21 +63,7 @@ class City(models.Model):
     City_name = models.CharField(max_length=100)
     def __str__(self):
         return str(self.City_name)
-class Ecandidates(models.Model):
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    partyname = models.CharField(max_length=100, default='')
-    Candidate = models.CharField(max_length=100, default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Residence = models.TextField(max_length=200, default='')
-    Photo = models.ImageField(upload_to='photo/', default='')
-    Email_address = models.EmailField(max_length=100, default='')
-    Mobile = PhoneNumberField(blank=True)
 
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        return str(self.State)
 class Party(models.Model):
     choice = (
         ('Regional', 'regional'),
@@ -177,52 +161,6 @@ class rajyasabhapersonal(personal):
     def __str__(self):
         return '%s' % (self.mp)
 
-class Author(models.Model):
-    salutation = models.CharField(max_length=10)
-    name = models.CharField(max_length=200)
-    email = models.EmailField()
-    birth_date = models.DateField(null=True, blank=True)
-    biography = models.TextField(null=True, blank=True)
-    phone_number = models.CharField(max_length=200, null=True, blank=True)
-    website = models.URLField(null=True, blank=True)
-    company = models.CharField(max_length=200, null=True, blank=True)
-    company_phone_number = models.CharField(max_length=200,
-                                            null=True,
-                                            blank=True)
-    company_email = models.EmailField(null=True, blank=True)
-    company_website = models.URLField(null=True, blank=True)
-
-    # List the fields for `PersonalContactInformationSerializer` nested
-    # serializer. This does not cause a model change.
-    personal_contact_information = NestedProxyField(
-        'email',
-        'phone_number',
-        'website',
-    )
-
-    # List the fields for `BusinessContactInformationSerializer` nested
-    # serializer. This does not cause a model change.
-    business_contact_information = NestedProxyField(
-        'company',
-        'company_email',
-        'company_phone_number',
-        'company_website',
-    )
-
-    # List the fields for `ContactInformationSerializer` nested
-    # serializer. This does not cause a model change.
-    contact_information = NestedProxyField(
-        'personal_contact_information',
-        'business_contact_information',
-    )
-
-    class Meta(object):
-        """Meta options."""
-
-        ordering = ["id"]
-
-    def __str__(self):
-        return self.name
 #######   LokSabha
 class LokSabha(Parliament):
     state = models.ForeignKey(State, related_name='Loksabha_Candidates', on_delete=models.CASCADE, null=True,
@@ -332,7 +270,7 @@ class Legislative_councils(Parliament):
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
     class Meta:
         unique_together = ['MLC_name']
-        
+
     def __str__(self):
         return str(self.MLC_name)
 class councilpersonal(personal):
@@ -352,6 +290,61 @@ class Legislative_Council_Presence(models.Model):
 
     def __str__(self):
         return str(self.State)
+
+############## CARPORATION    #############################
+
+class municipalcorporation(models.Model):
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')
+    corporation_name = models.CharField(max_length=100, default='')
+    formationdate =  models.CharField(max_length=100, default='')
+    population = models.CharField(max_length=100, default='')
+    lastelectionyear = models.CharField(max_length=100, default='')
+    areainkm2 = models.CharField(max_length=100, default='')
+class Mayor(Parliament):
+    Mayor_Name = models.CharField(max_length=100, default='')
+    party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
+    corporation = models.ForeignKey(municipalcorporation, on_delete=models.SET_NULL, null=True)
+class mayorpersonal(personal):
+    mayor = models.ForeignKey(Mayor, on_delete=models.SET_NULL, null=True,)
+    class Meta:
+        unique_together = ['mayor']
+    def __str__(self):
+        return '%s' % (self.mayor)
+class deputymayor(Parliament):
+    DeputyMayor_Name = models.CharField(max_length=100, default='')
+    party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
+    corporation = models.ForeignKey(municipalcorporation, on_delete=models.SET_NULL, null=True)
+class deputymayorpersonal(personal):
+    deputymayor = models.ForeignKey(deputymayor, on_delete=models.SET_NULL, null=True,)
+    class Meta:
+        unique_together = ['deputymayor']
+    def __str__(self):
+        return '%s' % (self.deputymayor)
+
+
+class Municipal_Corporation(models.Model):
+    Municipal_Corporation_Name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return str(self.Municipal_Corporation_Name)
+
+
+class Corporator(models.Model):
+    State = models.ForeignKey(State, related_name='Corporation_Name', on_delete=models.CASCADE, null=True,
+                              default='')
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Municipal_Corporation_Name = models.ForeignKey(Municipal_Corporation, related_name='Corporation_Namees',
+                                                   on_delete=models.CASCADE, null=True,
+                                                   default='')
+    Ward_Name = models.CharField(max_length=100, default='')
+    Corporator_Name = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
+
+
 class Time_period(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     start_date = models.DateField()
@@ -770,43 +763,6 @@ class Flag(models.Model):
         return str(self.Red1)
 
 
-class Mayor(models.Model):
-    State = models.ForeignKey(State, related_name='Corporation_Details', on_delete=models.CASCADE, null=True,
-                              default='')
-    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Municipal_Corporation_Name = models.CharField(max_length=100, default='')
-    Mayor_Name = models.CharField(max_length=100, default='')
-    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
-    party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    areainkm2 =  models.CharField(max_length=100, default='')
-    population = models.CharField(max_length=100, default='')
-    formationyear = models.CharField(max_length=100, default='')
-    lastelectionyear = models.CharField(max_length=100, default='')
-
-
-    def __str__(self):
-        return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
-
-
-class Municipal_Corporation(models.Model):
-    Municipal_Corporation_Name = models.CharField(max_length=100, default='')
-
-    def __str__(self):
-        return str(self.Municipal_Corporation_Name)
-
-
-class Corporator(models.Model):
-    State = models.ForeignKey(State, related_name='Corporation_Name', on_delete=models.CASCADE, null=True,
-                              default='')
-    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Municipal_Corporation_Name = models.ForeignKey(Municipal_Corporation, related_name='Corporation_Namees',
-                                                   on_delete=models.CASCADE, null=True,
-                                                   default='')
-    Ward_Name = models.CharField(max_length=100, default='')
-    Corporator_Name = models.CharField(max_length=100, default='')
-
-    def __str__(self):
-        return '%s: %s' % (self.State, self.Municipal_Corporation_Name)
 
 
 class Collector(models.Model):

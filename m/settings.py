@@ -20,23 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
 
 
-'''
-CORS_ALLOWED_ORIGINS = [
-'http://localhost:4200',
-'https://www.adhikar.net',
-'http://localhost:8100',
-'*',
 
-]'''
-CORS_ALLOW_ALL_ORIGINS = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -101,17 +88,7 @@ WSGI_APPLICATION = 'm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'adhikaran',
-        'USER': 'postgres',
-        'PASSWORD': 'm&mohan',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
 
-}
 
 
 # Password validation
@@ -166,9 +143,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adhikar869@gmail.com'
-EMAIL_HOST_PASSWORD = 'M&mohan869'   
+
+try :
+    from .local_settings import *
+except ImportError:
+    pass

@@ -7,69 +7,6 @@ from rest_framework_tricks.serializers import (
     ModelSerializer,
 )
 
-class PersonalContactInformationSerializer(serializers.ModelSerializer):
-    """Personal contact information serializer."""
-
-    class Meta(object):
-        """Meta options."""
-
-        model = Author
-        fields = (
-            'email',
-            'phone_number',
-            'website',
-        )
-        nested_proxy_field = True
-class BusinessContactInformationSerializer(serializers.ModelSerializer):
-    """Business contact information serializer."""
-
-    class Meta(object):
-        """Meta options."""
-
-        model = Author
-        fields = (
-            'company',
-            'company_email',
-            'company_phone_number',
-            'company_website',
-        )
-        nested_proxy_field = True
-class ContactInformationSerializer(serializers.ModelSerializer):
-    """Contact information serializer."""
-
-    personal_contact_information = PersonalContactInformationSerializer(
-        required=False
-    )
-    business_contact_information = BusinessContactInformationSerializer(
-        required=False
-    )
-
-    class Meta(object):
-        """Meta options."""
-
-        model = Author
-        fields = (
-            'personal_contact_information',
-            'business_contact_information',
-        )
-        nested_proxy_field = True
-class AuthorSerializer(ModelSerializer):
-    """Author serializer."""
-
-    contact_information = ContactInformationSerializer(required=False)
-
-    class Meta(object):
-        """Meta options."""
-
-        model = Author
-        fields = (
-            'id',
-            'salutation',
-            'name',
-            'birth_date',
-            'biography',
-            'contact_information',
-        )
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
 
@@ -89,10 +26,6 @@ class UserSerializer(serializers.ModelSerializer):
         Token.objects.create(user=user)
         return user
 
-class MovieSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Movie
-        fields = ['id', 'name']
 
 class PSerializers(serializers.ModelSerializer):
     class Meta:

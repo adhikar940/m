@@ -2,8 +2,6 @@ from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
 from .models import *
 
-admin.site.register(Author, ImportExportModelAdmin)
-# Register your models here.
 admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMP, ImportExportModelAdmin)
@@ -20,7 +18,6 @@ admin.site.register(Legislative_council_Session, ImportExportModelAdmin)
 
 admin.site.register(user_profile, ImportExportModelAdmin)
 
-admin.site.register(Movie, ImportExportModelAdmin)
 
 admin.site.register(Party, ImportExportModelAdmin)
 

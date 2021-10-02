@@ -68,11 +68,7 @@ class Ismla(IsGroupUser):
     group = 'mla'
 class Ismlc(IsGroupUser):
     group = 'mlc'
-class AuthorViewSet(ModelViewSet):
-    """Author ViewSet."""
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    permission_classes = [AllowAny]
+
 def check(email):
     # pass the regular expression
     # and the string in search() method
@@ -210,13 +206,6 @@ class PartyViewSet(viewsets.ModelViewSet):
             return Response(response, status=status.HTTP_200_OK)
 
 
-class MovieViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Movie.objects.all().filter(name='df')
-    serializer_class = MovieSerializer
-    #permission_classes = [permissions.IsAuthenticated]
 
 
 
