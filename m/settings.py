@@ -145,6 +145,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 try :
-    from .local_settings import *
+    from .a import *
 except ImportError:
     pass
