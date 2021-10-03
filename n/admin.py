@@ -23,9 +23,10 @@ admin.site.register(Party, ImportExportModelAdmin)
 
 admin.site.register(States, ImportExportModelAdmin)
 
-class rajyasabhaAdmin(admin.ModelAdmin):
+'''class rajyasabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
-admin.site.register(Rajyasabha,rajyasabhaAdmin)
+admin.site.register(Rajyasabha,rajyasabhaAdmin)'''
+admin.site.register(Rajyasabha, ImportExportModelAdmin)
 
 ##### Loksabha
 admin.site.register(LokSabha, ImportExportModelAdmin)
