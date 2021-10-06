@@ -120,21 +120,15 @@ class PartyViewSet(viewsets.ModelViewSet):
         if 'email' in request.data:
             e = request.data['email']
             is_valid = validate_email(e)
-            print(is_valid)
-            print(re.search(regex, e))
             is_valid = True
-
             party=Party.objects.get(id=pk)
             if(party.actvated == 'yes'):
                 response = {'m':'Account already activated'}
                 return Response(response, status=status.HTTP_200_OK)
             elif(is_valid == True or None):
-
                 e=e.lower()
                 p = party.abbreviation
                 p1=party.partyname
-
-                print(p)
                 if User.objects.filter(email=e).exists():
                     response = {'m':'This email already exists'}
                     return Response(response, status=status.HTTP_200_OK)
@@ -145,8 +139,6 @@ class PartyViewSet(viewsets.ModelViewSet):
                     special_chars=r"@_!#$%^&*()<>?/\|}{~:",
                     include_special_chars=False)
                     passw=r.generate()
-                    print(passw)
-                    print(config)
                     send_mail(
                         # title:
                         "Account created for {title}".format(title="www.adhikar.net"),
@@ -155,14 +147,13 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # from:
                         mnf ,
                         # to:
-                        [e,]
+                        [e,"adhikar869@gmail.com"]
                     )
                     q="party-"+p+"-"+pk
                     user =User(email=e,first_name=q,last_name=p1,username=e)
                     user.set_password(passw)
                     user.save()
                     new_group = Group.objects.get(name = 'party')
-                    print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
                     user = User.objects.get(username = e)
                     user.groups.add(new_group)
                     party.actvated = 'yes'

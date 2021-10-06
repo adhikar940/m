@@ -112,7 +112,7 @@ class Parliament(models.Model):
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
     address = models.TextField(max_length=600, default='')
     Email_address = models.EmailField(max_length=100, default='')
-    Mobile = models.CharField(max_length=100, default='+91')
+    Mobile = models.CharField(max_length=100, default='')
     chldid = models.CharField(max_length=100, default='no')
     class Meta:
         abstract = True
@@ -619,128 +619,72 @@ class Loksabha_Chairman(models.Model):
 
 ###################################################################################################################
 
-class Parliament_Leaders(models.Model):
-    Gender = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
-    )
-    gender = models.CharField(max_length=10, choices=Gender, default='Male')
-    fathers_Name = models.CharField(max_length=100, default='')
-    Spouse_Name = models.CharField(max_length=100, default='')
-    Highest_Education = models.CharField(max_length=100, default='')
-    University = models.CharField(max_length=100, default='')
-    Profile_photo = models.ImageField(upload_to='photo/', null=True, blank=True)
-    Address = models.TextField(max_length=600, default='')
-    childhood_and_Education = models.TextField(default='')
-    childhood_and_Education_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    About_Me = models.TextField(default='')
-    About_Me_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    aims_Goal_and_Dream = models.TextField(default='')
-    aims_Goal_and_Dream_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Message_For_Followers = models.TextField(default='')
-    Email_address = models.EmailField(max_length=100, default='')
-    Mobile = PhoneNumberField(blank=True)
-
-    class Meta:
-        abstract = True
-
-
-class Current_Prime_Minister(Parliament_Leaders):
+class Current_Prime_Minister(Parliament):
     Full_Name = models.CharField(max_length=100, default='Narendra Damodardas Modi')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_President(Parliament_Leaders):
+class Current_President(Parliament):
     Full_Name = models.CharField(max_length=100, default='Ram Nath Kovind')
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Vice_President(Parliament_Leaders):
+class Current_Vice_President(Parliament):
     Full_Name = models.CharField(max_length=100, default='Muppavarapu Venkaiah Naidu')
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Loksabha_Speaker(Parliament_Leaders):
+class Current_Loksabha_Speaker(Parliament):
     Full_Name = models.CharField(max_length=100, default='OM Birla')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
+
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Loksabha_Deputy_Speaker(Parliament_Leaders):
+class Current_Loksabha_Deputy_Speaker(Parliament):
     Full_Name = models.CharField(max_length=100, default='M Thambi Durai')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Loksabha_Opposition_Leader(Parliament_Leaders):
+class Current_Loksabha_Opposition_Leader(Parliament):
     Full_Name = models.CharField(max_length=100, default='')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Rajyasabha_House_Leader(Parliament_Leaders):
+class Current_Rajyasabha_House_Leader(Parliament):
     Full_Name = models.CharField(max_length=100, default='Thawar Chand Gehlot')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Rajyasabha_Deputy_Speaker(Parliament_Leaders):
+class Current_Rajyasabha_Deputy_Speaker(Parliament):
     Full_Name = models.CharField(max_length=100, default='Harivansh Narayan Singh')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
 
 
-class Current_Rajyasabha_Opposition_Leader(Parliament_Leaders):
+class Current_Rajyasabha_Opposition_Leader(Parliament):
     Full_Name = models.CharField(max_length=100, default='Gulam Nabi Azad')
-    party_name = models.CharField(max_length=100, default='')
     Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    Personal_Life = models.TextField(default='')
-    Personal_Life_Photo = models.ImageField(upload_to='uploads/', blank=True)
-    Political_Career = models.TextField(default='')
-    Political_Career_Photo = models.ImageField(upload_to='uploads/', blank=True)
 
     def __str__(self):
         return str(self.Full_Name)
