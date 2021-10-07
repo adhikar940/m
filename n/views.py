@@ -358,11 +358,9 @@ class LokSabha_Members(APIView):
 #@allowed_users(allowed_roles=['admin'])
 class stateWise_Loksabha_Candidates_api(APIView):
     def get(self, request):
-        if 'state' in request.data:
-            e = request.data['state']
-            data = LokSabha.objects.all().filter(state=e)
-            serializer = LSerializers(data, many=True)
-            return Response(serializer.data)
+        data = LokSabha.objects.all().filter(state=request.GET["state"])
+        serializer = LSerializers(data, many=True)
+        return Response(serializer.data)
 class PartyandstateWise_Loksabha_Candidates_api(APIView):
     permission_classes = (Isparty,)
     def post(self, request):
