@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^City_api/', user_views.City_api.as_view()),
 
     ##########################################################################################################
-    url(r'^bihar_api/', user_views.Bihar_api.as_view()),
+
     url(r'^party_api/', user_views.Party_api.as_view()),
     url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
 url(r'^state_api/', user_views.State_api.as_view()),
@@ -45,6 +45,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
 
     url(r'^LokSabha_Candidates_api/', user_views.LokSabha_Members_api.as_view()),
     url(r'^State_Wise_Loksabha_Candidates_api/', user_views.State_Wise_Loksabha_Candidates_api.as_view()),
+    url(r'^stateWise_Loksabha_Candidates_api/', user_views.stateWise_Loksabha_Candidates_api.as_view()),
     url(r'^party_lok_api/', user_views.Party_Wise_Loksabha_Candidates_api.as_view()),
     url(r'^stateparty_lok_api/', user_views.PartyandstateWise_Loksabha_Candidates_api.as_view()),
     url(r'^lokpersonal_api/', user_views.loksabhapersonal_api.as_view()),

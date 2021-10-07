@@ -196,24 +196,11 @@ class PartyViewSet(viewsets.ModelViewSet):
             response = {'m':'Kindly provide the mail'}
             return Response(response, status=status.HTTP_200_OK)
 
-
-
-
-
-class Bihar_api(APIView):
-    def get(self, request):
-        data = BiharCandidate.objects.all()
-        serializer = BiharCandidateSerializers(data, many=True)
-        return Response(serializer.data)
-
-
-
 class Party_api(APIView):
     def get(self, request):
         data = Party.objects.all()
         serializer = PartySerializers(data, many=True)
         return Response(serializer.data)
-
 
 class Coalition_Party_api(APIView):
     def get(self, request):
@@ -225,8 +212,6 @@ class State_api(APIView):
         data = State.objects.all()
         serializer = stateSerializers(data, many=True)
         return Response(serializer.data)
-
-
 
 class States_api(APIView):
     def get(self, request):
@@ -353,7 +338,7 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['put'])
     def rajyasabhapersonal(self,request,pk=None):
         u=self.get_object
-####################################################################################################
+####################       LOKSABHA     ###################################################################
 class LokSabha_Members_api(APIView):
     def get(self,request):
         mnl=39
@@ -371,6 +356,13 @@ class LokSabha_Members(APIView):
         serializer = LSerializers(data, many=True)
         return Response(serializer.data)
 #@allowed_users(allowed_roles=['admin'])
+class stateWise_Loksabha_Candidates_api(APIView):
+    def get(self, request):
+        if 'state' in request.data:
+            e = request.data['state']
+            data = LokSabha.objects.all().filter(state=e)
+            serializer = LSerializers(data, many=True)
+            return Response(serializer.data)
 class PartyandstateWise_Loksabha_Candidates_api(APIView):
     permission_classes = (Isparty,)
     def post(self, request):
