@@ -127,7 +127,7 @@ class LSerializers(serializers.ModelSerializer):
     class Meta:
         model = LokSabha
         fields = ['id','state','Districts', 'constituency_name', 'MP_name', 'Party',
-                   'photo','presentorx','actvated']
+                   'photo','presentorx','actvated','chldid']
 class LPSerializers(serializers.ModelSerializer):
     LP = LSerializers(many=True, read_only=True)
     class Meta:

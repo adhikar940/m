@@ -341,8 +341,11 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
 ####################       LOKSABHA     ###################################################################
 class LokSabha_Members_api(APIView):
     def get(self,request):
-        mnl=39
-        data = LokSabha.objects.all()
+        if(request.GET["MP_name"]==''):
+            data = LokSabha.objects.all().filter(state=request.GET["state"])
+        else :
+            data = LokSabha.objects.all().filter(state=request.GET["state"], MP_name=request.GET["MP_name"])
+        
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
 class State_Wise_Loksabha_Candidates_api(APIView):
@@ -362,6 +365,7 @@ class stateWise_Loksabha_Candidates_api(APIView):
             data = LokSabha.objects.all().filter(state=request.GET["state"])
         else :
             data = LokSabha.objects.all().filter(state=request.GET["state"], id=request.GET["id"])
+        #data = LokSabha.objects.all().filter(state=request.GET["state"], id=request.GET.get["id"])
         serializer = LSerializers(data, many=True)
         return Response(serializer.data)
 class PartyandstateWise_Loksabha_Candidates_api(APIView):
