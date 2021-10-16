@@ -63,11 +63,16 @@ class statesSerializers(serializers.ModelSerializer):
 ##########################################################################################
 
 # FOR RAJYASABHA
-
+class RajyasabhapresedentialSerializers(serializers.ModelSerializer):
+    #State = serializers.StringRelatedField()
+    #Party = serializers.StringRelatedField()
+    class Meta:
+        model = Rajyasabha
+        fields = ['MP_name', 'party_name', 'field', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+                  'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile', 'chldid']
 class RajyasabhaSerializers(serializers.ModelSerializer):
     #State = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
-
     class Meta:
         model = Rajyasabha
         fields = ['MP_name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
@@ -77,7 +82,7 @@ class State_RajyasabhaSerializer(serializers.ModelSerializer):
     Rajyasabha_Candidates = RajyasabhaSerializers(many=True, read_only=True)
     class Meta:
         model = State
-        fields = ['State_name', 'Rajyasabha_Candidates']
+        fields = ['State_name','Status', 'Rajyasabha_Candidates']
 class RSerializers(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()

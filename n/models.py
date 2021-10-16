@@ -135,6 +135,24 @@ class personal(models.Model):
     Message_For_Followersphoto =  Base64Field(max_length=900000, blank=True, null=True)
 
 ######## Rajyasabha
+class Rajyasabhapresedential(Parliament):
+    choice = (
+        ('Legislature', 'Legislature'),
+        ('President', 'President')
+    )
+    #state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,default='')
+    MP_name = models.CharField(max_length=300, default='')
+    #Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
+    field = models.CharField(max_length=300, default='')
+    elected = models.CharField(max_length=500, choices=choice, default='President')
+    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
+    actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    class Meta:
+        unique_together = ['MP_name']
+        ordering = ['MP_name']
+
+    def __str__(self):
+        return str(self.MP_name)
 class Rajyasabha(Parliament):
     choice = (
         ('Legislature', 'Legislature'),
@@ -144,7 +162,7 @@ class Rajyasabha(Parliament):
                               default='')
     MP_name = models.CharField(max_length=300, default='')
     Party = models.ForeignKey(Party,related_name='RP',  on_delete=models.SET_NULL, null=True)
-    elected = models.CharField(max_length=500, choices=choice, default='')
+    elected = models.CharField(max_length=500, choices=choice, default='Legislature')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
     class Meta:

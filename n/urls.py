@@ -37,7 +37,9 @@ url(r'^state_api/', user_views.State_api.as_view()),
     ############################        Rajya Sabha           ####################################################
 
     url(r'^Rajyasabha_Candidates_api/', user_views.Rajyasabha_Members_api.as_view()),
+    url(r'^Rajyasabhapresedent/', user_views.Rajyasabhapresedent.as_view()),
     url(r'^State_Wise_Rajyasabha_Candidates_api/', user_views.State_Wise_Rajyasabha_Candidates_api.as_view()),
+    url(r'^stateWise_Rajyasabha_Candidates_api/', user_views.stateWise_Rajyasabha_Candidates_api.as_view()),
     url(r'^party_raj_api/', user_views.Party_Wise_Rajyasabha_Candidates_api.as_view()),
 
 
@@ -55,6 +57,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^Assembly_Candidates_api/', user_views.Legislative_Assembly_Members_api.as_view()),
     url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
     url(r'^District_Wise_Assembly_Candidates_api/', user_views.District_Wise_Assembly_Candidates_api.as_view()),
+    url(r'^district_Wise_Assembly_Candidates_api/', user_views.districtWise_assembly_Candidates_api.as_view()),
     url(r'^party_assembly_api/', user_views.Party_Wise_Assembly_Candidates_api.as_view()),
     url(r'^partyandstateassembly_api/', user_views.PartyandstateWise_assembly_Candidates_api.as_view()),
 
@@ -65,7 +68,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^Legislative_Councils_Candidates_api/', user_views.Legislative_councils_Members_api.as_view()),
     url(r'^State_Wise_Council_Candidates_api/', user_views.State_Wise_Council_Candidates_api.as_view()),
     url(r'^party_coucil_api/', user_views.Party_Wise_Council_Candidates_api.as_view()),
-
+    url(r'^statewise_Council_Candidates_api/', user_views.stateWise_Council_Candidates_api.as_view()),
     ##########################################################################################################
 
     url(r'^Assembly_time_period_api/', user_views.Assembly_time_period_api.as_view()),

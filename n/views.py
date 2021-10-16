@@ -227,11 +227,23 @@ class Rajyasabha_Members_api(APIView):
         data = Rajyasabha.objects.all()
         serializer = RajyasabhaSerializers(data, many=True)
         return Response(serializer.data)
-
+class Rajyasabhapresedent(APIView):
+    def get(self,request):
+        data = Rajyasabhapresedential.objects.all()
+        serializer = RajyasabhapresedentialSerializers(data, many=True)
+        return Response(serializer.data)
 class State_Wise_Rajyasabha_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
         serializer = State_RajyasabhaSerializer(data, many=True)
+        return Response(serializer.data)
+class stateWise_Rajyasabha_Candidates_api(APIView):
+    def get(self, request):
+        if(request.GET["id"]==''):
+            data = Rajyasabha.objects.all().filter(state=request.GET["state"])
+        else :
+            data = Rajyasabha.objects.all().filter(state=request.GET["state"], id=request.GET["id"])
+        serializer = RSerializers(data, many=True)
         return Response(serializer.data)
 class RajyaSabha_Members(APIView):
     def get(self,request):
@@ -345,7 +357,7 @@ class LokSabha_Members_api(APIView):
             data = LokSabha.objects.all().filter(state=request.GET["state"])
         else :
             data = LokSabha.objects.all().filter(state=request.GET["state"], MP_name=request.GET["MP_name"])
-        
+
         serializer = LokSabhaSerializers(data, many=True)
         return Response(serializer.data)
 class State_Wise_Loksabha_Candidates_api(APIView):
@@ -491,6 +503,17 @@ class District_Wise_Assembly_Candidates_api(APIView):
         data = Districts.objects.all()
         serializer = District_Wise_AssemblySerializer(data, many=True)
         return Response(serializer.data)
+class districtWise_assembly_Candidates_api(APIView):
+    def get(self, request):
+        if(request.GET["id"]==''):
+            if(request.GET["dt"]==''):
+                data = Legislative_councils.objects.all().filter(state=request.GET["state"])
+            else :
+                data = Legislative_councils.objects.all().filter(state=request.GET["state"], Districts=request.GET["dt"])
+        else :
+            data = Legislative_councils.objects.all().filter(state=request.GET["state"], Districts=request.GET["dt"], id=request.GET["id"])
+        serializer = ASerializers(data, many=True)
+        return Response(serializer.data)
 class Assembly_Members(APIView):
     def get(self,request):
         data =Legislative_Assembly.objects.all()
@@ -607,6 +630,14 @@ class State_Wise_Council_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
         serializer = State_councilSerializer(data, many=True)
+        return Response(serializer.data)
+class stateWise_Council_Candidates_api(APIView):
+    def get(self, request):
+        if(request.GET["id"]==''):
+            data = Legislative_councils.objects.all().filter(state=request.GET["state"])
+        else :
+            data = Legislative_councils.objects.all().filter(state=request.GET["state"], id=request.GET["id"])
+        serializer = LCSerializers(data, many=True)
         return Response(serializer.data)
 class Council_Members(APIView):
     def get(self,request):

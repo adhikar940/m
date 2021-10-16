@@ -30,7 +30,7 @@ admin.site.register(Rajyasabha,rajyasabhaAdmin)
 class rajyasabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
 admin.site.register(rajyasabhapersonal, rajyasabhapersonalAdmin)
-
+admin.site.register(Rajyasabhapresedential, ImportExportModelAdmin)
 ##### Loksabha
 class loksabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
