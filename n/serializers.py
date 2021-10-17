@@ -67,7 +67,7 @@ class RajyasabhapresedentialSerializers(serializers.ModelSerializer):
     #State = serializers.StringRelatedField()
     #Party = serializers.StringRelatedField()
     class Meta:
-        model = Rajyasabha
+        model = Rajyasabhapresedential
         fields = ['MP_name', 'party_name', 'field', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile', 'chldid']
 class RajyasabhaSerializers(serializers.ModelSerializer):
