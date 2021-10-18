@@ -58,6 +58,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^State_Wise_Assembly_Candidates_api/', user_views.State_Wise_Assembly_Candidates_api.as_view()),
     url(r'^District_Wise_Assembly_Candidates_api/', user_views.District_Wise_Assembly_Candidates_api.as_view()),
     url(r'^district_Wise_Assembly_Candidates_api/', user_views.districtWise_assembly_Candidates_api.as_view()),
+    url(r'^districtAssembly_Candidates_api/', user_views.DistrictAssembly_Candidates_api.as_view()),
     url(r'^party_assembly_api/', user_views.Party_Wise_Assembly_Candidates_api.as_view()),
     url(r'^partyandstateassembly_api/', user_views.PartyandstateWise_assembly_Candidates_api.as_view()),
 

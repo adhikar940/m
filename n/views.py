@@ -503,15 +503,23 @@ class District_Wise_Assembly_Candidates_api(APIView):
         data = Districts.objects.all()
         serializer = District_Wise_AssemblySerializer(data, many=True)
         return Response(serializer.data)
+class DistrictAssembly_Candidates_api(APIView):
+    def get(self, request):
+        if(request.GET["id"]==''):
+            data = Legislative_Assembly.objects.all().filter(District=request.GET["dt"])
+        else :
+            data = Legislative_Assembly.objects.all().filter(District=request.GET["dt"], id=request.GET["id"])
+        serializer =ASerializers(data, many=True)
+        return Response(serializer.data)
 class districtWise_assembly_Candidates_api(APIView):
     def get(self, request):
         if(request.GET["id"]==''):
             if(request.GET["dt"]==''):
-                data = Legislative_councils.objects.all().filter(state=request.GET["state"])
+                data = Legislative_Assembly.objects.all().filter(state=request.GET["state"])
             else :
-                data = Legislative_councils.objects.all().filter(state=request.GET["state"], Districts=request.GET["dt"])
+                data = Legislative_Assembly.objects.all().filter(state=request.GET["state"], District=request.GET["dt"])
         else :
-            data = Legislative_councils.objects.all().filter(state=request.GET["state"], Districts=request.GET["dt"], id=request.GET["id"])
+            data = Legislative_Assembly.objects.all().filter(state=request.GET["state"], District=request.GET["dt"], id=request.GET["id"])
         serializer = ASerializers(data, many=True)
         return Response(serializer.data)
 class Assembly_Members(APIView):
