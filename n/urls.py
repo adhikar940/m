@@ -63,9 +63,8 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^partyandstateassembly_api/', user_views.PartyandstateWise_assembly_Candidates_api.as_view()),
     url(r'^specificAssembly_Candidates_api/', user_views.SpecificAssembly_Candidates_api.as_view()),
 
-
     ###########################################################################################################
-
+url(r'^specificCouncils_Candidates_api/', user_views.specificCouncil_Candidates_api.as_view()),
     url(r'^Legislative_Councils_Candidates_api/', user_views.Legislative_councils_Members_api.as_view()),
     url(r'^State_Wise_Council_Candidates_api/', user_views.State_Wise_Council_Candidates_api.as_view()),
     url(r'^party_coucil_api/', user_views.Party_Wise_Council_Candidates_api.as_view()),

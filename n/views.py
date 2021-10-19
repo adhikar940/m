@@ -639,6 +639,11 @@ class Legislative_councils_Members_api(APIView):
         data = Legislative_councils.objects.all()
         serializer = Legislative_councilsSerializer(data, many=True)
         return Response(serializer.data)
+class specificCouncil_Candidates_api(APIView):
+    def get(self, request):
+        data = Legislative_councils.objects.all().filter(id=request.GET["id"])
+        serializer = Legislative_councilsSerializer(data, many=True)
+        return Response(serializer.data)
 class State_Wise_Council_Candidates_api(APIView):
     def get(self, request):
         data = State.objects.all()
@@ -646,10 +651,7 @@ class State_Wise_Council_Candidates_api(APIView):
         return Response(serializer.data)
 class stateWise_Council_Candidates_api(APIView):
     def get(self, request):
-        if(request.GET["id"]==''):
-            data = Legislative_councils.objects.all().filter(state=request.GET["state"])
-        else :
-            data = Legislative_councils.objects.all().filter(state=request.GET["state"], id=request.GET["id"])
+        data = Legislative_councils.objects.all().filter(state=request.GET["state"])
         serializer = LCSerializers(data, many=True)
         return Response(serializer.data)
 class Council_Members(APIView):
