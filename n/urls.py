@@ -61,7 +61,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^districtAssembly_Candidates_api/', user_views.DistrictAssembly_Candidates_api.as_view()),
     url(r'^party_assembly_api/', user_views.Party_Wise_Assembly_Candidates_api.as_view()),
     url(r'^partyandstateassembly_api/', user_views.PartyandstateWise_assembly_Candidates_api.as_view()),
-
+    url(r'^specificAssembly_Candidates_api/', user_views.SpecificAssembly_Candidates_api.as_view()),
 
 
     ###########################################################################################################

@@ -503,6 +503,11 @@ class District_Wise_Assembly_Candidates_api(APIView):
         data = Districts.objects.all()
         serializer = District_Wise_AssemblySerializer(data, many=True)
         return Response(serializer.data)
+class SpecificAssembly_Candidates_api(APIView):
+    def get(self, request):
+        data = Legislative_Assembly.objects.all().filter(id=request.GET["id"])
+        serializer =Legislative_AssemblySerializers(data, many=True)
+        return Response(serializer.data)
 class DistrictAssembly_Candidates_api(APIView):
     def get(self, request):
         if(request.GET["id"]==''):
