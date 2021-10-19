@@ -216,11 +216,11 @@ class State_councilSerializer(serializers.ModelSerializer):
 class LCSerializers(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
-    Party = serializers.StringRelatedField()
+    party = serializers.StringRelatedField()
     class Meta:
         model = Legislative_councils
-        fields = ['id','state','Districts', 'constituency_name', 'MLC_name', 'Party',
-                   'photo','presentorx','actvated']
+        fields = ['id','state','Districts', 'constituency_name', 'MLC_name', 'party',
+                   'photo','presentorx','actvated','elected']
 class LCPSerializers(serializers.ModelSerializer):
     LC = LCSerializers(many=True, read_only=True)
     class Meta:
