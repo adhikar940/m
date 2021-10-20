@@ -239,11 +239,13 @@ class State_Wise_Rajyasabha_Candidates_api(APIView):
         return Response(serializer.data)
 class stateWise_Rajyasabha_Candidates_api(APIView):
     def get(self, request):
-        if(request.GET["id"]==''):
-            data = Rajyasabha.objects.all().filter(state=request.GET["state"])
-        else :
-            data = Rajyasabha.objects.all().filter(state=request.GET["state"], id=request.GET["id"])
+        data = Rajyasabha.objects.all().filter(state=request.GET["state"])
         serializer = RSerializers(data, many=True)
+        return Response(serializer.data)
+class specificRajyasabha_Candidates_api(APIView):
+    def get(self, request):
+        data = Rajyasabha.objects.all().filter(id=request.GET["id"])
+        serializer = RajyasabhaSerializers(data, many=True)
         return Response(serializer.data)
 class RajyaSabha_Members(APIView):
     def get(self,request):

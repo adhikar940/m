@@ -40,6 +40,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^Rajyasabhapresedent/', user_views.Rajyasabhapresedent.as_view()),
     url(r'^State_Wise_Rajyasabha_Candidates_api/', user_views.State_Wise_Rajyasabha_Candidates_api.as_view()),
     url(r'^stateWise_Rajyasabha_Candidates_api/', user_views.stateWise_Rajyasabha_Candidates_api.as_view()),
+    url(r'^specificRajyasabha_Candidates_api/', user_views.specificRajyasabha_Candidates_api.as_view()),
     url(r'^party_raj_api/', user_views.Party_Wise_Rajyasabha_Candidates_api.as_view()),
 
 
