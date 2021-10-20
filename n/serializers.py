@@ -90,7 +90,7 @@ class RSerializers(serializers.ModelSerializer):
     class Meta:
         model = Rajyasabha
         fields = ['id','state','Districts', 'MP_name', 'Party',
-                   'photo','presentorx','actvated']
+                   'photo','presentorx','actvated','elected']
 class RPSerializers(serializers.ModelSerializer):
     RP = RSerializers(many=True, read_only=True)
     class Meta:
