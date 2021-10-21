@@ -503,14 +503,14 @@ class Current_Prime_MinisterSerializers(serializers.ModelSerializer):
 class Current_PresidentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_President
-        fields = ['Full_Name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['Full_Name', 'party_name','gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University','photo', 'address', 'Email_address', 'Mobile', 'chldid' ]
 
 
 class Current_Vice_PresidentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Current_Vice_President
-        fields = ['Full_Name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['Full_Name', 'party_name',  'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University','photo', 'address', 'Email_address', 'Mobile', 'chldid' ]
 
 
