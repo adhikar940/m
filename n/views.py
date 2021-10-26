@@ -518,15 +518,9 @@ class DistrictAssembly_Candidates_api(APIView):
             data = Legislative_Assembly.objects.all().filter(District=request.GET["dt"], id=request.GET["id"])
         serializer =ASerializers(data, many=True)
         return Response(serializer.data)
-class districtWise_assembly_Candidates_api(APIView):
+class stateWise_assembly_Candidates_api(APIView):
     def get(self, request):
-        if(request.GET["id"]==''):
-            if(request.GET["dt"]==''):
-                data = Legislative_Assembly.objects.all().filter(state=request.GET["state"])
-            else :
-                data = Legislative_Assembly.objects.all().filter(state=request.GET["state"], District=request.GET["dt"])
-        else :
-            data = Legislative_Assembly.objects.all().filter(state=request.GET["state"], District=request.GET["dt"], id=request.GET["id"])
+        data = Legislative_Assembly.objects.all().filter(state=request.GET["state"])        
         serializer = ASerializers(data, many=True)
         return Response(serializer.data)
 class Assembly_Members(APIView):
