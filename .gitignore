@@ -13,3 +13,4 @@ n/migrations
 /static
 m/a.py
 /csvs
+n/config.py

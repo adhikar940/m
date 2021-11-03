@@ -33,8 +33,9 @@ from .decorators import *
 from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth.models import Group
 from rest_framework.decorators import api_view
-import config
+from . import kkkk
 from rest_framework.authtoken.views import ObtainAuthToken
+from django.http import HttpResponse
 mnf = "adhikar869@gmail.com"
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 '''class LlViewSet(ModelViewSet):
@@ -42,6 +43,19 @@ regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
     serializer_class = LlSerializer
     permission_classes = [AllowAny]'''
 from rest_framework.permissions import BasePermission
+def tmail(request):
+    print(kkkk.em)
+    send_mail(
+        # title:
+        "Account",
+        # message:
+        "Email Working",
+        # from:
+        kkkk.em,
+        # to:
+        [kkkk.e,]
+    )
+    return HttpResponse("Mail Sent")
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
@@ -147,7 +161,7 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # from:
                         mnf ,
                         # to:
-                        [e,"adhikar869@gmail.com"]
+                        [e,]
                     )
                     q="party-"+p+"-"+pk
                     user =User(email=e,first_name=q,last_name=p1,username=e)
@@ -520,7 +534,7 @@ class DistrictAssembly_Candidates_api(APIView):
         return Response(serializer.data)
 class stateWise_assembly_Candidates_api(APIView):
     def get(self, request):
-        data = Legislative_Assembly.objects.all().filter(state=request.GET["state"])        
+        data = Legislative_Assembly.objects.all().filter(state=request.GET["state"])
         serializer = ASerializers(data, many=True)
         return Response(serializer.data)
 class Assembly_Members(APIView):

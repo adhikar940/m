@@ -18,10 +18,10 @@ router = DefaultRouter()
 urlpatterns = [
 
     path('', include(router.urls)),
+    path('test1/',views.tmail),
     path('login/', views.loginPage, name="login"),
     #url(r'^personalimages/', user_views.personalimages_api.as_view()),
-    ##########################################################################################################
-
+    ##########################################################################################################    
     url(r'^State_api/', user_views.State_api.as_view()),
     url(r'^Districts_api/', user_views.Districts_api.as_view()),
     url(r'^State_Wise_Districts_api/', user_views.State_Wise_Districts_api.as_view()),
