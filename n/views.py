@@ -159,7 +159,7 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # message:
                         "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
                         # from:
-                        mnf ,
+                        kkkk.em,
                         # to:
                         [e,]
                     )
@@ -307,7 +307,7 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "mn@k.adhikar.net",
+                            kkkk.em,
                             # to:
                             [e,]                             )
                     q="RajyasabhaMP-"+f
@@ -347,7 +347,6 @@ class rajyasabhapersonalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         z=self.request.user.first_name
         p=z.split("-")
-        print(p[1])
         return rajyasabhapersonal.objects.all().filter(mp=p[1])
     @action(detail=True, methods=['put'])
     def rajyasabhapersonal(self,request,pk=None):
@@ -361,7 +360,6 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         z=self.request.user.first_name
         p=z.split("-")
-        print(p[1])
         return rajyasabhapersonal.objects.all().filter(mp=p[1])
     @action(detail=True, methods=['put'])
     def rajyasabhapersonal(self,request,pk=None):
@@ -406,7 +404,6 @@ class PartyandstateWise_Loksabha_Candidates_api(APIView):
             data1 = Party.objects.all().filter(abbreviation=z1[1])
             for i in data1 :
                 k=i.id
-            print(data1)
             data = LokSabha.objects.all().filter(Party=k, state=e)
             serializer = LSerializers(data, many=True)
             return Response(serializer.data)
@@ -448,7 +445,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "mn@k.adhikar.net",
+                            kkkk.em,
                             # to:
                             [e,]                             )
                     q="LoksabhaMP-"+f
@@ -603,7 +600,7 @@ class Party_Wise_Assembly_Candidates_api(APIView):
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "mn@k.adhikar.net",
+                            kkkk.em,
                             # to:
                             [e,]                             )
                     q="MLA-"+str(f)
@@ -710,7 +707,7 @@ class Party_Wise_Council_Candidates_api(APIView):
                             # message:
                             "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
-                            "mn@k.adhikar.net",
+                            kkkk.em,
                             # to:
                             [e,]                             )
                     q="MLC-"+f
