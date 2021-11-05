@@ -215,7 +215,11 @@ class Party_api(APIView):
         data = Party.objects.all()
         serializer = PartySerializers(data, many=True)
         return Response(serializer.data)
-
+class Activatedparty(APIView):
+    def get(self, request):
+        data = Party.objects.all().filter(actvated ='yes')
+        serializer = PartySerializers(data, many=True)
+        return Response(serializer.data)
 class Coalition_Party_api(APIView):
     def get(self, request):
         data = Bihar_Coalition_Party.objects.all()
@@ -264,6 +268,11 @@ class specificRajyasabha_Candidates_api(APIView):
 class RajyaSabha_Members(APIView):
     def get(self,request):
         data = Rajyasabha.objects.all()
+        serializer = RSerializers(data, many=True)
+        return Response(serializer.data)
+class ActivatedrajyaSabha(APIView):
+    def get(self,request):
+        data = Rajyasabha.objects.all().filter(actvated ='yes')
         serializer = RSerializers(data, many=True)
         return Response(serializer.data)
 class Party_Wise_Rajyasabha_Candidates_api(APIView):
@@ -382,6 +391,11 @@ class State_Wise_Loksabha_Candidates_api(APIView):
 class LokSabha_Members(APIView):
     def get(self,request):
         data = LokSabha.objects.all()
+        serializer = LSerializers(data, many=True)
+        return Response(serializer.data)
+class ActivatedLokSabha(APIView):
+    def get(self,request):
+        data = LokSabha.objects.all().filter(actvated ='yes')
         serializer = LSerializers(data, many=True)
         return Response(serializer.data)
 #@allowed_users(allowed_roles=['admin'])
@@ -539,6 +553,11 @@ class Assembly_Members(APIView):
         data =Legislative_Assembly.objects.all()
         serializer = ASerializers(data, many=True)
         return Response(serializer.data)
+class ActivatedAssembly(APIView):
+    def get(self,request):
+        data =Legislative_Assembly.objects.all().filter(actvated ='yes')
+        serializer = ASerializers(data, many=True)
+        return Response(serializer.data)
 class PartyanstateWise_assembly_Candidates_api(APIView):
     #data = Legislative_Assembly.objects.all().filter(Party='BJP', state='Andhra Pradesh')
     def get(self,request):
@@ -664,6 +683,11 @@ class stateWise_Council_Candidates_api(APIView):
 class Council_Members(APIView):
     def get(self,request):
         data =Legislative_councils.objects.all()
+        serializer = LCSerializers(data, many=True)
+        return Response(serializer.data)
+class ActivatedCouncil(APIView):
+    def get(self,request):
+        data =Legislative_councils.objects.all().filter(actvated ='yes')
         serializer = LCSerializers(data, many=True)
         return Response(serializer.data)
 class Party_Wise_Council_Candidates_api(APIView):
