@@ -32,10 +32,10 @@ class rajyasabhapersonalAdmin(admin.ModelAdmin):
 admin.site.register(rajyasabhapersonal, rajyasabhapersonalAdmin)
 admin.site.register(Rajyasabhapresedential, ImportExportModelAdmin)
 ##### Loksabha
-class loksabhaAdmin(admin.ModelAdmin):
+'''class loksabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
-admin.site.register(LokSabha,loksabhaAdmin)
-#admin.site.register(LokSabha, ImportExportModelAdmin)
+admin.site.register(LokSabha,loksabhaAdmin)'''
+admin.site.register(LokSabha, ImportExportModelAdmin)
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
 class loksabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
@@ -45,10 +45,10 @@ admin.site.register(loksabhapersonal, loksabhapersonalAdmin)
 class assemblypersonalAdmin(admin.ModelAdmin):
     search_fields = ('mla',)
 admin.site.register(assemblypersonal, assemblypersonalAdmin)
-class assemblyAdmin(admin.ModelAdmin):
+'''class assemblyAdmin(admin.ModelAdmin):
     search_fields = ('MLA_name',)
-admin.site.register(Legislative_Assembly,assemblyAdmin)
-#admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
+admin.site.register(Legislative_Assembly,assemblyAdmin)'''
+admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
 #### Legistlative Council
 class councilpersonalAdmin(admin.ModelAdmin):
@@ -119,7 +119,7 @@ admin.site.register(Current_Rajyasabha_Opposition_Leader, ImportExportModelAdmin
 
 admin.site.register(Flag, ImportExportModelAdmin)
 
-admin.site.register(Parliamentary_Loksabha_Sessions, ImportExportModelAdmin)
+admin.site.register(ParliamentLoksabhaSessions, ImportExportModelAdmin)
 
 admin.site.register(Parliamentary_Rajyasabha_Sessions, ImportExportModelAdmin)
 

@@ -157,7 +157,7 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # title:
                         "Account created for {title}".format(title="www.adhikar.net"),
                         # message:
-                        "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                        "Thank you for creating the party {pp}'s account with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p, u=e,p=passw),
                         # from:
                         kkkk.em,
                         # to:

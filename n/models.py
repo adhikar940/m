@@ -13,7 +13,7 @@ from django_base64field.fields import Base64Field
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
 
-    email_plaintext_message = "Click on this link for resetting the adhikar.net password - https://adhikar.net/password_reset/?token={}".format(reset_password_token.key)
+    email_plaintext_message = "Click on this link for resetting the adhikar.net password - https://adhikar.net/#/password_reset/?token={}".format(reset_password_token.key)
 
 
     send_mail(
@@ -22,7 +22,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # message:
         email_plaintext_message,
         # from:
-        "mn@k.adhikar.net",
+        "k@adhikar.net",
         # to:
         [reset_password_token.user.email]
     )
@@ -35,7 +35,11 @@ choice1 = (
     ('present', 'present'),
     ('x', 'x')
 )
-
+choice3 = (
+    ('Budget', 'Budget'),
+    ('Monsoon', 'Monsoon'),
+    ('Winter','Winter')
+)
 class State(models.Model):
     status = (
         ('state', 'state'),
@@ -205,25 +209,27 @@ class loksabhapersonal(personal):
 #           SESSIONS MODELS- Loksabha
 ###############################################################################################################
 
-class Parliamentary_Loksabha_Sessions(models.Model):
-    Session_Title = models.CharField(max_length=100, default='')
-
+class ParliamentLoksabhaSessions(models.Model):
+    year = models.CharField(max_length=10, default='')
+    Session_Title = models.CharField(max_length=100,choices=choice3)
     def __str__(self):
-        return str(self.Session_Title)
+        k = str(self.year)+'-'+str(self.Session_Title)
+        return k
 # Loksabha Individual Sessions
 class Loksabha_Session(models.Model):
     Loksabha_MP_Name = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True, default='')
-    Loksabha_Session_Title = models.ForeignKey(Parliamentary_Loksabha_Sessions, related_name='Session_Details',
+    Loksabha_Session_Title = models.ForeignKey(ParliamentLoksabhaSessions, related_name='Session_Details',
                                                on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
     link = EmbedVideoField()
 
     def __str__(self):
-        return str(self.Loksabha_Session_Title)
+        k = str(self.Loksabha_MP_Name)+'-'+str(self.Loksabha_Session_Title)+'-'+str(self.date)
+        return (k)
 # Loksabha Complete Sessions
 class Loksabha_Complete_Session(models.Model):
-    Loksabha_Session_Title = models.ForeignKey(Parliamentary_Loksabha_Sessions, related_name='Loksabha_Session_Details',
+    Loksabha_Session_Title = models.ForeignKey(ParliamentLoksabhaSessions, related_name='Loksabha_Session_Details',
                                                on_delete=models.CASCADE, null=True, default='')
 
     Description = models.CharField(max_length=100, default='')

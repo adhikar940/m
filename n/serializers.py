@@ -385,7 +385,7 @@ class Loksabha_Individual_SessionSerializers(serializers.ModelSerializer):
     Session_Details = Loksabha_SessionSerializers(many=True, read_only=True)
 
     class Meta:
-        model = Parliamentary_Loksabha_Sessions
+        model = ParliamentLoksabhaSessions
         fields = ['Session_Title', 'Session_Details']
 
 class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
@@ -399,7 +399,7 @@ class Complete_Loksabha_SessionSerializers(serializers.ModelSerializer):
     Loksabha_Session_Details = Loksabha_Complete_SessionSerializers(many=True, read_only=True)
 
     class Meta:
-        model = Parliamentary_Loksabha_Sessions
+        model = ParliamentLoksabhaSessions
         fields = ['Session_Title', 'Loksabha_Session_Details']
 
 
@@ -413,7 +413,7 @@ class Complete_Rajyasabha_SessionSerializers(serializers.ModelSerializer):
     Rajyasabha_Session_Details = Rajyasabha_Complete_SessionSerializers(many=True, read_only=True)
 
     class Meta:
-        model = Parliamentary_Loksabha_Sessions
+        model = ParliamentLoksabhaSessions
         fields = ['Session_Title', 'Rajyasabha_Session_Details']
 
 
