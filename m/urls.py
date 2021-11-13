@@ -30,7 +30,6 @@ router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename=
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-
 path('auth/', obtain_auth_token),
 url('authenticate/', views.CustomObtainAuthToken.as_view()),
  path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),

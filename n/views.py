@@ -1,6 +1,8 @@
 from rest_framework import viewsets,status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from django.shortcuts import render, HttpResponseRedirect, redirect
@@ -43,6 +45,18 @@ regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
     serializer_class = LlSerializer
     permission_classes = [AllowAny]'''
 from rest_framework.permissions import BasePermission
+class PartyView(generics.ListAPIView):
+    queryset = Party.objects.all()
+    serializer_class = PartySerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('partyname', 'abbreviation', )
+    search_fields = ('partyname', 'abbreviation', )
+class AssemblyconstituencyView(generics.ListAPIView):
+    queryset = Assembly_Constituency.objects.all()
+    serializer_class = Assembly_ConstituencySerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('Assembly_Constituency_Name',)
+    search_fields = ('Assembly_Constituency_Name', )
 def tmail(request):
     print(kkkk.em)
     send_mail(
