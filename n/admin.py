@@ -58,7 +58,7 @@ class councilAdmin(admin.ModelAdmin):
     search_fields = ('MLC_name',)
 admin.site.register(Legislative_councils, councilAdmin)
 #admin.site.register(Legislative_councils, ImportExportModelAdmin)
-
+admin.site.register(councilpersonal)
 admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
 
 admin.site.register(Assembly_time_period, ImportExportModelAdmin)

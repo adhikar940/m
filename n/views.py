@@ -171,7 +171,7 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # title:
                         "Account created for {title}".format(title="www.adhikar.net"),
                         # message:
-                        "Thank you for creating the party {pp}'s account with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p, u=e,p=passw),
+                        "Welcome for India's first political social networking site. Thank you for creating the party {pp}'s account with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p, u=e,p=passw),
                         # from:
                         kkkk.em,
                         # to:
@@ -328,7 +328,7 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}. ".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -471,7 +471,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -615,7 +615,6 @@ class Party_Wise_Assembly_Candidates_api(APIView):
             elif(is_valid == True or None):
                 e=e.lower()
                 p = l.MLA_name
-                print(p)
                 if User.objects.filter(email=e).exists():
                     response = {'m':'This email already exists'}
                     return Response(response, status=status.HTTP_200_OK)
@@ -626,12 +625,11 @@ class Party_Wise_Assembly_Candidates_api(APIView):
                     special_chars=r"@_!#$%^&*()<>?/\|}{~:",
                     include_special_chars=False)
                     passw=r.generate()
-                    print(passw)
                     send_mail(
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -743,7 +741,7 @@ class Party_Wise_Council_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:

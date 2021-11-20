@@ -8,7 +8,7 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail
 from rest_framework_tricks.models.fields import NestedProxyField
 from django_base64field.fields import Base64Field
-
+from . import kkkk,photo
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
@@ -22,7 +22,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # message:
         email_plaintext_message,
         # from:
-        "k@adhikar.net",
+        kkkk.em,
         # to:
         [reset_password_token.user.email]
     )
@@ -130,13 +130,13 @@ class personal(models.Model):
     Personal_Life = models.TextField(default='',null=True,)
     aims_Goal_and_Dream = models.TextField(default='',null=True,)
     Message_For_Followers = models.TextField(default='',null=True,)
-    About_Mephoto =  Base64Field(max_length=900000, blank=True, null=True)
-    childhood_and_Educationphoto =  Base64Field(max_length=900000, blank=True, null=True)
-    Profilephoto =  Base64Field(max_length=900000, blank=True, null=True)
-    Political_Careerphoto =  Base64Field(max_length=900000, blank=True, null=True)
-    Personal_Lifephoto =  Base64Field(max_length=900000, blank=True, null=True)
-    aims_Goal_and_Dreamphoto =  Base64Field(max_length=900000, blank=True, null=True)
-    Message_For_Followersphoto =  Base64Field(max_length=900000, blank=True, null=True)
+    About_Mephoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.aboutme)
+    childhood_and_Educationphoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.childhood)
+    Profilephoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.profile)
+    Political_Careerphoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.politicalcarrer)
+    Personal_Lifephoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.personal)
+    aims_Goal_and_Dreamphoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.aims)
+    Message_For_Followersphoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.message)
 
 ######## Rajyasabha
 class Rajyasabhapresedential(Parliament):
