@@ -328,7 +328,7 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}. ".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. You can login with the credentials username - {u} and password - {p1}. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net.  ".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -471,7 +471,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site.You can login with the credentials username - {u} and password - {p1}. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. ".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -629,7 +629,7 @@ class Party_Wise_Assembly_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site.You can login with the credentials username - {u} and password - {p1}. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net.".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:
@@ -741,7 +741,7 @@ class Party_Wise_Council_Candidates_api(APIView):
                             # title:
                             "Account created for {title}".format(title="www.adhikar.net"),
                             # message:
-                            "Welcome to India's first political social networking site. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net. You can login with the credentials username - {u} and password - {p1}".format(u=e,p1=passw),
+                            "Welcome to India's first political social networking site. You can login with the credentials username - {u} and password - {p1}. Your leadership and fightings are most important for society. Make them understand to people and spread those with www.adhikar.net.".format(u=e,p1=passw),
                             # from:
                             kkkk.em,
                             # to:

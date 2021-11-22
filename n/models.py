@@ -121,15 +121,15 @@ class Parliament(models.Model):
     class Meta:
         abstract = True
 class personal(models.Model):
-    profilename = models.CharField(max_length=300, null=True)
-    presentparty= models.CharField(max_length=300, null=True)
+    profilename = models.CharField(max_length=300, null=True, default = '-')
+    presentparty= models.CharField(max_length=300, null=True, default = '-')
     parentid= models.CharField(max_length=300, null=True)
-    About_Me = models.TextField(default='',null=True,)
-    childhood_and_Education = models.TextField(default='',null=True,)
-    Political_Career = models.TextField(default='',null=True,)
-    Personal_Life = models.TextField(default='',null=True,)
-    aims_Goal_and_Dream = models.TextField(default='',null=True,)
-    Message_For_Followers = models.TextField(default='',null=True,)
+    About_Me = models.TextField(null=True, default = 'Not updated')
+    childhood_and_Education = models.TextField(default = 'Not updated',null=True,)
+    Political_Career = models.TextField(default = 'Not updated',null=True,)
+    Personal_Life = models.TextField(default = 'Not updated',null=True,)
+    aims_Goal_and_Dream = models.TextField(default = 'Not updated',null=True,)
+    Message_For_Followers = models.TextField(default = 'Not updated',null=True,)
     About_Mephoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.aboutme)
     childhood_and_Educationphoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.childhood)
     Profilephoto =  Base64Field(max_length=900000, blank=True, null=True, default = photo.profile)
