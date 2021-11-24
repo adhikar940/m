@@ -150,7 +150,7 @@ class Assembly_ConstituencySerializers(serializers.ModelSerializer):
     class Meta:
         model = Assembly_Constituency
         fields = ['id','State', 'Districts', 'Assembly_Constituency_Name']
-        
+
 class Legislative_AssemblySerializers(serializers.ModelSerializer):
     State = serializers.StringRelatedField()
     District = serializers.StringRelatedField()
@@ -174,12 +174,12 @@ class District_Wise_AssemblySerializer(serializers.ModelSerializer):
         fields = ['State', 'District_name','Assembly_Candidates']
 class ASerializers(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
+    District = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
     constituency_name = serializers.StringRelatedField()
     class Meta:
         model = Legislative_Assembly
-        fields = ['id','state','Districts', 'constituency_name', 'MLA_name', 'Party',
+        fields = ['id','state','District', 'constituency_name', 'MLA_name', 'Party',
                    'photo','presentorx','actvated']
 class APSerializers(serializers.ModelSerializer):
     LA = LSerializers(many=True, read_only=True)

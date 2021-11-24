@@ -32,10 +32,10 @@ class rajyasabhapersonalAdmin(admin.ModelAdmin):
 admin.site.register(rajyasabhapersonal, rajyasabhapersonalAdmin)
 admin.site.register(Rajyasabhapresedential, ImportExportModelAdmin)
 ##### Loksabha
-'''class loksabhaAdmin(admin.ModelAdmin):
+class loksabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
-admin.site.register(LokSabha,loksabhaAdmin)'''
-admin.site.register(LokSabha, ImportExportModelAdmin)
+admin.site.register(LokSabha,loksabhaAdmin)
+#admin.site.register(LokSabha, ImportExportModelAdmin)
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
 class loksabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
