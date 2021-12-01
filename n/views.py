@@ -388,6 +388,12 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
     def rajyasabhapersonal(self,request,pk=None):
         u=self.get_object
 ####################       LOKSABHA     ###################################################################
+class LokSabhaView(generics.ListAPIView):
+    queryset = LokSabha.objects.all()
+    serializer_class = LSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('MP_name',  )
+    search_fields = ('MP_name', )
 class LokSabha_Members_api(APIView):
     def get(self,request):
         if(request.GET["MP_name"]==''):
@@ -523,6 +529,32 @@ class loksabhapersonalViewSet(viewsets.ModelViewSet):
 class LoksabhapersonalViewSet(viewsets.ModelViewSet):
     serializer_class = loksabhapersonalSerializer
     queryset = loksabhapersonal.objects.all()
+#############################   LOksabha SESSIONS   ################################################################################
+
+class Loksabha_Session_api(APIView):
+    def get(self, request):
+        data = Loksabha_Session.objects.all()
+        serializer = Loksabha_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+
+class Loksabha_Individual_Session_api(APIView):
+    def get(self, request):
+        #request.GET["id"]
+        data = Loksabha_Session.objects.all().filter(Loksabha_MP_Name=request.GET["id"])
+        serializer = Loksabha_SessionSerializers(data, many=True)
+        return Response(serializer.data)
+class LokSabhaSessionView(generics.ListAPIView):
+    queryset = Loksabha_Session.objects.all()
+    serializer_class =  Loksabha_SessionSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('Loksabha_MP_Name', 'Loksabha_Session_Title', )
+    search_fields = ('Loksabha_MP_Name','Loksabha_Session_Title', )
+class LokSabhacompleteSessionView(generics.ListAPIView):
+    queryset = Loksabha_Complete_Session.objects.all()
+    serializer_class =  Loksabha_Complete_SessionSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('Loksabha_Session_Title',  )
+    search_fields = ('Loksabha_Session_Title', )
 ######################################################################################################
 class Assembly_Constituency_Members_api(APIView):
     def get(self,request):
@@ -864,19 +896,7 @@ class Corporation_Ward_Number_api(APIView):
         serializer = Corporation_Ward_NumberSerializers(data, many=True)
         return Response(serializer.data)
 
-#############################################################################################################
 
-class Loksabha_Session_api(APIView):
-    def get(self, request):
-        data = Loksabha_Session.objects.all()
-        serializer = Loksabha_SessionSerializers(data, many=True)
-        return Response(serializer.data)
-
-class Loksabha_Individual_Session_api(APIView):
-    def get(self, request):
-        data = Parliamentary_Loksabha_Sessions.objects.all()
-        serializer = Loksabha_Individual_SessionSerializers(data, many=True)
-        return Response(serializer.data)
 
 #############################################################################################################
 
@@ -936,11 +956,7 @@ class Loksabha_Chairman_api(APIView):
         serializer = Loksabha_ChairmanSerializers(data, many=True)
         return Response(serializer.data)
 #############################################################################################################
-class Loksabha_Complete_Session_api(APIView):
-    def get(self, request):
-        data = Loksabha_Complete_Session.objects.all()
-        serializer = Loksabha_Complete_SessionSerializers(data, many=True)
-        return Response(serializer.data)
+
 
 class Complete_Loksabha_Session_api(APIView):
     def get(self, request):

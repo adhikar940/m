@@ -47,7 +47,7 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^party_raj_api/', user_views.Party_Wise_Rajyasabha_Candidates_api.as_view()),
 
 
-    ###########################################################################################################
+    #####################################       Lok sabha   ######################################################################
     url(r'^activatedloksabha/', user_views.ActivatedLokSabha.as_view()),
     url(r'^LokSabha_Candidates_api/', user_views.LokSabha_Members_api.as_view()),
     url(r'^State_Wise_Loksabha_Candidates_api/', user_views.State_Wise_Loksabha_Candidates_api.as_view()),
@@ -55,6 +55,9 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^party_lok_api/', user_views.Party_Wise_Loksabha_Candidates_api.as_view()),
     url(r'^stateparty_lok_api/', user_views.PartyandstateWise_Loksabha_Candidates_api.as_view()),
     url(r'^lokpersonal_api/', user_views.loksabhapersonal_api.as_view()),
+    path('loksbhadata/', views.LokSabhaView.as_view()),
+    path('LoksabhaindividualSessionapi/', views.LokSabhaSessionView.as_view()),
+    url(r'^LoksabhaCompleteSessionapi/', views.LokSabhacompleteSessionView.as_view()),
     #url(r'^lokpersonal/(?P<pk>[0-9]+)$', views.loksabhapersonal_detail),
     ###########################################################################################################
     url(r'^activatedassembly/', user_views.ActivatedAssembly.as_view()),
@@ -108,7 +111,7 @@ url(r'^specificCouncils_Candidates_api/', user_views.specificCouncil_Candidates_
     #############################################################################################################
     #                        Loksabha & Rajyasabha Complete APIs
 
-    url(r'^Loksabha_Complete_Session_api/', user_views.Loksabha_Complete_Session_api.as_view()),
+
     url(r'^Complete_Loksabha_Session_api/', user_views.Complete_Loksabha_Session_api.as_view()),
 
     url(r'^Rajyasabha_Complete_Session_api/', user_views.Rajyasabha_Complete_Session_api.as_view()),

@@ -144,6 +144,18 @@ class loksabhapersonalSerializer(serializers.ModelSerializer):
         model = loksabhapersonal
         fields = ['id', 'profilename','mp', 'presentparty','About_Me','childhood_and_Education','Political_Career','Personal_Life','aims_Goal_and_Dream','Message_For_Followers','About_Mephoto','childhood_and_Educationphoto','Profilephoto','Political_Careerphoto','Personal_Lifephoto','aims_Goal_and_Dreamphoto','Message_For_Followersphoto']
         #extra_kwargs = {'mp': {'read_only': True}}
+############################    Loksabha Sessions   #####################################################
+class Loksabha_SessionSerializers(serializers.ModelSerializer):
+    Loksabha_MP_Name = serializers.StringRelatedField()
+    Loksabha_Session_Title = serializers.StringRelatedField()
+    class Meta:
+        model = Loksabha_Session
+        fields = ['Loksabha_MP_Name', 'date', 'session', 'link','Loksabha_Session_Title' ]
+
+class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Loksabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link']
 ##########################################################################################################
 # ASSEMBLY
 class Assembly_ConstituencySerializers(serializers.ModelSerializer):
@@ -368,26 +380,7 @@ class Corporation_Ward_NumberSerializers(serializers.ModelSerializer):
 
 ######################################################################################################################
 
-class Loksabha_SessionSerializers(serializers.ModelSerializer):
 
-    Loksabha_MP_Name = serializers.StringRelatedField()
-
-    class Meta:
-        model = Loksabha_Session
-        fields = ['Loksabha_MP_Name', 'date', 'session', 'link']
-
-class Loksabha_Individual_SessionSerializers(serializers.ModelSerializer):
-
-    Session_Details = Loksabha_SessionSerializers(many=True, read_only=True)
-
-    class Meta:
-        model = ParliamentLoksabhaSessions
-        fields = ['Session_Title', 'Session_Details']
-
-class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Loksabha_Complete_Session
-        fields = ['Description', 'date', 'session', 'video_link']
 
 
 class Complete_Loksabha_SessionSerializers(serializers.ModelSerializer):

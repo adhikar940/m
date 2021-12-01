@@ -222,7 +222,7 @@ class Loksabha_Session(models.Model):
                                                on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
-    link = EmbedVideoField()
+    link = models.CharField(max_length=1000, default='')
 
     def __str__(self):
         k = str(self.Loksabha_MP_Name)+'-'+str(self.Loksabha_Session_Title)+'-'+str(self.date)
@@ -235,7 +235,7 @@ class Loksabha_Complete_Session(models.Model):
     Description = models.CharField(max_length=100, default='')
     date = models.DateField()
     session = models.TextField(default='')
-    video_link = EmbedVideoField()
+    video_link = models.CharField(max_length=1000, default='')
 
     def __str__(self):
         return str(self.Description)
@@ -479,25 +479,27 @@ class user_profile(Rajyasabha):
 
 
 
-############################################################################################################
+######################################   Rajyasabha Sessions  ######################################################################
+
 #   Rajyasabha
 
 class Parliamentary_Rajyasabha_Sessions(models.Model):
-    Session_Title = models.CharField(max_length=100, default=True)
-
+    year = models.CharField(max_length=10, default='')
+    Session_Title = models.CharField(max_length=100,choices=choice3)
     def __str__(self):
-        return str(self.Session_Title)
+        k = str(self.year)+'-'+str(self.Session_Title)
+        return k
 
 
 # Rajyasabha Individual Sessions
 
 class Rajyasabha_Session(models.Model):
-    Rajyasabha = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
+    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
     Rajyasabha_Session_Title = models.ForeignKey(Parliamentary_Rajyasabha_Sessions, related_name='Session_Details',
                                                  on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
-    link = EmbedVideoField()
+    link =  models.CharField(max_length=1000, default='')
 
     def __str__(self):
         return str(self.Rajyasabha_Session_Title)
@@ -512,7 +514,7 @@ class Rajyasabha_Complete_Session(models.Model):
     Description = models.CharField(max_length=100, default='')
     date = models.DateField()
     session = models.TextField(default='')
-    video_link = EmbedVideoField()
+    video_link = models.CharField(max_length=1000, default='')
 
     def __str__(self):
         return str(self.Description)
