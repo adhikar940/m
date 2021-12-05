@@ -45,6 +45,8 @@ url(r'^state_api/', user_views.State_api.as_view()),
     url(r'^stateWise_Rajyasabha_Candidates_api/', user_views.stateWise_Rajyasabha_Candidates_api.as_view()),
     url(r'^specificRajyasabha_Candidates_api/', user_views.specificRajyasabha_Candidates_api.as_view()),
     url(r'^party_raj_api/', user_views.Party_Wise_Rajyasabha_Candidates_api.as_view()),
+    path('RajyasabhaindividualSessionapi/', views.RajyaSabhaSessionView.as_view()),
+    path('RajyasabhacompleteSessionapi/', views.RajyaSabhacompleteSessionView.as_view()),
 
 
     #####################################       Lok sabha   ######################################################################

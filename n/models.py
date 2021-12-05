@@ -174,7 +174,7 @@ class Rajyasabha(Parliament):
         ordering = ['MP_name']
 
     def __str__(self):
-        return str(self.MP_name)
+        return str(self.MP_name)+'-'+str(self.state)
 class rajyasabhapersonal(personal):
     mp = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True,)
     class Meta:
@@ -182,7 +182,39 @@ class rajyasabhapersonal(personal):
 
     def __str__(self):
         return '%s' % (self.mp)
+######################################   Rajyasabha Sessions  ######################################################################
+class Sessions(models.Model):
+    year = models.CharField(max_length=10, default='')
+    Session_Title = models.CharField(max_length=100,choices=choice3)
+    def __str__(self):
+        k = str(self.year)+'-'+str(self.Session_Title)
+        return k
+# Rajyasabha Individual Sessions
+class Rajyasabha_Session(models.Model):
+    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
+    Session_Title = models.ForeignKey(Sessions, related_name='Session_Details',
+                                                 on_delete=models.CASCADE, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link =  models.CharField(max_length=1000, default='')
 
+    def __str__(self):
+        return str(self.Session_Title)
+    class Meta:
+        ordering = ['-date']
+# Rajyasabha Complete Sessions
+class Rajyasabha_Complete_Session(models.Model):
+    Session_Title = models.ForeignKey(Sessions,related_name='Rajyasabha_Session_Details',
+                                                 on_delete=models.CASCADE, null=True, default='')
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = models.CharField(max_length=1000, default='')
+
+    def __str__(self):
+        return str(self.Session_Title)+'-'+str(self.date)
+    class Meta:
+        ordering = ['-date']
 #######   LokSabha
 class LokSabha(Parliament):
     state = models.ForeignKey(State, related_name='Loksabha_Candidates', on_delete=models.CASCADE, null=True,
@@ -209,27 +241,24 @@ class loksabhapersonal(personal):
 #           SESSIONS MODELS- Loksabha
 ###############################################################################################################
 
-class ParliamentLoksabhaSessions(models.Model):
-    year = models.CharField(max_length=10, default='')
-    Session_Title = models.CharField(max_length=100,choices=choice3)
-    def __str__(self):
-        k = str(self.year)+'-'+str(self.Session_Title)
-        return k
+
 # Loksabha Individual Sessions
 class Loksabha_Session(models.Model):
     Loksabha_MP_Name = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True, default='')
-    Loksabha_Session_Title = models.ForeignKey(ParliamentLoksabhaSessions, related_name='Session_Details',
+    Session_Title = models.ForeignKey(Sessions, related_name='Session',
                                                on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
     link = models.CharField(max_length=1000, default='')
 
     def __str__(self):
-        k = str(self.Loksabha_MP_Name)+'-'+str(self.Loksabha_Session_Title)+'-'+str(self.date)
+        k = str(self.Loksabha_MP_Name)+'-'+str(self.Session_Title)+'-'+str(self.date)
         return (k)
+    class Meta:
+        ordering = ['-date']
 # Loksabha Complete Sessions
 class Loksabha_Complete_Session(models.Model):
-    Loksabha_Session_Title = models.ForeignKey(ParliamentLoksabhaSessions, related_name='Loksabha_Session_Details',
+    Loksabha_Session_Title = models.ForeignKey(Sessions, related_name='Loksabha_Session',
                                                on_delete=models.CASCADE, null=True, default='')
 
     Description = models.CharField(max_length=100, default='')
@@ -239,6 +268,8 @@ class Loksabha_Complete_Session(models.Model):
 
     def __str__(self):
         return str(self.Description)
+    class Meta:
+        ordering = ['-date']
 ######### Assembly
 class Assembly_Constituency(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
@@ -479,45 +510,7 @@ class user_profile(Rajyasabha):
 
 
 
-######################################   Rajyasabha Sessions  ######################################################################
 
-#   Rajyasabha
-
-class Parliamentary_Rajyasabha_Sessions(models.Model):
-    year = models.CharField(max_length=10, default='')
-    Session_Title = models.CharField(max_length=100,choices=choice3)
-    def __str__(self):
-        k = str(self.year)+'-'+str(self.Session_Title)
-        return k
-
-
-# Rajyasabha Individual Sessions
-
-class Rajyasabha_Session(models.Model):
-    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha, on_delete=models.SET_NULL, null=True, default='')
-    Rajyasabha_Session_Title = models.ForeignKey(Parliamentary_Rajyasabha_Sessions, related_name='Session_Details',
-                                                 on_delete=models.CASCADE, null=True, default='')
-    date = models.DateField()
-    session = models.TextField(default='')
-    link =  models.CharField(max_length=1000, default='')
-
-    def __str__(self):
-        return str(self.Rajyasabha_Session_Title)
-
-
-# Rajyasabha Complete Sessions
-
-class Rajyasabha_Complete_Session(models.Model):
-    Rajyasabha_Session_Title = models.ForeignKey(Parliamentary_Rajyasabha_Sessions,
-                                                 related_name='Rajyasabha_Session_Details',
-                                                 on_delete=models.CASCADE, null=True, default='')
-    Description = models.CharField(max_length=100, default='')
-    date = models.DateField()
-    session = models.TextField(default='')
-    video_link = models.CharField(max_length=1000, default='')
-
-    def __str__(self):
-        return str(self.Description)
 
 
 #############################################################################################################

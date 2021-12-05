@@ -119,9 +119,7 @@ admin.site.register(Current_Rajyasabha_Opposition_Leader, ImportExportModelAdmin
 
 admin.site.register(Flag, ImportExportModelAdmin)
 
-admin.site.register(ParliamentLoksabhaSessions, ImportExportModelAdmin)
-
-admin.site.register(Parliamentary_Rajyasabha_Sessions, ImportExportModelAdmin)
+admin.site.register(Sessions, ImportExportModelAdmin)
 
 admin.site.register(Municipal_Corporation, ImportExportModelAdmin)
 

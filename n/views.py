@@ -253,7 +253,7 @@ class States_api(APIView):
 
 
 
-####################################################################################
+##################################     Rajya Sabha    ##################################################
 class Rajyasabha_Members_api(APIView):
     def get(self,request):
         data = Rajyasabha.objects.all()
@@ -387,6 +387,20 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['put'])
     def rajyasabhapersonal(self,request,pk=None):
         u=self.get_object
+####################      RajyaSABHA Sessions     ###################################################################
+class RajyaSabhaSessionView(generics.ListAPIView):
+    queryset = Rajyasabha_Session.objects.all()
+    serializer_class = Rajyasabha_SessionSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('Rajyasabha_MP_Name', 'Session_Title','date', )
+    search_fields = ('Rajyasabha_MP_Name','Session_Title','date', )
+class RajyaSabhacompleteSessionView(generics.ListAPIView):
+    queryset = Rajyasabha_Complete_Session.objects.all()
+    serializer_class =  Rajyasabha_Complete_SessionSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('Session_Title', 'date', )
+    search_fields = ('Session_Title','date', )
+
 ####################       LOKSABHA     ###################################################################
 class LokSabhaView(generics.ListAPIView):
     queryset = LokSabha.objects.all()
@@ -547,14 +561,14 @@ class LokSabhaSessionView(generics.ListAPIView):
     queryset = Loksabha_Session.objects.all()
     serializer_class =  Loksabha_SessionSerializers
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('Loksabha_MP_Name', 'Loksabha_Session_Title', )
-    search_fields = ('Loksabha_MP_Name','Loksabha_Session_Title', )
+    filter_fields = ('Loksabha_MP_Name', 'Loksabha_Session_Title', 'date',)
+    search_fields = ('Loksabha_MP_Name','Loksabha_Session_Title','date', )
 class LokSabhacompleteSessionView(generics.ListAPIView):
     queryset = Loksabha_Complete_Session.objects.all()
     serializer_class =  Loksabha_Complete_SessionSerializers
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('Loksabha_Session_Title',  )
-    search_fields = ('Loksabha_Session_Title', )
+    filter_fields = ('Loksabha_Session_Title', 'date', )
+    search_fields = ('Loksabha_Session_Title', 'date',)
 ######################################################################################################
 class Assembly_Constituency_Members_api(APIView):
     def get(self,request):

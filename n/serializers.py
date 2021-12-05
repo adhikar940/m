@@ -107,8 +107,24 @@ class rajyasabhapersonal1Serializer(serializers.ModelSerializer):
         model = rajyasabhapersonal
         fields = ['id', ]
         #extra_kwargs = {'mp': {'read_only': True}}
+##########################  rajya sabha sessions #######################################################
+class Rajyasabha_SessionSerializers(serializers.ModelSerializer):
+    Rajyasabha_MP_Name = serializers.StringRelatedField()
+    Session_Title  = serializers.StringRelatedField()
+    class Meta:
+        model = Rajyasabha_Session
+        fields = ['Rajyasabha_MP_Name', 'date', 'session', 'link','Session_Title' ]
 
-
+class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
+    Session_Title  = serializers.StringRelatedField()
+    class Meta:
+        model = Rajyasabha_Complete_Session
+        fields = ['Description', 'date', 'session', 'video_link','Session_Title']
+class Rajyasabha_Individual_SessionSerializers(serializers.ModelSerializer):
+    Session_Details = Rajyasabha_SessionSerializers(many=True, read_only=True)
+    class Meta:
+        model = Sessions
+        fields = ['Session_Title', 'Session_Details']
 #################################################################################
 
 # LOKSABHA
@@ -147,10 +163,10 @@ class loksabhapersonalSerializer(serializers.ModelSerializer):
 ############################    Loksabha Sessions   #####################################################
 class Loksabha_SessionSerializers(serializers.ModelSerializer):
     Loksabha_MP_Name = serializers.StringRelatedField()
-    Loksabha_Session_Title = serializers.StringRelatedField()
+    Session_Title = serializers.StringRelatedField()
     class Meta:
         model = Loksabha_Session
-        fields = ['Loksabha_MP_Name', 'date', 'session', 'link','Loksabha_Session_Title' ]
+        fields = ['Loksabha_MP_Name', 'date', 'session', 'link','Session_Title' ]
 
 class Loksabha_Complete_SessionSerializers(serializers.ModelSerializer):
     class Meta:
@@ -388,21 +404,16 @@ class Complete_Loksabha_SessionSerializers(serializers.ModelSerializer):
     Loksabha_Session_Details = Loksabha_Complete_SessionSerializers(many=True, read_only=True)
 
     class Meta:
-        model = ParliamentLoksabhaSessions
+        model = Sessions
         fields = ['Session_Title', 'Loksabha_Session_Details']
 
-
-class Rajyasabha_Complete_SessionSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Rajyasabha_Complete_Session
-        fields = ['Description', 'date', 'session', 'video_link']
 
 class Complete_Rajyasabha_SessionSerializers(serializers.ModelSerializer):
 
     Rajyasabha_Session_Details = Rajyasabha_Complete_SessionSerializers(many=True, read_only=True)
 
     class Meta:
-        model = ParliamentLoksabhaSessions
+        model =Sessions
         fields = ['Session_Title', 'Rajyasabha_Session_Details']
 
 
@@ -410,23 +421,6 @@ class Complete_Rajyasabha_SessionSerializers(serializers.ModelSerializer):
 
 #######################################################################################################################
 
-class Rajyasabha_SessionSerializers(serializers.ModelSerializer):
-
-    Rajyasabha = serializers.StringRelatedField()
-
-    class Meta:
-        model = Rajyasabha_Session
-        fields = ['Rajyasabha', 'date', 'session', 'link']
-
-
-class Rajyasabha_Individual_SessionSerializers(serializers.ModelSerializer):
-
-    Session_Details = Rajyasabha_SessionSerializers(many=True, read_only=True)
-
-
-    class Meta:
-        model = Parliamentary_Rajyasabha_Sessions
-        fields = ['Session_Title', 'Session_Details']
 
 class Legislative_Assembly_SessionSerializers(serializers.ModelSerializer):
 
