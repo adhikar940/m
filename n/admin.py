@@ -54,10 +54,10 @@ admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 class councilpersonalAdmin(admin.ModelAdmin):
     search_fields = ('mlc',)
 #admin.site.register(councilpersonal, councilpersonalAdmin)
-class councilAdmin(admin.ModelAdmin):
+'''class councilAdmin(admin.ModelAdmin):
     search_fields = ('MLC_name',)
-admin.site.register(Legislative_councils, councilAdmin)
-#admin.site.register(Legislative_councils, ImportExportModelAdmin)
+admin.site.register(Legislative_councils, councilAdmin)'''
+admin.site.register(Legislative_councils, ImportExportModelAdmin)
 admin.site.register(councilpersonal)
 admin.site.register(Legislative_Council_Presence, ImportExportModelAdmin)
 

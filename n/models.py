@@ -86,7 +86,9 @@ class Party(models.Model):
     party_symbol = models.ImageField(upload_to='Party/party_symbol/%Y-%m-%d/%H-%M-%S', null=True)
     founderPhoto = models.ImageField(upload_to='Party/founderPhoto/%Y-%m-%d/%H-%M-%S', null=True)
     chairpersonPhoto = models.ImageField(upload_to='Party/chairpersonPhoto/%Y-%m-%d/%H-%M-%S', null=True)
-    actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    actvated = models.CharField(max_length=20, choices=choice2, default='no')
+    stateactivated = models.CharField(max_length=10000, default='no')
+    districtactivated = models.CharField(max_length=10000, default='no')
 
     def __str__(self):
         return str(self.abbreviation)
@@ -169,6 +171,7 @@ class Rajyasabha(Parliament):
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    Termend =  models.DateField(default='0001-01-01')
     class Meta:
         unique_together = ['MP_name']
         ordering = ['MP_name']
@@ -267,7 +270,7 @@ class Loksabha_Complete_Session(models.Model):
     video_link = models.CharField(max_length=1000, default='')
 
     def __str__(self):
-        return str(self.Description)
+        return str(self.Loksabha_Session_Title)+'-'+str(self.date)
     class Meta:
         ordering = ['-date']
 ######### Assembly
@@ -323,6 +326,7 @@ class Legislative_councils(Parliament):
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
     party = models.ForeignKey(Party, related_name='LC', on_delete=models.CASCADE, null=True, default='')
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
+    Termend =  models.DateField(default='0001-01-01')
     class Meta:
         unique_together = ['MLC_name']
 

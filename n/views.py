@@ -138,6 +138,93 @@ class ChangePasswordView(generics.UpdateAPIView):
             }
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class statePartyViewSet(viewsets.ModelViewSet):
+    queryset = Party.objects.all()
+    serializer_class = PSerializers
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAdminUser, )
+    @action(detail=True, methods=['POST'])
+    def k(self,request,pk=None):
+        if 'email' in request.data:
+            e = request.data['email']
+            f=request.data['state']
+            is_valid = validate_email(e)
+            is_valid = True
+            party=Party.objects.get(id=pk)
+            if(party.actvated == 'yes'):
+                response = {'m':'Account already activated'}
+                return Response(response, status=status.HTTP_200_OK)
+            elif(is_valid == True or None):
+                e=e.lower()
+                p = party.abbreviation
+                p1=party.partyname
+                if User.objects.filter(email=e).exists():
+                    response = {'m':'This email already exists'}
+                    return Response(response, status=status.HTTP_200_OK)
+                else :
+                    r=RandomWord(max_word_size=10,
+                    constant_word_size=True,
+                    include_digits=True,
+                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                    include_special_chars=False)
+                    passw=r.generate()
+                    send_mail(
+                        # title:
+                        "Account created for {title}".format(title="www.adhikar.net"),
+                        # message:
+                        "Welcome for India's first political social networking site. Thank you for creating the party {pp}'s account with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p, u=e,p=passw),
+                        # from:
+                        kkkk.em,
+                        # to:
+                        [e,kkkk.em1]
+                    )
+                    q="party-"+p+"-"+pk
+                    user =User(email=e,first_name=q,last_name=p1,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'party')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    party.actvated = 'yes'
+                    party.save()
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
+                    '''try:
+                        kk=send_mail(
+                            # title:
+                            "Account created for {title}".format(title="www.adhikar.net"),
+                            # message:
+                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
+                            # from:
+                            config.EMAIL_ADDRESS,
+                            # to:
+                            [e,]
+                        )
+                        if(kk==1):
+                            q="party-"+p
+                            user =User(email=e,first_name=q,last_name=p1,username=e)
+                            user.set_password(passw)
+                            user.save()
+                            new_group = Group.objects.get(name = 'party')
+                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
+                            user = User.objects.get(username = e)
+                            user.groups.add(new_group)
+                            party.actvated = 'yes'
+                            party.save()
+                            response = {'m':'Account created'}
+                        else :
+                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
+                        return Response(response, status=status.HTTP_200_OK)
+                    except :
+                        response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
+                        return Response(response, status=status.HTTP_200_OK)'''
+            else :
+                response = {'m':'Kindly provide a valid email'}
+                return Response(response, status=status.HTTP_200_OK)
+        else:
+            response = {'m':'Kindly provide the mail'}
+            return Response(response, status=status.HTTP_200_OK)
+
 class PartyViewSet(viewsets.ModelViewSet):
     queryset = Party.objects.all()
     serializer_class = PSerializers
@@ -175,7 +262,7 @@ class PartyViewSet(viewsets.ModelViewSet):
                         # from:
                         kkkk.em,
                         # to:
-                        [e,]
+                        [e,kkkk.em1]
                     )
                     q="party-"+p+"-"+pk
                     user =User(email=e,first_name=q,last_name=p1,username=e)
@@ -332,7 +419,7 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
                             # from:
                             kkkk.em,
                             # to:
-                            [e,]                             )
+                            [e,kkkk.em1]                             )
                     q="RajyasabhaMP-"+f
                     user =User(email=e,first_name=q,last_name=p,username=e)
                     user.set_password(passw)
@@ -495,7 +582,7 @@ class Party_Wise_Loksabha_Candidates_api(APIView):
                             # from:
                             kkkk.em,
                             # to:
-                            [e,]                             )
+                            [e,kkkk.em1]                             )
                     q="LoksabhaMP-"+f
                     user =User(email=e,first_name=q,last_name=p,username=e)
                     user.set_password(passw)
@@ -561,8 +648,8 @@ class LokSabhaSessionView(generics.ListAPIView):
     queryset = Loksabha_Session.objects.all()
     serializer_class =  Loksabha_SessionSerializers
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('Loksabha_MP_Name', 'Loksabha_Session_Title', 'date',)
-    search_fields = ('Loksabha_MP_Name','Loksabha_Session_Title','date', )
+    filter_fields = ('Loksabha_MP_Name', 'Session_Title', 'date',)
+    search_fields = ('Loksabha_MP_Name','Session_Title','date', )
 class LokSabhacompleteSessionView(generics.ListAPIView):
     queryset = Loksabha_Complete_Session.objects.all()
     serializer_class =  Loksabha_Complete_SessionSerializers
@@ -679,7 +766,7 @@ class Party_Wise_Assembly_Candidates_api(APIView):
                             # from:
                             kkkk.em,
                             # to:
-                            [e,]                             )
+                            [e,kkkk.em1]                             )
                     q="MLA-"+str(f)
                     user =User(email=e,first_name=q,last_name=p,username=e)
                     user.set_password(passw)
@@ -791,7 +878,7 @@ class Party_Wise_Council_Candidates_api(APIView):
                             # from:
                             kkkk.em,
                             # to:
-                            [e,]                             )
+                            [e,kkkk.em1]                             )
                     q="MLC-"+f
                     user =User(email=e,first_name=q,last_name=p,username=e)
                     user.set_password(passw)
