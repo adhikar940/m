@@ -30,7 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PSerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
-        fields = ['id','partyname', 'abbreviation','actvated']
+        fields = ['id','partyname', 'abbreviation','actvated','stateactivated']
 
 '''class LSerializers(serializers.ModelSerializer):
     state = serializers.StringRelatedField()

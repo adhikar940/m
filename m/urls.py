@@ -12,8 +12,8 @@ from n.views import ChangePasswordView
 
 router = routers.DefaultRouter()
 
-router.register('party', views.PartyViewSet)
-
+router.register('party', views.PartyViewSet,basename='party')
+#router.register('stateparty', views.statePartyViewSet)
 router.register('lokperson', views.loksabhapersonalViewSet,basename='lok')
 router.register('rajperson', views.rajyasabhapersonalViewSet,basename='raj')
 router.register('rajpersonal', views.rajyasabhapersonal1ViewSet,basename='raj1')
