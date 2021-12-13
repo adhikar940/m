@@ -138,93 +138,66 @@ class ChangePasswordView(generics.UpdateAPIView):
             }
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class statePartyViewSet(viewsets.ModelViewSet):
-    queryset = Party.objects.all()
-    serializer_class = PSerializers
+class statepartyapi(APIView):
+    permission_classes = (Isparty,)
     authentication_classes = (TokenAuthentication, )
-    permission_classes = (IsAdminUser, )
-    @action(detail=True, methods=['POST'])
-    def k(self,request,pk=None):
+    def post(self, request):
         if 'email' in request.data:
             e = request.data['email']
+            g=request.data['id']
             f=request.data['state']
-            is_valid = validate_email(e)
-            is_valid = True
-            party=Party.objects.get(id=pk)
-            if(party.actvated == 'yes'):
-                response = {'m':'Account already activated'}
+            party=Party.objects.get(id=g)
+            S = State.objects.get(id=f)
+            s1=S.State_name
+            e=e.lower()
+            p = party.abbreviation
+            p1=party.partyname
+            if User.objects.filter(email=e).exists():
+                response = {'m':'This email already exists'}
                 return Response(response, status=status.HTTP_200_OK)
-            elif(is_valid == True or None):
-                e=e.lower()
-                p = party.abbreviation
-                p1=party.partyname
-                if User.objects.filter(email=e).exists():
-                    response = {'m':'This email already exists'}
-                    return Response(response, status=status.HTTP_200_OK)
-                else :
-                    r=RandomWord(max_word_size=10,
-                    constant_word_size=True,
-                    include_digits=True,
-                    special_chars=r"@_!#$%^&*()<>?/\|}{~:",
-                    include_special_chars=False)
-                    passw=r.generate()
-                    send_mail(
-                        # title:
-                        "Account created for {title}".format(title="www.adhikar.net"),
-                        # message:
-                        "Welcome for India's first political social networking site. Thank you for creating the party {pp}'s account with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p, u=e,p=passw),
-                        # from:
-                        kkkk.em,
-                        # to:
-                        [e,kkkk.em1]
-                    )
-                    q="party-"+p+"-"+pk
-                    user =User(email=e,first_name=q,last_name=p1,username=e)
-                    user.set_password(passw)
-                    user.save()
-                    new_group = Group.objects.get(name = 'party')
-                    user = User.objects.get(username = e)
-                    user.groups.add(new_group)
-                    party.actvated = 'yes'
-                    party.save()
-                    response = {'m':'Account created'}
-                    return Response(response, status=status.HTTP_200_OK)
-                    '''try:
-                        kk=send_mail(
-                            # title:
-                            "Account created for {title}".format(title="www.adhikar.net"),
-                            # message:
-                            "Congratulations, your account on www.adhikar.net is activated. You can login with the credentials username - {u} and password - {p}".format(u=e,p=passw),
-                            # from:
-                            config.EMAIL_ADDRESS,
-                            # to:
-                            [e,]
-                        )
-                        if(kk==1):
-                            q="party-"+p
-                            user =User(email=e,first_name=q,last_name=p1,username=e)
-                            user.set_password(passw)
-                            user.save()
-                            new_group = Group.objects.get(name = 'party')
-                            print(type(new_group))       # return <class 'django.contrib.auth.models.Group'>
-                            user = User.objects.get(username = e)
-                            user.groups.add(new_group)
-                            party.actvated = 'yes'
-                            party.save()
-                            response = {'m':'Account created'}
-                        else :
-                            response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                        return Response(response, status=status.HTTP_200_OK)
-                    except :
-                        response = {'m':'Failed to deliver the mail, Hemce the account not created. This may due to invalid email. Kindly provide a Valid email'}
-                        return Response(response, status=status.HTTP_200_OK)'''
             else :
-                response = {'m':'Kindly provide a valid email'}
+                r=RandomWord(max_word_size=10,
+                constant_word_size=True,
+                include_digits=True,
+                special_chars=r"@_!#$%^&*()<>?/\|}{~:",
+                include_special_chars=False)
+                passw=r.generate()
+                if(party.stateactivated == 'no'):
+                    party.stateactivated = f
+                    party.save()
+                else :
+                    zmn = party.stateactivated
+                    zm = zmn.split('-')
+                    zmnp = 0
+                    while(zmnp < len(zm)):
+                        if(zm[zmnp] == f):
+                            response = {'m':'Account already created for this state'}
+                            return Response(response, status=status.HTTP_200_OK)
+                        zmnp = zmnp+1
+                    party.stateactivated = zmn+'-'+f
+                    party.save()
+                send_mail(
+                    # title:
+                    "Account created for {title}".format(title="www.adhikar.net"),
+                    # message:
+                    "Welcome to India's first political social networking site. Thank you for creating the party {pp}'s account for the state {ss} with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p,ss=s1, u=e,p=passw),
+                    # from:
+                    kkkk.em,
+                    # to:
+                    [e,kkkk.em1]
+                )
+                q="sparty-"+p+"-"+g+"-"+f
+                user =User(email=e,first_name=q,last_name=f+'-'+p1,username=e)
+                user.set_password(passw)
+                user.save()
+                new_group = Group.objects.get(name = 'party')
+                user = User.objects.get(username = e)
+                user.groups.add(new_group)
+                response = {'m':'Account created'}
                 return Response(response, status=status.HTTP_200_OK)
-        else:
-            response = {'m':'Kindly provide the mail'}
+        else :
+            response = {'m':'Kindly provide a valid email'}
             return Response(response, status=status.HTTP_200_OK)
-
 class PartyViewSet(viewsets.ModelViewSet):
     queryset = Party.objects.all()
     serializer_class = PSerializers

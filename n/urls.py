@@ -20,22 +20,24 @@ urlpatterns = [
     path('', include(router.urls)),
     path('test1/',views.tmail),
     path('login/', views.loginPage, name="login"),
-    path('partydata/', views.PartyView.as_view()),
     path('Assemblyconstituencydata/', views.AssemblyconstituencyView.as_view()),
     #url(r'^personalimages/', user_views.personalimages_api.as_view()),
-    ##########################################################################################################
+    ######################################## States ##################################################################
     url(r'^State_api/', user_views.State_api.as_view()),
     url(r'^Districts_api/', user_views.Districts_api.as_view()),
     url(r'^State_Wise_Districts_api/', user_views.State_Wise_Districts_api.as_view()),
     url(r'^City_api/', user_views.City_api.as_view()),
+    url(r'^state_api/', user_views.State_api.as_view()),
+    url(r'^states_api/', user_views.States_api.as_view()),
 
-    ##########################################################################################################
-
+    ############################## Party ############################################################################
+    path('partydata/', views.PartyView.as_view()),
+    path('statepartyactivate/', views.statepartyapi.as_view()),
+    #path('activatedstateparty/', views.statePartyViewSet.as_view()),
     url(r'^party_api/', user_views.Party_api.as_view()),
     url(r'^activatedparty/', user_views.Activatedparty.as_view()),
     url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
-url(r'^state_api/', user_views.State_api.as_view()),
-    url(r'^states_api/', user_views.States_api.as_view()),
+
 
     ############################        Rajya Sabha           ####################################################
     url(r'^activatedrajyasabha/', user_views.ActivatedrajyaSabha.as_view()),
