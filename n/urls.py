@@ -11,12 +11,13 @@ from . import views
 from django.contrib.auth import views as auth_views
 from rest_framework.authtoken.views import obtain_auth_token
 from .views import PartyViewSet
+#from auth.views import UpdateProfileView
 router = DefaultRouter()
 
 
 
 urlpatterns = [
-
+    path('excel/', views.kapi.as_view()),
     path('', include(router.urls)),
     path('test1/',views.tmail),
     path('login/', views.loginPage, name="login"),
@@ -32,6 +33,7 @@ urlpatterns = [
 
     ############################## Party ############################################################################
     path('partydata/', views.PartyView.as_view()),
+    path('stateactivateparty/', views.stateactivateparty.as_view()),
     path('statepartyactivate/', views.statepartyapi.as_view()),
     #path('activatedstateparty/', views.statePartyViewSet.as_view()),
     url(r'^party_api/', user_views.Party_api.as_view()),

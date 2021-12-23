@@ -11,7 +11,8 @@ from django.contrib.auth import views as auth_views
 from n.views import ChangePasswordView
 
 router = routers.DefaultRouter()
-
+router.register('users', views.UserViewSet)
+router.register('user1', views.User1ViewSet)
 router.register('party', views.PartyViewSet,basename='party')
 #router.register('stateparty', views.statePartyViewSet)
 router.register('lokperson', views.loksabhapersonalViewSet,basename='lok')

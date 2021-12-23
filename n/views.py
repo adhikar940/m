@@ -38,6 +38,10 @@ from rest_framework.decorators import api_view
 from . import kkkk
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.http import HttpResponse
+from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+import pandas as pd
+from django.conf import settings
+import uuid
 mnf = "adhikar869@gmail.com"
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 '''class LlViewSet(ModelViewSet):
@@ -45,12 +49,54 @@ regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
     serializer_class = LlSerializer
     permission_classes = [AllowAny]'''
 from rest_framework.permissions import BasePermission
+class IsGroupUser(BasePermission):
+    group = None
+    def has_permission(self, request, view):
+        user = request.user
+        return user.is_authenticated and user.groups.filter(name=self.group).exists()
+class Isparty(IsGroupUser):
+    group = 'party'
+class Isadmin(IsGroupUser):
+    group = 'admin'
+class IsloksabhaMP(IsGroupUser):
+    group = 'loksabhaMP'
+class IsrajyasabhaMP(IsGroupUser):
+    group = 'rajyasabhaMP'
+class Ismla(IsGroupUser):
+    group = 'mla'
+class Ismlc(IsGroupUser):
+    group = 'mlc'
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+class User1ViewSet(viewsets.ModelViewSet):
+    permission_classes = (Isparty,IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = User1Serializer
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    #permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+#### Party
 class PartyView(generics.ListAPIView):
     queryset = Party.objects.all()
     serializer_class = PartySerializers
     filter_backends = (DjangoFilterBackend,SearchFilter)
     filter_fields = ('partyname', 'abbreviation', )
     search_fields = ('partyname', 'abbreviation', )
+class stateactivateparty(generics.ListAPIView):
+    queryset = statepartyactivate.objects.all()
+    serializer_class =statepartyactivateSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('party','state','email')
+    search_fields = ('party','state','email')
+class districtactivateparty(generics.ListAPIView):
+    queryset = districtpartyactivate.objects.all()
+    serializer_class =districtpartyactivateSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('party','district','email')
+    search_fields = ('party','district','email')
 class AssemblyconstituencyView(generics.ListAPIView):
     queryset = Assembly_Constituency.objects.all()
     serializer_class = Assembly_ConstituencySerializers
@@ -79,23 +125,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         userSerilizer = UserSerializer(user, many=False)
         #userSerilizer.data
         return Response({'token': token.key, 'mn':mnf })
-class IsGroupUser(BasePermission):
-    group = None
-    def has_permission(self, request, view):
-        user = request.user
-        return user.is_authenticated and user.groups.filter(name=self.group).exists()
-class Isparty(IsGroupUser):
-    group = 'party'
-class Isadmin(IsGroupUser):
-    group = 'admin'
-class IsloksabhaMP(IsGroupUser):
-    group = 'loksabhaMP'
-class IsrajyasabhaMP(IsGroupUser):
-    group = 'rajyasabhaMP'
-class Ismla(IsGroupUser):
-    group = 'mla'
-class Ismlc(IsGroupUser):
-    group = 'mlc'
+
 
 def check(email):
     # pass the regular expression
@@ -139,8 +169,8 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class statepartyapi(APIView):
-    permission_classes = (Isparty,)
-    authentication_classes = (TokenAuthentication, )
+    #permission_classes = (Isparty,)
+    #authentication_classes = (TokenAuthentication, )
     def post(self, request):
         if 'email' in request.data:
             e = request.data['email']
@@ -304,7 +334,6 @@ class State_api(APIView):
         data = State.objects.all()
         serializer = stateSerializers(data, many=True)
         return Response(serializer.data)
-
 class States_api(APIView):
     def get(self, request):
         data = States.objects.all()
@@ -1428,3 +1457,15 @@ def user_change_password(request):
 # Forgot Password..
 def user_forgot_password(request):
     return HttpResponseRedirect('/reset_password/')
+
+class kapi(APIView):
+    def get(self,request):
+        data1 = Legislative_councils.objects.all().filter(state=39)
+        serializer = Legislative_councilsSerializer(data1, many=True)
+        df = pd.DataFrame(serializer.data)
+        #print(df)
+        df.to_csv(f"file1.csv",encoding="UTF-8",index=False)
+        df.to_csv(f"file1.xlsx",encoding="UTF-8",index=False)
+        return Response({'status':200})
+    def post(self,request):
+        excelob = ExcelFileUpload.objects.create(excel_file_upload=request.FILES['files'])

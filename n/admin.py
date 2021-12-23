@@ -8,7 +8,7 @@ admin.site.register(PartywiseMP, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMLA, ImportExportModelAdmin)
 
-
+admin.site.register(States, ImportExportModelAdmin)
 
 admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
 
@@ -18,10 +18,13 @@ admin.site.register(Legislative_council_Session, ImportExportModelAdmin)
 
 admin.site.register(user_profile, ImportExportModelAdmin)
 
-
+##### Party
 admin.site.register(Party, ImportExportModelAdmin)
+class partyAdmin(admin.ModelAdmin):
+    search_fields = ('party',)
+admin.site.register(statepartyactivate,partyAdmin)
+#admin.site.register(statepartyactivate, ImportExportModelAdmin)
 
-admin.site.register(States, ImportExportModelAdmin)
 ##### Rajyasabha
 class rajyasabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)

@@ -92,6 +92,25 @@ class Party(models.Model):
 
     def __str__(self):
         return str(self.abbreviation)
+class statepartyactivate(models.Model):
+    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    email = models.CharField(max_length=64)
+    class Meta:
+        ordering = ['state']
+        unique_together = ('party', 'state')
+    def __str__(self):
+        return str(self.party)+str(self.state)
+class districtpartyactivate(models.Model):
+    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE,default='')
+    district =  models.ForeignKey(Districts, on_delete=models.CASCADE)
+    email = models.CharField(max_length=64)
+    class Meta:
+        ordering = ['state']
+        unique_together = ('party', 'district')
+    def __str__(self):
+        return str(self.party)+str(self.district)
 
 class States(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
@@ -509,14 +528,6 @@ class user_profile(Rajyasabha):
 
     def __str__(self):
         return str(self.user)
-
-
-
-
-
-
-
-
 #############################################################################################################
 
 # Assembly Sessions
@@ -767,3 +778,6 @@ class mptc(models.Model):
     Party = models.ForeignKey(Party,on_delete=models.SET_NULL, null=True)
     mptcname = models.ForeignKey(mptcname,on_delete=models.SET_NULL, null=True)
     mptcmember = models.CharField(max_length=100)
+
+class ExcelFileUpload(models.Model):
+    excel_file_upload = models.FileField(upload_to="excel")
