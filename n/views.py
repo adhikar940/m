@@ -42,6 +42,7 @@ from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_MET
 import pandas as pd
 from django.conf import settings
 import uuid
+#from loksabha.models import Loksabha_Complete_Session
 mnf = "adhikar869@gmail.com"
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 '''class LlViewSet(ModelViewSet):
@@ -169,8 +170,8 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class statepartyapi(APIView):
-    #permission_classes = (Isparty,)
-    #authentication_classes = (TokenAuthentication, )
+    permission_classes = (Isparty,)
+    authentication_classes = (TokenAuthentication, )
     def post(self, request):
         if 'email' in request.data:
             e = request.data['email']
@@ -192,39 +193,31 @@ class statepartyapi(APIView):
                 special_chars=r"@_!#$%^&*()<>?/\|}{~:",
                 include_special_chars=False)
                 passw=r.generate()
-                if(party.stateactivated == 'no'):
-                    party.stateactivated = f
-                    party.save()
+                if statepartyactivate.objects.filter(party=g,state=f).exists():
+                    response = {'m':'This state is already activated'}
+                    return Response(response, status=status.HTTP_200_OK)
                 else :
-                    zmn = party.stateactivated
-                    zm = zmn.split('-')
-                    zmnp = 0
-                    while(zmnp < len(zm)):
-                        if(zm[zmnp] == f):
-                            response = {'m':'Account already created for this state'}
-                            return Response(response, status=status.HTTP_200_OK)
-                        zmnp = zmnp+1
-                    party.stateactivated = zmn+'-'+f
-                    party.save()
-                send_mail(
-                    # title:
-                    "Account created for {title}".format(title="www.adhikar.net"),
-                    # message:
-                    "Welcome to India's first political social networking site. Thank you for creating the party {pp}'s account for the state {ss} with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p,ss=s1, u=e,p=passw),
-                    # from:
-                    kkkk.em,
-                    # to:
-                    [e,kkkk.em1]
-                )
-                q="sparty-"+p+"-"+g+"-"+f
-                user =User(email=e,first_name=q,last_name=f+'-'+p1,username=e)
-                user.set_password(passw)
-                user.save()
-                new_group = Group.objects.get(name = 'party')
-                user = User.objects.get(username = e)
-                user.groups.add(new_group)
-                response = {'m':'Account created'}
-                return Response(response, status=status.HTTP_200_OK)
+                    lp = statepartyactivate(party=party,state=S,email=e)
+                    lp.save()
+                    send_mail(
+                        # title:
+                        "Account created for {title}".format(title="www.adhikar.net"),
+                        # message:
+                        "Welcome to India's first political social networking site. Thank you for creating the party {pp}'s account for the state {ss} with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p,ss=s1, u=e,p=passw),
+                        # from:
+                        kkkk.em,
+                        # to:
+                        [e,kkkk.em1]
+                    )
+                    q="sparty-"+p+"-"+g+"-"+f
+                    user =User(email=e,first_name=q,last_name=f+'-'+p1,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'party')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
         else :
             response = {'m':'Kindly provide a valid email'}
             return Response(response, status=status.HTTP_200_OK)
@@ -446,9 +439,6 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
             response = {'m':'Kindly provide the mail'}
             return Response(response, status=status.HTTP_200_OK)
 class rajpersonalViewSet(viewsets.ModelViewSet):
-    """
-    A viewset for viewing and editing user instances.
-    """
     serializer_class = rajyasabhapersonalSerializer
     queryset = rajyasabhapersonal.objects.all()
 

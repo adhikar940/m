@@ -87,8 +87,8 @@ class Party(models.Model):
     founderPhoto = models.ImageField(upload_to='Party/founderPhoto/%Y-%m-%d/%H-%M-%S', null=True)
     chairpersonPhoto = models.ImageField(upload_to='Party/chairpersonPhoto/%Y-%m-%d/%H-%M-%S', null=True)
     actvated = models.CharField(max_length=20, choices=choice2, default='no')
-    stateactivated = models.CharField(max_length=10000, default='no')
-    districtactivated = models.CharField(max_length=10000, default='no')
+    #stateactivated = models.CharField(max_length=10000, default='no')
+    #districtactivated = models.CharField(max_length=10000, default='no')
 
     def __str__(self):
         return str(self.abbreviation)

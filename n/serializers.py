@@ -6,7 +6,7 @@ from rest_framework_tricks.serializers import (
     HyperlinkedModelSerializer,
     ModelSerializer,
 )
-
+#from loksabha.models import Loksabha_Complete_Session
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
 
@@ -109,21 +109,7 @@ class statesSerializers(serializers.ModelSerializer):
 class PSerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
-        fields = ['id','partyname', 'abbreviation','actvated','stateactivated']
-
-'''class LSerializers(serializers.ModelSerializer):
-    state = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-    Party = serializers.StringRelatedField()
-    class Meta:
-        model = LokSabha
-        fields = ['id','MP_name', 'state','Districts','constituency_name','Party','actvated']
-class LPSerializers(serializers.ModelSerializer):
-    Loksabha_Candidates = LSerializers(many=True, read_only=True)
-    class Meta:
-        model = State
-        fields = ['State_name', 'Loksabha_Candidates',]'''
-
+        fields = ['id','partyname', 'abbreviation','actvated']
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
