@@ -1,14 +1,14 @@
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
 from .models import *
-
+#from loksabha.models import Loksabha_Complete_Session
 admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMP, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMLA, ImportExportModelAdmin)
 
-
+admin.site.register(States, ImportExportModelAdmin)
 
 admin.site.register(Rajyasabha_Session, ImportExportModelAdmin)
 
@@ -18,10 +18,13 @@ admin.site.register(Legislative_council_Session, ImportExportModelAdmin)
 
 admin.site.register(user_profile, ImportExportModelAdmin)
 
-
+##### Party
 admin.site.register(Party, ImportExportModelAdmin)
+class partyAdmin(admin.ModelAdmin):
+    search_fields = ('party',)
+admin.site.register(statepartyactivate,partyAdmin)
+#admin.site.register(statepartyactivate, ImportExportModelAdmin)
 
-admin.site.register(States, ImportExportModelAdmin)
 ##### Rajyasabha
 class rajyasabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
@@ -40,7 +43,7 @@ admin.site.register(Loksabha_Session, ImportExportModelAdmin)
 class loksabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
 admin.site.register(loksabhapersonal, loksabhapersonalAdmin)
-
+admin.site.register(Loksabha_Complete_Session, ImportExportModelAdmin)
 #### Legistlative Assembly
 class assemblypersonalAdmin(admin.ModelAdmin):
     search_fields = ('mla',)
@@ -95,7 +98,7 @@ admin.site.register(Rajyasabha_Chairman, ImportExportModelAdmin)
 
 admin.site.register(Loksabha_Chairman, ImportExportModelAdmin)
 
-admin.site.register(Loksabha_Complete_Session, ImportExportModelAdmin)
+
 
 admin.site.register(Rajyasabha_Complete_Session, ImportExportModelAdmin)
 

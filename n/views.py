@@ -38,6 +38,11 @@ from rest_framework.decorators import api_view
 from . import kkkk
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.http import HttpResponse
+from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+import pandas as pd
+from django.conf import settings
+import uuid
+#from loksabha.models import Loksabha_Complete_Session
 mnf = "adhikar869@gmail.com"
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
 '''class LlViewSet(ModelViewSet):
@@ -45,12 +50,54 @@ regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
     serializer_class = LlSerializer
     permission_classes = [AllowAny]'''
 from rest_framework.permissions import BasePermission
+class IsGroupUser(BasePermission):
+    group = None
+    def has_permission(self, request, view):
+        user = request.user
+        return user.is_authenticated and user.groups.filter(name=self.group).exists()
+class Isparty(IsGroupUser):
+    group = 'party'
+class Isadmin(IsGroupUser):
+    group = 'admin'
+class IsloksabhaMP(IsGroupUser):
+    group = 'loksabhaMP'
+class IsrajyasabhaMP(IsGroupUser):
+    group = 'rajyasabhaMP'
+class Ismla(IsGroupUser):
+    group = 'mla'
+class Ismlc(IsGroupUser):
+    group = 'mlc'
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+class User1ViewSet(viewsets.ModelViewSet):
+    permission_classes = (Isparty,IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = User1Serializer
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    #permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+#### Party
 class PartyView(generics.ListAPIView):
     queryset = Party.objects.all()
     serializer_class = PartySerializers
     filter_backends = (DjangoFilterBackend,SearchFilter)
     filter_fields = ('partyname', 'abbreviation', )
     search_fields = ('partyname', 'abbreviation', )
+class stateactivateparty(generics.ListAPIView):
+    queryset = statepartyactivate.objects.all()
+    serializer_class =statepartyactivateSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('party','state','email')
+    search_fields = ('party','state','email')
+class districtactivateparty(generics.ListAPIView):
+    queryset = districtpartyactivate.objects.all()
+    serializer_class =districtpartyactivateSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('party','district','email')
+    search_fields = ('party','district','email')
 class AssemblyconstituencyView(generics.ListAPIView):
     queryset = Assembly_Constituency.objects.all()
     serializer_class = Assembly_ConstituencySerializers
@@ -79,23 +126,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         userSerilizer = UserSerializer(user, many=False)
         #userSerilizer.data
         return Response({'token': token.key, 'mn':mnf })
-class IsGroupUser(BasePermission):
-    group = None
-    def has_permission(self, request, view):
-        user = request.user
-        return user.is_authenticated and user.groups.filter(name=self.group).exists()
-class Isparty(IsGroupUser):
-    group = 'party'
-class Isadmin(IsGroupUser):
-    group = 'admin'
-class IsloksabhaMP(IsGroupUser):
-    group = 'loksabhaMP'
-class IsrajyasabhaMP(IsGroupUser):
-    group = 'rajyasabhaMP'
-class Ismla(IsGroupUser):
-    group = 'mla'
-class Ismlc(IsGroupUser):
-    group = 'mlc'
+
 
 def check(email):
     # pass the regular expression
@@ -162,39 +193,31 @@ class statepartyapi(APIView):
                 special_chars=r"@_!#$%^&*()<>?/\|}{~:",
                 include_special_chars=False)
                 passw=r.generate()
-                if(party.stateactivated == 'no'):
-                    party.stateactivated = f
-                    party.save()
+                if statepartyactivate.objects.filter(party=g,state=f).exists():
+                    response = {'m':'This state is already activated'}
+                    return Response(response, status=status.HTTP_200_OK)
                 else :
-                    zmn = party.stateactivated
-                    zm = zmn.split('-')
-                    zmnp = 0
-                    while(zmnp < len(zm)):
-                        if(zm[zmnp] == f):
-                            response = {'m':'Account already created for this state'}
-                            return Response(response, status=status.HTTP_200_OK)
-                        zmnp = zmnp+1
-                    party.stateactivated = zmn+'-'+f
-                    party.save()
-                send_mail(
-                    # title:
-                    "Account created for {title}".format(title="www.adhikar.net"),
-                    # message:
-                    "Welcome to India's first political social networking site. Thank you for creating the party {pp}'s account for the state {ss} with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p,ss=s1, u=e,p=passw),
-                    # from:
-                    kkkk.em,
-                    # to:
-                    [e,kkkk.em1]
-                )
-                q="sparty-"+p+"-"+g+"-"+f
-                user =User(email=e,first_name=q,last_name=f+'-'+p1,username=e)
-                user.set_password(passw)
-                user.save()
-                new_group = Group.objects.get(name = 'party')
-                user = User.objects.get(username = e)
-                user.groups.add(new_group)
-                response = {'m':'Account created'}
-                return Response(response, status=status.HTTP_200_OK)
+                    lp = statepartyactivate(party=party,state=S,email=e)
+                    lp.save()
+                    send_mail(
+                        # title:
+                        "Account created for {title}".format(title="www.adhikar.net"),
+                        # message:
+                        "Welcome to India's first political social networking site. Thank you for creating the party {pp}'s account for the state {ss} with www.adhikar.net. You can login with the credentials username - {u} and password - {p}".format(pp=p,ss=s1, u=e,p=passw),
+                        # from:
+                        kkkk.em,
+                        # to:
+                        [e,kkkk.em1]
+                    )
+                    q="sparty-"+p+"-"+g+"-"+f
+                    user =User(email=e,first_name=q,last_name=f+'-'+p1,username=e)
+                    user.set_password(passw)
+                    user.save()
+                    new_group = Group.objects.get(name = 'party')
+                    user = User.objects.get(username = e)
+                    user.groups.add(new_group)
+                    response = {'m':'Account created'}
+                    return Response(response, status=status.HTTP_200_OK)
         else :
             response = {'m':'Kindly provide a valid email'}
             return Response(response, status=status.HTTP_200_OK)
@@ -304,7 +327,6 @@ class State_api(APIView):
         data = State.objects.all()
         serializer = stateSerializers(data, many=True)
         return Response(serializer.data)
-
 class States_api(APIView):
     def get(self, request):
         data = States.objects.all()
@@ -417,9 +439,6 @@ class Party_Wise_Rajyasabha_Candidates_api(APIView):
             response = {'m':'Kindly provide the mail'}
             return Response(response, status=status.HTTP_200_OK)
 class rajpersonalViewSet(viewsets.ModelViewSet):
-    """
-    A viewset for viewing and editing user instances.
-    """
     serializer_class = rajyasabhapersonalSerializer
     queryset = rajyasabhapersonal.objects.all()
 
@@ -1428,3 +1447,15 @@ def user_change_password(request):
 # Forgot Password..
 def user_forgot_password(request):
     return HttpResponseRedirect('/reset_password/')
+
+class kapi(APIView):
+    def get(self,request):
+        data1 = Legislative_councils.objects.all().filter(state=39)
+        serializer = Legislative_councilsSerializer(data1, many=True)
+        df = pd.DataFrame(serializer.data)
+        #print(df)
+        df.to_csv(f"file1.csv",encoding="UTF-8",index=False)
+        df.to_csv(f"file1.xlsx",encoding="UTF-8",index=False)
+        return Response({'status':200})
+    def post(self,request):
+        excelob = ExcelFileUpload.objects.create(excel_file_upload=request.FILES['files'])

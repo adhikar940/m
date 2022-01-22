@@ -6,7 +6,7 @@ from rest_framework_tricks.serializers import (
     HyperlinkedModelSerializer,
     ModelSerializer,
 )
-
+#from loksabha.models import Loksabha_Complete_Session
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
 
@@ -15,36 +15,101 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+    def validate_email(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError({"email": "This email is already in use."})
+        return value
+
+    def validate_username(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError({"username": "This username is already in use."})
+        return value
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        '''if user.pk != instance.pk:
+            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})'''
+        instance.email = validated_data['email']
+        instance.username = validated_data['username']
+        instance.save()
+        return instance
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'password')
+        fields = ('id', 'username','email', 'password')
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
-
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         Token.objects.create(user=user)
         return user
+    def validate_email(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError({"email": "This email is already in use."})
+        return value
+    def validate_username(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError({"username": "This username is already in use."})
+        return value
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        if user.pk != instance.pk:
+            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+        p = validated_data['password']
+        instance.set_password(p)
+        instance.username = validated_data['username']
+        instance.email = validated_data['email']
+        instance.save()
+        return instance
+class User1Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username','email', 'password')
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        Token.objects.create(user=user)
+        return user
+    def validate_email(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+            raise serializers.ValidationError({"email": "This email is already in use."})
+        return value
+    def validate_username(self, value):
+        user = self.context['request'].user
+        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError({"username": "This username is already in use."})
+        return value
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        p = validated_data['password']
+        instance.set_password(p)
+        instance.username = validated_data['username']
+        instance.email = validated_data['email']
+        instance.save()
+        return instance
+class statesSerializers(serializers.ModelSerializer):
+    State = serializers.StringRelatedField()
 
+    class Meta:
+        model = States
+        fields = ['State', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
+######### Party
 
 class PSerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
-        fields = ['id','partyname', 'abbreviation','actvated','stateactivated']
-
-'''class LSerializers(serializers.ModelSerializer):
-    state = serializers.StringRelatedField()
-    Districts = serializers.StringRelatedField()
-    Party = serializers.StringRelatedField()
-    class Meta:
-        model = LokSabha
-        fields = ['id','MP_name', 'state','Districts','constituency_name','Party','actvated']
-class LPSerializers(serializers.ModelSerializer):
-    Loksabha_Candidates = LSerializers(many=True, read_only=True)
-    class Meta:
-        model = State
-        fields = ['State_name', 'Loksabha_Candidates',]'''
-
+        fields = ['id','partyname', 'abbreviation','actvated']
 class PartySerializers(serializers.ModelSerializer):
     class Meta:
         model = Party
@@ -52,13 +117,18 @@ class PartySerializers(serializers.ModelSerializer):
                   'headquarters', 'seats_in_rajyasabha', 'seats_in_loksabha', 'party_symbol', 'founderPhoto',
                   'chairpersonPhoto','actvated']
 
-class statesSerializers(serializers.ModelSerializer):
-    State = serializers.StringRelatedField()
-
+class statepartyactivateSerializers(serializers.ModelSerializer):
+    state = serializers.StringRelatedField()
+    party = serializers.StringRelatedField()
     class Meta:
-        model = States
-        fields = ['State', 'capital', 'chief_minister', 'chief_minister_Photo', 'Governor', 'Governor_Photo']
-
+        model = districtpartyactivate
+        fields = ['party','state','email']
+class districtpartyactivateSerializers(serializers.ModelSerializer):
+    state = serializers.StringRelatedField()
+    district = serializers.StringRelatedField()
+    class Meta:
+        model = statepartyactivate
+        fields = ['party','district','email']
 
 ##########################################################################################
 
@@ -224,14 +294,14 @@ class assemblypersonalSerializer(serializers.ModelSerializer):
 
 # FOR COUNCIL
 class Legislative_councilsSerializer(serializers.ModelSerializer):
-    State = serializers.StringRelatedField()
+    state = serializers.StringRelatedField()
     Districts = serializers.StringRelatedField()
     party = serializers.StringRelatedField()
     class Meta:
         model = Legislative_councils
-        fields = ['State', 'Districts', 'constituency_name', 'MLC_name', 'elected', 'presentorx',
+        fields = ['id','state', 'Districts', 'constituency_name', 'MLC_name', 'elected', 'presentorx',
                   'actvated','party','party_name','gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
-                   'Email_address', 'Mobile','chldid']
+                   'Email_address', 'Mobile','chldid','Termend']
 class State_councilSerializer(serializers.ModelSerializer):
     Legislative_Council_Candidates = Legislative_councilsSerializer(many=True, read_only=True)
     class Meta:
