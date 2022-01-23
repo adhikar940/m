@@ -22,3 +22,4 @@ loksabha/migrations
 rajyasabha/migrations
 assembly/migrations
 council/migrations
+party/migrations
