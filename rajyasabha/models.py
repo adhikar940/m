@@ -1,6 +1,7 @@
 from django.db import models
 from n.models import *
-'''class Rajyasabhapresedential1(Parliament):
+from party.models import Party1
+class Rajyasabhapresedential1(Parliament):
     choice = (
         ('Legislature', 'Legislature'),
         ('President', 'President')
@@ -26,7 +27,7 @@ class Rajyasabha1(Parliament):
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
                               default='')
     MP_name = models.CharField(max_length=300, default='')
-    Party = models.ForeignKey(Party,on_delete=models.SET_NULL, null=True)
+    Party = models.ForeignKey(Party1,on_delete=models.SET_NULL, null=True)
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
@@ -44,4 +45,29 @@ class rajyasabhapersonal1(personal):
 
     def __str__(self):
         return '%s' % (self.mp)
-'''
+
+#$#### SESSIONS
+# Rajyasabha Individual Sessions
+class Rajyasabha_Session1(models.Model):
+    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True, default='')
+    Session_Title = models.ForeignKey(Sessions, on_delete=models.CASCADE, null=True, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    link =  models.CharField(max_length=1000, default='')
+
+    def __str__(self):
+        return str(self.Session_Title)
+    class Meta:
+        ordering = ['-date']
+# Rajyasabha Complete Sessions
+class Rajyasabha_Complete_Session1(models.Model):
+    Session_Title = models.ForeignKey(Sessions,on_delete=models.CASCADE, null=True, default='')
+    Description = models.CharField(max_length=100, default='')
+    date = models.DateField()
+    session = models.TextField(default='')
+    video_link = models.CharField(max_length=1000, default='')
+
+    def __str__(self):
+        return str(self.Session_Title)+'-'+str(self.date)
+    class Meta:
+        ordering = ['-date']
