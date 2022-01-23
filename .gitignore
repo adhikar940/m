@@ -15,11 +15,7 @@ m/a.py
 /csvs
 n/kkkk.py
 n/__pycache__
-
+party/migrations
 n/file1.csv
 n/file1.xlsx
 loksabha/migrations
-rajyasabha/migrations
-assembly/migrations
-council/migrations
-party/migrations
