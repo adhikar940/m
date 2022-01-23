@@ -32,6 +32,10 @@ router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename=
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
 path('loksabha/', include('loksabha.urls')),
+path('rajyasabha/', include('rajyasabha.urls')),
+path('assembly/', include('assembly.urls')),
+path('council/', include('council.urls')),
+path('party/', include('party.urls')),
 path('auth/', obtain_auth_token),
 url('authenticate/', views.CustomObtainAuthToken.as_view()),
  path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),

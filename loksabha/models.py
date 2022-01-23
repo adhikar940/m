@@ -1,11 +1,11 @@
 from django.db import models
 from n.models import *
-
+from party.models import Party1
 class LokSabha1(Parliament):
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
                               default='')
     MP_name = models.CharField(max_length=300, null=True)
-    Party = models.ForeignKey(Party,on_delete=models.CASCADE, null=True,default='')
+    Party = models.ForeignKey(Party1,on_delete=models.CASCADE, null=True,default='')
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     constituency_name = models.CharField(max_length=200, default='')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
