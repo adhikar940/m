@@ -18,3 +18,8 @@ n/__pycache__
 
 n/file1.csv
 n/file1.xlsx
+loksabha/migrations
+rajyasabha/migrations
+assembly/migrations
+council/migrations
+party/migrations

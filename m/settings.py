@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'rest_framework_tricks',
      'django_filters',
      'loksabha',
+     'rajyasabha',
+     'assembly',
+     'council',
+     'party'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

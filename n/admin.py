@@ -35,14 +35,15 @@ class rajyasabhapersonalAdmin(admin.ModelAdmin):
 admin.site.register(rajyasabhapersonal, rajyasabhapersonalAdmin)
 admin.site.register(Rajyasabhapresedential, ImportExportModelAdmin)
 ##### Loksabha
-class loksabhaAdmin(admin.ModelAdmin):
+'''class loksabhaAdmin(admin.ModelAdmin):
     search_fields = ('MP_name',)
-admin.site.register(LokSabha,loksabhaAdmin)
-#admin.site.register(LokSabha, ImportExportModelAdmin)
+admin.site.register(LokSabha,loksabhaAdmin)'''
+admin.site.register(LokSabha, ImportExportModelAdmin)
 admin.site.register(Loksabha_Session, ImportExportModelAdmin)
-class loksabhapersonalAdmin(admin.ModelAdmin):
+'''class loksabhapersonalAdmin(admin.ModelAdmin):
     search_fields = ('mp',)
-admin.site.register(loksabhapersonal, loksabhapersonalAdmin)
+admin.site.register(loksabhapersonal, loksabhapersonalAdmin)'''
+admin.site.register(loksabhapersonal, ImportExportModelAdmin)
 admin.site.register(Loksabha_Complete_Session, ImportExportModelAdmin)
 #### Legistlative Assembly
 class assemblypersonalAdmin(admin.ModelAdmin):
