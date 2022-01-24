@@ -19,3 +19,6 @@ party/migrations
 n/file1.csv
 n/file1.xlsx
 loksabha/migrations
+rajyasabha/migrations
+assembly/migrations
+council/migrations
