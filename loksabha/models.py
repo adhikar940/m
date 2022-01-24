@@ -1,6 +1,15 @@
 from django.db import models
 from n.models import *
 from party.models import Party1
+class Loksabha_Constituency(models.Model):
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Loksabha_Constituency_Name = models.CharField(max_length=100)
+    class Meta:
+        unique_together = ['Loksabha_Constituency_Name']
+        ordering = ['Loksabha_Constituency_Name']
+    def __str__(self):
+        return '%s' %(self.Loksabha_Constituency_Name)
 class LokSabha1(Parliament):
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
                               default='')

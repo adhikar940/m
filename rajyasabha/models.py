@@ -31,7 +31,6 @@ class Rajyasabha1(Parliament):
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
-    Termend =  models.DateField(default='0001-01-01')
     class Meta:
         unique_together = ['MP_name']
         ordering = ['MP_name']
@@ -45,6 +44,17 @@ class rajyasabhapersonal1(personal):
 
     def __str__(self):
         return '%s' % (self.mp)
+
+class Rajyasabhaterm(models.Model):
+    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True, default='')
+    year =  models.IntegerField(blank=True)
+    month = models.IntegerField(choices=[(i, i) for i in range(1, 13)], blank=True)
+    date = models.IntegerField(choices=[(i, i) for i in range(1, 32)], blank=True)
+    class Meta:
+        unique_together = ['Rajyasabha_MP_Name','year','month','date']
+    def __str__(self):
+        return '%s' % (self.Rajyasabha_MP_Name)
+
 
 #$#### SESSIONS
 # Rajyasabha Individual Sessions

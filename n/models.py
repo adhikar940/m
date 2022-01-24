@@ -190,7 +190,7 @@ class Rajyasabha(Parliament):
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
     presentorx = models.CharField(max_length=500, choices=choice1, default='present')
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
-    Termend =  models.DateField(default='0001-01-01')
+    #Termend =  models.DateField(default='0001-01-01')
     class Meta:
         unique_together = ['MP_name']
         ordering = ['MP_name']
@@ -345,7 +345,7 @@ class Legislative_councils(Parliament):
     actvated = models.CharField(max_length=500, choices=choice2, default='no')
     party = models.ForeignKey(Party, related_name='LC', on_delete=models.CASCADE, null=True, default='')
     photo = models.ImageField(upload_to='photo/', null=True, blank=True)
-    Termend =  models.DateField(default='0001-01-01')
+    #Termend =  models.DateField(default='0001-01-01')
     class Meta:
         unique_together = ['MLC_name']
 
