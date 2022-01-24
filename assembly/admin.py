@@ -1,3 +1,7 @@
 from django.contrib import admin
-
-# Register your models here.
+from import_export.admin import ImportExportModelAdmin
+from . models import *
+admin.site.register(Assembly_Constituency1, ImportExportModelAdmin)
+admin.site.register(Legislative_Assembly1, ImportExportModelAdmin)
+admin.site.register(assemblypersonal1, ImportExportModelAdmin)
+admin.site.register(assemblyterm, ImportExportModelAdmin)
