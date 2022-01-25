@@ -648,7 +648,7 @@ class LokSabhacompleteSessionView(generics.ListAPIView):
     filter_backends = (DjangoFilterBackend,SearchFilter)
     filter_fields = ('Loksabha_Session_Title', 'date', )
     search_fields = ('Loksabha_Session_Title', 'date',)
-######################################################################################################
+#################################### Assembly  ##################################################################
 class Assembly_Constituency_Members_api(APIView):
     def get(self,request):
         data = Assembly_Constituency.objects.all()
