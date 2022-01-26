@@ -374,9 +374,6 @@ class StateSerializers(serializers.ModelSerializer):
 
 
 class DistrictsSerializers(serializers.ModelSerializer):
-
-    #State = serializers.StringRelatedField()
-
     class Meta:
         model = Districts
         fields = ['id', 'District_name','Map']

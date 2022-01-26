@@ -322,16 +322,24 @@ class Coalition_Party_api(APIView):
         data = Bihar_Coalition_Party.objects.all()
         serializer = Bihar_Coalition_PartySerializers(data, many=True)
         return Response(serializer.data)
-class State_api(APIView):
-    def get(self, request):
-        data = State.objects.all()
-        serializer = stateSerializers(data, many=True)
-        return Response(serializer.data)
+
 class States_api(APIView):
     def get(self, request):
         data = States.objects.all()
         serializer = statesSerializers(data, many=True)
         return Response(serializer.data)
+class State_api(generics.ListAPIView):
+    queryset = State.objects.all()
+    serializer_class = StateSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('id','State_name','Status',)
+    search_fields = ('id','State_name','Status',)
+class Districts_api(generics.ListAPIView):
+    queryset = Districts.objects.all()
+    serializer_class =  DistrictsSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('id', 'District_name',)
+    search_fields = ('id', 'District_name',)
 
 
 
@@ -942,17 +950,7 @@ class Municipal_time_period_api(APIView):
         serializer = Municipal_corporation_time_periodSerializers(data, many=True)
         return Response(serializer.data)
 
-class State_api(APIView):
-    def get(self,request):
-        data = State.objects.all()
-        serializer = StateSerializers(data, many=True)
-        return Response(serializer.data)
 
-class Districts_api(APIView):
-    def get(self,request):
-        data = Districts.objects.all()
-        serializer = DistrictsSerializers(data, many=True)
-        return Response(serializer.data)
 class State_Wise_Districts_api(APIView):
     def get(self, request):
         data = State.objects.all()
