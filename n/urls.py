@@ -39,8 +39,8 @@ urlpatterns = [
     url(r'^party_api/', user_views.Party_api.as_view()),
     url(r'^activatedparty/', user_views.Activatedparty.as_view()),
     url(r'^coalitionparty_api/', user_views.Coalition_Party_api.as_view()),
-
-
+#### Sessions
+path('session/', views.Sessions.as_view()),
     ############################        Rajya Sabha           ####################################################
     url(r'^activatedrajyasabha/', user_views.ActivatedrajyaSabha.as_view()),
     url(r'^Rajyasabha_Candidates_api/', user_views.Rajyasabha_Members_api.as_view()),

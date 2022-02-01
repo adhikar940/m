@@ -322,7 +322,6 @@ class Coalition_Party_api(APIView):
         data = Bihar_Coalition_Party.objects.all()
         serializer = Bihar_Coalition_PartySerializers(data, many=True)
         return Response(serializer.data)
-
 class States_api(APIView):
     def get(self, request):
         data = States.objects.all()
@@ -475,6 +474,12 @@ class rajyasabhapersonal1ViewSet(viewsets.ModelViewSet):
     def rajyasabhapersonal(self,request,pk=None):
         u=self.get_object
 ####################      RajyaSABHA Sessions     ###################################################################
+class Sessions(generics.ListAPIView):
+    queryset = Sessions.objects.all()
+    serializer_class = SessionSerializers
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('id','year','Session_Title' )
+    search_fields = ('id','year','Session_Title' )
 class RajyaSabhaSessionView(generics.ListAPIView):
     queryset = Rajyasabha_Session.objects.all()
     serializer_class = Rajyasabha_SessionSerializers

@@ -178,6 +178,10 @@ class rajyasabhapersonal1Serializer(serializers.ModelSerializer):
         fields = ['id', ]
         #extra_kwargs = {'mp': {'read_only': True}}
 ##########################  rajya sabha sessions #######################################################
+class SessionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Sessions
+        fields = ['id','year','Session_Title' ]
 class Rajyasabha_SessionSerializers(serializers.ModelSerializer):
     Rajyasabha_MP_Name = serializers.StringRelatedField()
     Session_Title  = serializers.StringRelatedField()

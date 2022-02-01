@@ -35,6 +35,7 @@ class Loksabha_SessionSerializers1(serializers.ModelSerializer):
         fields = ['Loksabha_MP_Name', 'date', 'session', 'link','Session_Title' ]
 
 class Loksabha_Complete_SessionSerializers1(serializers.ModelSerializer):
+    Loksabha_Session_Title = serializers.StringRelatedField()
     class Meta:
         model = Loksabha_Complete_Session1
-        fields = ['Description', 'date', 'session', 'video_link']
+        fields = ['Loksabha_Session_Title','Description', 'date', 'session', 'video_link']

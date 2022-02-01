@@ -206,8 +206,10 @@ class rajyasabhapersonal(personal):
         return '%s' % (self.mp)
 ######################################   Rajyasabha Sessions  ######################################################################
 class Sessions(models.Model):
-    year = models.CharField(max_length=10, default='')
+    year = models.CharField(max_length=10, default='',unique = True)
     Session_Title = models.CharField(max_length=100,choices=choice3)
+    class Meta:
+        unique_together = ['year','Session_Title']
     def __str__(self):
         k = str(self.year)+'-'+str(self.Session_Title)
         return k
