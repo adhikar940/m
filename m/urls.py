@@ -9,7 +9,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 #from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
 from n.views import ChangePasswordView
-
+from . router import router
+'''
 router = routers.DefaultRouter()
 router.register('users', views.UserViewSet)
 router.register('user1', views.User1ViewSet)
@@ -25,12 +26,14 @@ router.register('councilpersondisplay', views.CouncilpersonalViewSet,basename='c
 router.register('lokpersondisplay', views.LoksabhapersonalViewSet,basename='l')
 router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename='a')
 #router.register('Ll', views.LlViewSet)
-#urlpatterns = router.urls
+#urlpatterns = router.urls'''
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+path('r/',include(router.urls)),
+path('flags/', include('flags.urls')),
 path('loksabha/', include('loksabha.urls')),
 path('rajyasabha/', include('rajyasabha.urls')),
 path('assembly/', include('assembly.urls')),
@@ -80,8 +83,7 @@ path('', include(router.urls)),
 
 ]
 if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns +=path('__debug__/',include(debug_toolbar.urls)),
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-
-
-path('', include(router.urls)),

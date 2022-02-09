@@ -49,7 +49,9 @@ INSTALLED_APPS = [
      'rajyasabha',
      'assembly',
      'council',
-     'party'
+     'party',
+     'flags',
+     'debug_toolbar',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -67,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
      'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 
 ]
 
