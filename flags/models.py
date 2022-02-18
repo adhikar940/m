@@ -12,7 +12,8 @@ class flag(models.Model):
     Highlight = models.CharField(max_length=10, choices=highlight, default='n')
     color = models.CharField(max_length=10)
     url = models.CharField(max_length=50,null=True)
-    path = models.CharField(max_length=50,null=True)
+    videourl = models.CharField(max_length=50,null=True)
+    name = models.CharField(max_length=50,null=True)
 
     class Meta:
         unique_together = ['color']
