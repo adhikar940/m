@@ -8,8 +8,8 @@ class LokSabhaView1(generics.ListAPIView):
     queryset = LokSabha1.objects.all()
     serializer_class = LSerializers1
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('MP_name',  )
-    search_fields = ('MP_name', )
+    filter_fields = ('MP_name', 'state', )
+    search_fields = ('MP_name', 'state',)
 class LokSabhaSessionView1(generics.ListAPIView):
     queryset = Loksabha_Session1.objects.all()
     serializer_class =  Loksabha_SessionSerializers1
