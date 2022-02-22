@@ -6,11 +6,16 @@ from rest_framework import generics
 from rest_framework.filters import SearchFilter
 class RajyaSabhaView(generics.ListAPIView):
     queryset = Rajyasabha1.objects.all()
+    serializer_class = RSerializers1
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    filter_fields = ('MP_name','state' )
+    search_fields = ('MP_name','state' )
+class RajyaSabhaView1(generics.ListAPIView):
+    queryset = Rajyasabha1.objects.all()
     serializer_class = RajyasabhaSerializers1
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('MP_name',  )
-    search_fields = ('MP_name', )
-
+    filter_fields = ('MP_name','state' )
+    search_fields = ('MP_name','state' )
 # sessions
 class RajyaSabhaSessionView1(generics.ListAPIView):
     queryset = Rajyasabha_Session1.objects.all()

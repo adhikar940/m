@@ -2,11 +2,12 @@ from rest_framework import serializers
 from . models import *
 from n.models import *
 class RajyasabhaSerializers1(serializers.ModelSerializer):
-    #State = serializers.StringRelatedField()
+    state = serializers.StringRelatedField()
+    Districts = serializers.StringRelatedField()
     Party = serializers.StringRelatedField()
     class Meta:
         model = Rajyasabha1
-        fields = ['MP_name', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
+        fields = ['MP_name','state','Districts', 'party_name', 'Party', 'gender', 'fathers_Name', 'Spouse_Name', 'Highest_Education',
                   'University', 'photo', 'address', 'elected', 'Email_address', 'Mobile', 'chldid']
 class RSerializers1(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
