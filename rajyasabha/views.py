@@ -14,7 +14,7 @@ class RajyaSabhaView1(generics.ListAPIView):
     queryset = Rajyasabha1.objects.all()
     serializer_class = RajyasabhaSerializers1
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('MP_name','state' )
+    filter_fields = ('id','MP_name','state' )
     search_fields = ('MP_name','state' )
 # sessions
 class RajyaSabhaSessionView1(generics.ListAPIView):
