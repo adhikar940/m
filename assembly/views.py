@@ -14,8 +14,8 @@ class Legislative_Assembly1(generics.ListAPIView):
     queryset = Legislative_Assembly1.objects.all()
     serializer_class =  Legislative_AssemblySerializers1
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('State','District', 'constituency_name', 'MLA_name',)
-    search_fields = ('State','District', 'constituency_name', 'MLA_name', )
+    filter_fields = ('state','District', 'constituency_name', 'MLA_name',)
+    search_fields = ('state','District', 'constituency_name', 'MLA_name', )
 class assemblypersonal1(generics.ListAPIView):
     queryset = assemblypersonal1.objects.all()
     serializer_class =  assemblypersonalSerializer1

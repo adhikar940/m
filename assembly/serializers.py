@@ -13,7 +13,7 @@ class Legislative_AssemblySerializers1(serializers.ModelSerializer):
     constituency_name =  serializers.StringRelatedField()
     class Meta:
         model = Legislative_Assembly1
-        fields = ['State','District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'gender',
+        fields = ['state','District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'gender',
                   'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
                   'Email_address', 'Mobile', 'chldid']
 
@@ -27,5 +27,3 @@ class assemblytermSerializers(serializers.ModelSerializer):
     class Meta:
         model = assemblyterm
         fields = ['mla','year', 'month', 'date']
-
-        
