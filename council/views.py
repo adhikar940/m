@@ -8,8 +8,8 @@ class Legislative_councils(generics.ListAPIView):
     queryset = Legislative_councils1.objects.all()
     serializer_class = Legislative_councilsSerializer1
     filter_backends = (DjangoFilterBackend,SearchFilter)
-    filter_fields = ('state', 'Districts', 'constituency_name', 'MLC_name',)
-    search_fields = ('state', 'Districts', 'constituency_name', 'MLC_name', )
+    filter_fields = ('id','state', 'Districts', 'constituency_name', 'MLC_name',)
+    search_fields = ('id','state', 'Districts', 'constituency_name', 'MLC_name', )
 class councilpersonal(generics.ListAPIView):
     queryset = councilpersonal1.objects.all()
     serializer_class =  councilpersonalSerializer1
