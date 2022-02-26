@@ -52,6 +52,7 @@ INSTALLED_APPS = [
      'party',
      'flags',
      'debug_toolbar',
+     'carporations'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
