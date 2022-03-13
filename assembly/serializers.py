@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from . models import *
 from n.models import *
+class Legislative_AssemblySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Legislative_Assembly1
+        fields = '__all__'
 class Assembly_ConstituencySerializers1(serializers.ModelSerializer):
     class Meta:
         model = Assembly_Constituency1

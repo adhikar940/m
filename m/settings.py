@@ -139,15 +139,7 @@ USE_TZ = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
 
-MEDIA_URL = '/images/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 #AUTHENTICATION_BACKENDS = ['n.authentication.EmailBackend']
 

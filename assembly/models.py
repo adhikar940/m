@@ -42,3 +42,5 @@ class assemblyterm(models.Model):
         unique_together = ['mla','year','month','date']
     def __str__(self):
         return '%s' % (self.mla)
+class excelupload(models.Model):
+    excelfileupload = models.FileField(upload_to = '')
