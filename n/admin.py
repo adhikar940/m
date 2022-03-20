@@ -51,7 +51,7 @@ class assemblypersonalAdmin(admin.ModelAdmin):
 admin.site.register(assemblypersonal, assemblypersonalAdmin)
 '''class assemblyAdmin(admin.ModelAdmin):
     search_fields = ('MLA_name',)
-admin.site.register(Legislative_Assembly,assemblyAdmin)'''  
+admin.site.register(Legislative_Assembly,assemblyAdmin)'''
 admin.site.register(Legislative_Assembly, ImportExportModelAdmin)
 
 #### Legistlative Council

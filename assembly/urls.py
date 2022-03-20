@@ -7,4 +7,5 @@ path('Legislative_Assembly/', Legislative_Assembly1.as_view()),
 path('assemblypersonal/', assemblypersonal1.as_view()),
 path('assemblyterm/', assemblyterm.as_view()),
 path('excel/',ExportImportExcelView.as_view()),
+path('upload/',export11),
 ]

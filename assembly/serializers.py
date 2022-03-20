@@ -20,7 +20,6 @@ class Legislative_AssemblySerializers1(serializers.ModelSerializer):
         fields = ['id','state','District', 'constituency_name', 'MLA_name', 'party_name', 'Party', 'gender',
                   'fathers_Name', 'Spouse_Name', 'Highest_Education', 'University', 'photo', 'address',
                   'Email_address', 'Mobile', 'chldid']
-
 class assemblypersonalSerializer1(serializers.ModelSerializer):
     mla = serializers.StringRelatedField()
     class Meta:

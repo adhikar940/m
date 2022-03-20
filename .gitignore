@@ -5,4 +5,10 @@ m/a.py
 n/kkkk.py
 n/file1.csv
 n/file1.xlsx
-
+admin/
+images/
+rest_framework/
+import_export/
+static/
+static_new/
+debug_toolbar/
