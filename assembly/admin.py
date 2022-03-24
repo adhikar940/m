@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin,ImportExportActionModelAdmin
 from . models import *
 from import_export import resources
-'''
+
 class Assembly_Constituency1Resource(resources.ModelResource):
     class Meta:
         model = Assembly_Constituency1
@@ -10,7 +10,7 @@ class Assembly_Constituency1Admin(ImportExportModelAdmin):
     #list_display=('MLA_name',)
     list_filter=('State','Assembly_Constituency_Name')
     resource_class = Assembly_Constituency1Resource
-admin.site.register(Assembly_Constituency1, Assembly_Constituency1Admin)'''
+admin.site.register(Assembly_Constituency1, Assembly_Constituency1Admin)
 
 #admin.site.register(Legislative_Assembly1, ImportExportModelAdmin)
 class Legislative_Assembly1Resource(resources.ModelResource):
