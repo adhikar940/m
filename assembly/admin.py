@@ -8,7 +8,7 @@ class Assembly_Constituency1Resource(resources.ModelResource):
         model = Assembly_Constituency1
 class Assembly_Constituency1Admin(ImportExportModelAdmin):
     #list_display=('MLA_name',)
-    list_filter=('State','Assembly_Constituency_Name')
+    list_filter=('State',)
     resource_class = Assembly_Constituency1Resource
 admin.site.register(Assembly_Constituency1, Assembly_Constituency1Admin)
 
