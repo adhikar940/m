@@ -18,6 +18,7 @@ class Legislative_Assembly1Resource(resources.ModelResource):
         model = Legislative_Assembly1
 class Legislative_Assembly1Admin(ImportExportModelAdmin):
     #list_display=('MLA_name',)
+    search_fields = ['MLA_name',]
     list_filter=('state','Party')
     resource_class = Legislative_Assembly1Resource
 admin.site.register(Legislative_Assembly1, Legislative_Assembly1Admin)
