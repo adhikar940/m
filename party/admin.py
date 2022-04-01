@@ -6,7 +6,7 @@ class Party1Resource(resources.ModelResource):
     class Meta:
         model = Party1
 class Party1Admin(ImportExportModelAdmin):
-    #list_display=('MLA_name',)
+    list_display=('id','abbreviation')
     search_fields = ['partyname','abbreviation']
     resource_class = Party1Resource
 admin.site.register(Party1, Party1Admin)
