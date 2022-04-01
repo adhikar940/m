@@ -9,6 +9,7 @@ class Party1Admin(ImportExportModelAdmin):
     #list_display=('MLA_name',)
     search_fields = ['partyname','abbreviation']
     resource_class = Party1Resource
+admin.site.register(Party1, Party1Admin)
 #admin.site.register(Party1, ImportExportModelAdmin)
 admin.site.register(statepartyactivate1, ImportExportModelAdmin)
 admin.site.register(districtpartyactivate1, ImportExportModelAdmin)
