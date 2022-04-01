@@ -4,6 +4,7 @@ from . models import *
 from import_export import resources
 
 class Assembly_Constituency1Resource(resources.ModelResource):
+    search_fields = ['Assembly_Constituency_Name',]
     class Meta:
         model = Assembly_Constituency1
 class Assembly_Constituency1Admin(ImportExportModelAdmin):
@@ -22,7 +23,6 @@ class Legislative_Assembly1Admin(ImportExportModelAdmin):
     list_filter=('state','Party')
     resource_class = Legislative_Assembly1Resource
 admin.site.register(Legislative_Assembly1, Legislative_Assembly1Admin)
-
 admin.site.register(assemblypersonal1, ImportExportModelAdmin)
 admin.site.register(assemblyterm, ImportExportModelAdmin)
 admin.site.register(excelupload, ImportExportModelAdmin)
