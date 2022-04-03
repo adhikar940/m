@@ -1,7 +1,32 @@
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin,ImportExportActionModelAdmin
 from django.contrib import admin
+from import_export import resources
 from .models import *
 #from loksabha.models import Loksabha_Complete_Session
+class DistrictsResource(resources.ModelResource):
+    class Meta:
+        model = Districts
+class DistrictsAdmin(ImportExportModelAdmin):
+    list_display=('id','District_name')
+    search_fields = ['id','District_name']
+    list_filter=('State',)
+    resource_class = DistrictsResource
+admin.site.register(Districts, DistrictsAdmin)
+
+class CityResource(resources.ModelResource):
+    class Meta:
+        model = City
+class CityAdmin(ImportExportModelAdmin):
+    list_display=('id','City_name')
+    search_fields = ['id','City_name']
+    list_filter=('State','Districts')
+    resource_class = CityResource
+admin.site.register(City, CityAdmin)
+
+
+admin.site.register(State, ImportExportModelAdmin)
+
+
 admin.site.register(PartyMemberPassword, ImportExportModelAdmin)
 
 admin.site.register(PartywiseMP, ImportExportModelAdmin)
@@ -71,11 +96,7 @@ admin.site.register(Panchayat_time_period, ImportExportModelAdmin)
 
 admin.site.register(Municipal_corporation_time_period, ImportExportModelAdmin)
 
-admin.site.register(State, ImportExportModelAdmin)
 
-admin.site.register(Districts, ImportExportModelAdmin)
-
-admin.site.register(City, ImportExportModelAdmin)
 
 admin.site.register(Collector, ImportExportModelAdmin)
 
