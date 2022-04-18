@@ -12,7 +12,7 @@ class Party1(models.Model):
     founder = models.CharField(max_length=100, null=True)
     chairperson = models.CharField(max_length=100, null=True)
     founded_date = models.DateField()
-    headquarters = models.CharField(max_length=1000)
+    headquarters = models.CharField(max_length=1000, null=True)
     seats_in_rajyasabha = models.IntegerField()
     seats_in_loksabha = models.IntegerField()
     party_symbol = models.ImageField(upload_to='Party/party_symbol/%Y-%m-%d/%H-%M-%S', null=True)

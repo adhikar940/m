@@ -56,6 +56,12 @@ class State(models.Model):
 class Districts(models.Model):
     State = models.ForeignKey(State,related_name='District', on_delete=models.CASCADE)
     District_name = models.CharField(max_length=100)
+    headquarters = models.CharField(max_length=100, null=True)
+    Revenuedivisons =  models.CharField(max_length=100, null=True)
+    mandals =  models.CharField(max_length=100, null=True)
+    population=  models.CharField(max_length=100, null=True)
+    areasqkm =  models.CharField(max_length=100, null=True)
+    densitysqkm =   models.CharField(max_length=100, null=True)   
     Map = models.ImageField(upload_to='Districts/Map/%Y-%m-%d/%H-%M-%S', null=True)
     def __str__(self):
         return str(self.District_name)

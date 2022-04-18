@@ -1,6 +1,7 @@
 from django.db import models
 from n.models import *
 from party.models import Party1
+
 class Assembly_Constituency1(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
