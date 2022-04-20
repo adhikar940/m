@@ -1,9 +1,10 @@
 from django.db import models
 from n.models import *
 from party.models import Party1
-
+from loksabha.models import Loksabha_Constituency
 class Assembly_Constituency1(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    loksabhaconstituency = models.ForeignKey(Loksabha_Constituency, on_delete=models.PROTECT,null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Assembly_Constituency_Name = models.CharField(max_length=100)
     class Meta:
