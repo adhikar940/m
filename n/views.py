@@ -380,7 +380,7 @@ class ActivatedrajyaSabha(APIView):
         return Response(serializer.data)
 class Party_Wise_Rajyasabha_Candidates_api(APIView):
     permission_classes = (Isparty,)
-    def get(self, request):
+    def get(self, request):        
         z=request.user.first_name
         z1=z.split("-")
         #z='BJP'

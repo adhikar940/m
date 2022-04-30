@@ -35,6 +35,7 @@ class councilterm(models.Model):
     year =  models.IntegerField(blank=True)
     month = models.IntegerField(choices=[(i, i) for i in range(1, 13)], blank=True)
     date = models.IntegerField(choices=[(i, i) for i in range(1, 32)], blank=True)
+    state = models.ForeignKey(State, on_delete=models.CASCADE,null=True, default='')
     class Meta:
         unique_together = ['mlc','year','month','date']
     def __str__(self):

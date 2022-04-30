@@ -7,7 +7,7 @@ class Legislative_councils1Resource(resources.ModelResource):
         model = Legislative_councils1
 class Legislative_councils1Admin(ImportExportModelAdmin):
     list_display=('MLC_name',)
-    search_fields = ['id','party','Districts']
+    search_fields = ['id','Districts']
     list_filter=('state',)
     resource_class = Legislative_councils1Resource
 admin.site.register(Legislative_councils1, Legislative_councils1Admin)

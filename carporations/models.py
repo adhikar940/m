@@ -2,6 +2,7 @@ from django.db import models
 from n.models import *
 from party.models import *
 class municipalcarporation(models.Model):
+    # For storing municipal carporations. Total municipal carporations are 109
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     City = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, default='')

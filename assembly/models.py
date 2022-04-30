@@ -2,6 +2,17 @@ from django.db import models
 from n.models import *
 from party.models import Party1
 from loksabha.models import Loksabha_Constituency
+class emailsend(models.Model):
+    choice2 = (
+        ('no', 'no'),
+        ('yes', 'yes'),
+    )
+    confirmsend= models.CharField(max_length=10, choices=choice2, default='no')
+class emailsendingstatus(models.Model):
+    sendto= models.CharField(max_length=100,default='')
+    created = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return '%s' %(self.created)
 class Assembly_Constituency1(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     loksabhaconstituency = models.ForeignKey(Loksabha_Constituency, on_delete=models.PROTECT,null=True)

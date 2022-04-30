@@ -2,7 +2,8 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin,ImportExportActionModelAdmin
 from . models import *
 from import_export import resources
-
+admin.site.register(emailsendingstatus,ImportExportModelAdmin)
+admin.site.register(emailsend)
 class Assembly_Constituency1Resource(resources.ModelResource):
     class Meta:
         model = Assembly_Constituency1

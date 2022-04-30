@@ -17,6 +17,10 @@ from n.models import *
 from io import BytesIO
 from django_pandas.io import read_frame
 import kkkk
+import time
+from datetime import datetime
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 class Assembly_Constituency(generics.ListAPIView):
     queryset = Assembly_Constituency1.objects.all()
     serializer_class = Assembly_ConstituencySerializers1
@@ -45,29 +49,91 @@ class assemblyterm(generics.ListAPIView):
 class mlaemailsent(APIView):
     def get(self, request):
         output = BytesIO()
+        state = request.query_params.get('state')
+        party = request.query_params.get('state')
+        district = request.query_params.get('district')
+        qs = la.objects.all()
         data = la.objects.all()
+        if(district and party):
+            qs = la.objects.all().filter(state = state)
+            data = la.objects.all().filter(state = state)
+            return Response({'k':state})
+        elif(state and party):
+            qs = la.objects.all().filter(state = state)
+            data = la.objects.all().filter(state = state)
+            return Response({'k':state})
+        elif(district):
+            qs = la.objects.all().filter(District = district)
+            data = la.objects.all().filter(District = district)
+            return Response({'k':district})
+        elif(state):
+            qs = la.objects.all().filter(state = state)
+            data = la.objects.all().filter(state = state)
+            return Response({'k':state})
+        elif(party):
+            qs = la.objects.all().filter(Party = party)
+            data = la.objects.all().filter(Party = party)
+            return Response({'k':party})
+        else:
+            return Response({'msg':"Provide state or district or party"})
         sendstatus = []
+        j=[]
+        # alert mail for whom the mail is sending
+        send_mail(
+            # title:
+            "Sending email for assembly-state"+state+"party-"+party+"District-"+district,
+            # message:
+            "Email will send after 10 min.",
+            # from:
+            'adhikar869@gmail.com',
+            # to:
+            ['kathi.mohangoud@gmail.com',]
+        )
+        sub = "Sending email for assembly-state"+state+"party-"+party+"District-"+district
+        msg = "the email that is going to send"
+        # the content of the mail that is going to send
+        send_mail(
+            # title:
+            sub,
+            # message:
+            msg,
+            # from:
+            'adhikar869@gmail.com',
+            # to:
+            ['kathi.mohangoud@gmail.com',]
+        )
+        time.sleep(600)
+        e = emailsend.objects.all()
+        if en in e :
+            if(e.confirmsend == 'no'):
+                return Response({'msg':"Email sending permission is not activated"})
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        print("date and time =", dt_string)
+        s = "Sending email for assembly-state"+state+"party-"+party+"District-"+district
+        party = request.query_params.get('state')
+        district
         for i in data :
             print(i.Email_address)
             try :
                 send_mail(
                     # title:
-                    "Account",
+                    sub,
                     # message:
-                    "Email Working",
+                    msg,
                     # from:
                     'adhikar869@gmail.com',
                     # to:
-                    ['kathi.mohangoud@gmail.com',]
+                    [i.Email_address,]
                 )
                 sendstatus.append('sent')
             except :
                 sendstatus.append('Not sent')
-        qs = la.objects.all()
         df = read_frame(qs)
         df['sendstatus'] = sendstatus
         del df["id"]
-        df.to_excel(output)
+        z=df.to_excel(output)
+        #path = default_storage.save('z',ContentFile(b'mn'))
         response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename="output.xlsx"'
         response.write(output.getvalue())

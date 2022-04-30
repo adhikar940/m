@@ -23,7 +23,6 @@ class CityAdmin(ImportExportModelAdmin):
     resource_class = CityResource
 admin.site.register(City, CityAdmin)
 
-
 admin.site.register(State, ImportExportModelAdmin)
 
 
