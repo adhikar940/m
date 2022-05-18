@@ -9,6 +9,17 @@ from django.core.mail import send_mail
 from rest_framework_tricks.models.fields import NestedProxyField
 from django_base64field.fields import Base64Field
 from . import kkkk,photo
+
+class rolecheck(models.Model):
+    r = (
+        ('citizen', 'citizen'),
+        ('activist', 'activist'),
+        ('adhikar', 'adhikar'),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=50, choices=r, default='citizen')
+    def __str__(self):
+        return self.role
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
@@ -61,7 +72,7 @@ class Districts(models.Model):
     mandals =  models.CharField(max_length=100, null=True)
     population=  models.CharField(max_length=100, null=True)
     areasqkm =  models.CharField(max_length=100, null=True)
-    densitysqkm =   models.CharField(max_length=100, null=True)   
+    densitysqkm =   models.CharField(max_length=100, null=True)
     Map = models.ImageField(upload_to='Districts/Map/%Y-%m-%d/%H-%M-%S', null=True)
     def __str__(self):
         return str(self.District_name)

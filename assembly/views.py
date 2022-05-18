@@ -52,38 +52,27 @@ class mlaemailsent(APIView):
         state = request.query_params.get('state')
         party = request.query_params.get('state')
         district = request.query_params.get('district')
-        qs = la.objects.all()
-        data = la.objects.all()
         if(district and party):
-            qs = la.objects.all().filter(state = state)
-            data = la.objects.all().filter(state = state)
-            return Response({'k':state})
+            qs = la.objects.all().filter(Party = party,District = district)
         elif(state and party):
-            qs = la.objects.all().filter(state = state)
-            data = la.objects.all().filter(state = state)
-            return Response({'k':state})
+            qs = la.objects.all().filter(state = state,Party = party)
         elif(district):
             qs = la.objects.all().filter(District = district)
-            data = la.objects.all().filter(District = district)
-            return Response({'k':district})
         elif(state):
             qs = la.objects.all().filter(state = state)
-            data = la.objects.all().filter(state = state)
-            return Response({'k':state})
         elif(party):
             qs = la.objects.all().filter(Party = party)
-            data = la.objects.all().filter(Party = party)
-            return Response({'k':party})
         else:
             return Response({'msg':"Provide state or district or party"})
         sendstatus = []
         j=[]
         # alert mail for whom the mail is sending
+        t = 60*10
         send_mail(
             # title:
             "Sending email for assembly-state"+state+"party-"+party+"District-"+district,
             # message:
-            "Email will send after 10 min.",
+            "Email will send after"+t+"min.",
             # from:
             'adhikar869@gmail.com',
             # to:
@@ -102,7 +91,7 @@ class mlaemailsent(APIView):
             # to:
             ['kathi.mohangoud@gmail.com',]
         )
-        time.sleep(600)
+        time.sleep(t)
         e = emailsend.objects.all()
         if en in e :
             if(e.confirmsend == 'no'):
@@ -111,9 +100,7 @@ class mlaemailsent(APIView):
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
         print("date and time =", dt_string)
         s = "Sending email for assembly-state"+state+"party-"+party+"District-"+district
-        party = request.query_params.get('state')
-        district
-        for i in data :
+        for i in qs :
             print(i.Email_address)
             try :
                 send_mail(

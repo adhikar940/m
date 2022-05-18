@@ -2,6 +2,14 @@ from django.db import models
 from n.models import *
 from party.models import Party1
 from loksabha.models import Loksabha_Constituency
+class electionyear(models.Model):
+    #For storing the election's year and month state wise
+    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
+    year =  models.IntegerField(blank=True)
+    month = models.IntegerField(choices=[(i, i) for i in range(1, 13)], blank=True)
+    resultdate = models.IntegerField(choices=[(i, i) for i in range(1, 32)], blank=True)
+    notification = models.FileField(upload_to = '', null=True)
+
 class emailsend(models.Model):
     choice2 = (
         ('no', 'no'),
