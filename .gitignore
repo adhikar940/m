@@ -12,3 +12,4 @@ import_export/
 static/
 static_new/
 debug_toolbar/
+.env
