@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 from n import views as user_views
-from django.conf.urls import url, include
+from django.urls import re_path as url
+#from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from drf_multiple_model.views import ObjectMultipleModelAPIView
 from rest_framework.routers import DefaultRouter

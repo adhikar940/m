@@ -1,10 +1,10 @@
-asgiref==3.5.0
+asgiref==3.7.2
 backports.zoneinfo==0.2.1
 certifi==2021.10.8
 charset-normalizer==2.0.12
 defusedxml==0.7.1
 diff-match-patch==20200713
-Django==4.0.2
+Django==4.2.3
 django-base64field==1.0
 django-cors-headers==3.11.0
 django-crispy-forms==1.14.0
