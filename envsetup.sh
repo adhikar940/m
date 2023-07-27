@@ -10,7 +10,7 @@ fi
 source env/bin/activate
 
 
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 
 if [ -d "logs" ]
 then
@@ -20,4 +20,4 @@ else
     touch logs/error.log logs/access.log
 fi
 
-sudo chmod -R 777 logs
+chmod -R 777 logs
