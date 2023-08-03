@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/lib/jenkins/workspace/adhikar/
+ExecStart=/var/lib/jenkins/workspace/adhikar/env/bin/gunicorn --workers 3 --log-level debug --error-logfile /var/lib/jenkins/workspace/adhikar/gunicorn_error.log --bind unix:/run/gunicorn.sock m.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+[Install]
+WantedBy=multi-user.target

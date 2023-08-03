@@ -1,8 +1,8 @@
 #!/bin/bash
 
 source env/bin/activate
-: '
-cd /var/lib/jenkins/workspace/django-cicd/app
+
+cd /var/lib/jenkins/workspace/adhikar/
 
 python3 manage.py makemigrations
 python3 manage.py migrate
@@ -10,7 +10,7 @@ python3 manage.py collectstatic -- no-input
 
 echo "Migrations done"
 
-cd /var/lib/jenkins/workspace/django-cicd
+#cd /var/lib/jenkins/workspace/django-cicd
 
 sudo cp -rf gunicorn.socket /etc/systemd/system/
 sudo cp -rf gunicorn.service /etc/systemd/system/
@@ -33,4 +33,3 @@ sudo systemctl restart gunicorn
 
 
 sudo systemctl status gunicorn
-'
