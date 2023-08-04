@@ -29,10 +29,14 @@ router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename=
 #router.register('Ll', views.LlViewSet)
 #urlpatterns = router.urls'''
 
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular.views import SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
+path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+# Swagger UI:
+path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+# Redoc UI:
+path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 path('r/',include(router.urls)),
 path('flags/', include('flags.urls')),
 path('loksabha/', include('loksabha.urls')),

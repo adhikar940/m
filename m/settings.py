@@ -53,12 +53,14 @@ INSTALLED_APPS = [
      'flags',
      'debug_toolbar',
      'carporations',
-     'citizen'
+     'citizen',
+     'drf_spectacular',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
@@ -72,6 +74,7 @@ MIDDLEWARE = [
      'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+
 
 ]
 
