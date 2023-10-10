@@ -55,6 +55,7 @@ INSTALLED_APPS = [
      'carporations',
      'citizen',
      'drf_spectacular',
+     'function_store_app'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

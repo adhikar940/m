@@ -32,6 +32,7 @@ router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename=
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
+path('function-store/', include('function_store_app.urls')),
 path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
 # Swagger UI:
 path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
