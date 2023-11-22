@@ -1,29 +1,29 @@
-pipeline{
+pipeline {
     agent any
     stages {
-
-        stage('Setup Python Virtual ENV for dependencies'){
-      steps  {
-            sh '''
-            chmod +x envsetup.sh
-            ./envsetup.sh
-            '''}
-        }
-        stage('Setup Gunicorn Setup'){
+          stage('Build Docker Image') {
             steps {
-                sh '''
-                chmod +x gunicorn.sh
-                ./gunicorn.sh
-                '''
+                script {
+                // Get the current date and month in the format you want (e.g., DD-MM)
+                    def currentDate = sh(script: 'date +%d', returnStdout: true).trim()
+                    def currentMonth = sh(script: 'date +%m', returnStdout: true).trim()
+
+                    // Set the Docker image name with date and month
+                    def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
+                    // Build the Docker image
+                    sh "docker build -t ${dockerImageName} ."
+                }
             }
         }
-        stage('setup NGINX'){
+
+        stage('Run Docker Container') {
             steps {
-                sh '''
-                chmod +x nginx.sh
-                ./nginx.sh
-                '''
+                script {
+                    docker run -e adhikar_SECRET_KEY='_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem' -e 'adhikar_DEBUG'='False' -e 'adhikar_ALLOWED_HOSTS'='*' -p 8001:8001 ${dockerImageName}
+                    }
+                }
             }
         }
     }
-}
+
+  
