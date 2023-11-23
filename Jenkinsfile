@@ -17,11 +17,17 @@ pipeline {
         }
 
         stage('Run Docker Container') {
-            steps {
-                script {
-                    docker run -e adhikar_SECRET_KEY='_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem' -e adhikar_DEBUG='False' -e adhikar_ALLOWED_HOSTS='*' -p 8001:8001 ${dockerImageName}
-                    }
-                }
-            }
+    steps {
+        script {
+            sh """
+                docker run -e adhikar_SECRET_KEY='_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem' \
+                -e adhikar_DEBUG='False' \
+                -e adhikar_ALLOWED_HOSTS='*' \
+                -p 8001:8001 ${dockerImageName}
+            """
+        }
+    }
+}
+
         }
     }
