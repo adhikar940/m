@@ -23,7 +23,7 @@ pipeline {
     steps {
         script {
             sh """
-                docker run -e adhikar_DEBUG='False' \
+                docker run -d -e adhikar_DEBUG='False' \
                 -e adhikar_ALLOWED_HOSTS='*' \
                 -p 8001:8001 ${dockerImageName}
             """
