@@ -11,6 +11,7 @@ pipeline {
                     // Set the Docker image name with date and month
                     def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
                     // Build the Docker image
+                    dockerImageName = "adhikar-django:25-11"
                     sh "docker build -t ${dockerImageName} ."
                 }
             }
