@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        dockerImageName =  "adhikar-django:25-11"
+    }
     stages {
           stage('Build Docker Image') {
             steps {
@@ -11,7 +14,7 @@ pipeline {
                     // Set the Docker image name with date and month
                     //def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
                     // Build the Docker image
-                    def dockerImageName = "adhikar-django:25-11"
+                    //def dockerImageName = "adhikar-django:25-11"
                     sh "docker build -t ${dockerImageName} ."
                 }
             }
