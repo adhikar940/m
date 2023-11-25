@@ -9,9 +9,9 @@ pipeline {
                     def currentMonth = sh(script: 'date +%m', returnStdout: true).trim()
 
                     // Set the Docker image name with date and month
-                    def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
+                    //def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
                     // Build the Docker image
-                    dockerImageName = "adhikar-django:25-11"
+                    def dockerImageName = "adhikar-django:25-11"
                     sh "docker build -t ${dockerImageName} ."
                 }
             }
