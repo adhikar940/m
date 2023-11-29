@@ -23,35 +23,35 @@ pipeline {
                 }
             }
         }
-        stage('Run Docker Container') {
-    steps {
-        script {
-            sh """
-                echo "dockerImageName: ${dockerImageName}"
-                docker run -d -e adhikar_DEBUG=${adhikar_DEBUG} \
-                -e adhikar_ALLOWED_HOSTS=$adhikar_ALLOWED_HOSTS} \
-                -p 8001:8001 ${dockerImageName}
-            """
-        }
-    }
-    stage('Create Django Superuser') {
+          stage('Run Docker Container') {
             steps {
                 script {
                     sh """
-                        docker exec -it \$(docker ps -q --filter "ancestor=${dockerImageName}") \
-                        python manage.py migrate
-                    """
-                    sh """
-                        docker exec -it \$(docker ps -q --filter "ancestor=${dockerImageName}") \
-                        python manage.py createsuperuser \
-                        --noinput \
-                        --username=${DJANGO_SUPERUSER_USERNAME} \
-                        --email=${DJANGO_SUPERUSER_EMAIL} \
-                        --password=${DJANGO_SUPERUSER_PASSWORD}
+                        echo "dockerImageName: ${dockerImageName}"
+                        docker run -d -e adhikar_DEBUG=${adhikar_DEBUG} \
+                        -e adhikar_ALLOWED_HOSTS=$adhikar_ALLOWED_HOSTS} \
+                        -p 8001:8001 ${dockerImageName}
                     """
                 }
             }
-        }
+            stage('Create Django Superuser') {
+              steps {
+                  script {
+                      sh """
+                          docker exec -it \$(docker ps -q --filter "ancestor=${dockerImageName}") \
+                          python manage.py migrate
+                      """
+                      sh """
+                          docker exec -it \$(docker ps -q --filter "ancestor=${dockerImageName}") \
+                          python manage.py createsuperuser \
+                          --noinput \
+                          --username=${DJANGO_SUPERUSER_USERNAME} \
+                          --email=${DJANGO_SUPERUSER_EMAIL} \
+                          --password=${DJANGO_SUPERUSER_PASSWORD}
+                      """
+                  }
+              }
+            }
 
 
 }
