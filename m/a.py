@@ -7,9 +7,9 @@ config = Config(RepositoryEnv(".env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-#SECRET_KEY= '_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem'
+SECRET_KEY= '_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem'
 
-SECRET_KEY = '_)5(4e&pr98lw+5+a_959n)f$74xdfkb603u&0ja6b^0*7grem'
+#SECRET_KEY = os.environ.get("adhikar_SECRET_KEY")
 # Read a simple string value from the .env file
 DEBUG = os.environ.get('adhikar_DEBUG')
 
