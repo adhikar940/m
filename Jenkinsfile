@@ -40,10 +40,17 @@ pipeline {
               steps {
                   script {
                       sh """
-                          docker exec -it \$(docker ps -q --filter "ancestor=${dockerImageName}") \
+                          docker exec \$(docker ps -q --filter "ancestor=${dockerImageName}") \
                           python manage.py migrate
                       """
-                    
+                      sh """
+                          docker exec \$(docker ps -q --filter "ancestor=${dockerImageName}") \
+                          python manage.py createsuperuser \
+                          --noinput \
+                          --username=${DJANGO_SUPERUSER_USERNAME} \
+                          --email=${DJANGO_SUPERUSER_EMAIL} \
+                          --password=${DJANGO_SUPERUSER_PASSWORD}
+                      """
                   }
               }
             }
