@@ -13,6 +13,8 @@ pipeline {
         DJANGO_SUPERUSER_USERNAME = "admin"
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
+        docker_container_name = "docker_container"
+
     }
     stages {
           stage('Build Docker Image') {
@@ -30,7 +32,8 @@ pipeline {
                         echo "dockerImageName: ${dockerImageName}"
                         docker run -d -e adhikar_DEBUG=${adhikar_DEBUG} \
                         -e adhikar_ALLOWED_HOSTS=${adhikar_ALLOWED_HOSTS} \
-                        -p 8002:8002 ${dockerImageName}
+                        -p 8002:8002 ${dockerImageName} \
+                        --name ${docker_container_name}
                     """
 
                 }
@@ -39,18 +42,9 @@ pipeline {
             stage('Create Django Superuser') {
               steps {
                   script {
-                      sh """
-                          docker exec \$(docker ps -q --filter "ancestor=${dockerImageName}") \
-                          python manage.py migrate
-                      """
-                      sh """
-                          docker exec \$(docker ps -q --filter "ancestor=${dockerImageName}") \
-                          python manage.py createsuperuser \
-                          --noinput \
-                          --username=${DJANGO_SUPERUSER_USERNAME} \
-                          --email=${DJANGO_SUPERUSER_EMAIL} \
-                          --password=${DJANGO_SUPERUSER_PASSWORD}
-                      """
+                docker.exec("your-django-container-name", "python manage.py createsuperuser --username=admin --email=admin@example.com --noinput --noinput --password ${DJANGO_SUPERUSER_PASSWORD} ")
+                docker.exec("your-django-container-name", "python manage.py changepassword admin <<< ${DJANGO_SUPERUSER_PASSWORD}")
+
                   }
               }
             }
