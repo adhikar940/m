@@ -32,8 +32,9 @@ pipeline {
                         echo "dockerImageName: ${dockerImageName}"
                         docker run -d -e adhikar_DEBUG=${adhikar_DEBUG} \
                         -e adhikar_ALLOWED_HOSTS=${adhikar_ALLOWED_HOSTS} \
-                        -p 8002:8002 ${dockerImageName} \
-                        --name ${docker_container_name}
+                        -p 8002:8002  \
+                        --name ${docker_container_name} ${dockerImageName}
+
                     """
 
                 }
