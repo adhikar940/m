@@ -42,8 +42,8 @@ pipeline {
             stage('Create Django Superuser') {
               steps {
                   script {
-                docker.exec("your-django-container-name", "python manage.py createsuperuser --username=admin --email=admin@example.com --noinput --noinput --password ${DJANGO_SUPERUSER_PASSWORD} ")
-                docker.exec("your-django-container-name", "python manage.py changepassword admin <<< ${DJANGO_SUPERUSER_PASSWORD}")
+                docker.exec(${docker_container_name}, "python manage.py createsuperuser --username=admin --email=admin@example.com --noinput --noinput --password ${DJANGO_SUPERUSER_PASSWORD} ")
+                docker.exec(${docker_container_name}, "python manage.py changepassword admin <<< ${DJANGO_SUPERUSER_PASSWORD}")
 
                   }
               }
