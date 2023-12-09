@@ -13,7 +13,7 @@ pipeline {
         DJANGO_SUPERUSER_USERNAME = "admin"
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
-        docker_container_name = "django_container"
+        docker_container_name = "django_container1"
 
     }
     stages {
