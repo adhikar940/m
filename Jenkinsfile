@@ -43,7 +43,7 @@ pipeline {
             stage('Create Django Superuser') {
               steps {
                   script {
-                  sh "docker exec -it ${docker_container_name} bash -c 'DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} python manage.py createsuperuser --username admin --email kathi.mohan@gmail.com --noinput'"
+                  sh "docker exec -T ${docker_container_name} bash -c 'DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} python manage.py createsuperuser --username admin --email kathi.mohan@gmail.com --noinput'"
 
                   }
               }
