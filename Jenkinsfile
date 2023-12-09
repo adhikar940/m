@@ -13,10 +13,30 @@ pipeline {
         DJANGO_SUPERUSER_USERNAME = "admin"
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
-        docker_container_name = "django_container1"
+        docker_container_name = "django_container-${currentDate}-${currentMonth}"
+        DJANGO_PORT = 8001
 
     }
     stages {
+    stage('Port check and Terminate') {
+            steps {
+                script {
+                    // Check if port 8001 is in use
+                    def isPortInUse = sh(script: "lsof -i :${DJANGO_PORT}", returnStatus: true) == 0
+
+                    if (isPortInUse) {
+                        echo "Port ${DJANGO_PORT} is in use."
+
+                        // Find and terminate processes using port 8001
+                        sh "lsof -ti :${DJANGO_PORT} | xargs kill -9"
+
+                        echo "Processes using port ${DJANGO_PORT} terminated."
+                    } else {
+                        echo "Port ${DJANGO_PORT} is not in use."
+                    }
+                }
+                }
+                }
           stage('Build Docker Image') {
             steps {
                 script {
