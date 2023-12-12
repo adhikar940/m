@@ -10,8 +10,8 @@ pipeline {
         // From secret text
         adhikar_DEBUG = credentials('adhikar_DEBUG')
         adhikar_ALLOWED_HOSTS = credentials('adhikar_ALLOWED_HOSTS')
-        DJANGO_SUPERUSER_USERNAME = "admin"
-        DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail.com"
+        DJANGO_SUPERUSER_USERNAME = "admin10"
+        DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail1.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
         docker_container_name = "django_container-${currentDate}-${currentMonth}"
         DJANGO_PORT = 8001
@@ -63,7 +63,7 @@ pipeline {
             stage('Create Django Superuser') {
               steps {
                   script {
-                  sh "docker exec -t ${docker_container_name} bash -c 'DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} python manage.py createsuperuser --username admin --email kathi.mohan@gmail.com --noinput'"
+                  sh "docker exec -t ${docker_container_name} bash -c 'DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} python manage.py createsuperuser --username ${DJANGO_SUPERUSER_USERNAME} --email ${DJANGO_SUPERUSER_EMAIL} --noinput'"
 
                   }
               }
