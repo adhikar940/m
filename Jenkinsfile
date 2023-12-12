@@ -14,7 +14,7 @@ pipeline {
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail1.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
         docker_container_name = "django_container-${currentDate}-${currentMonth}-${currentTime}"
-        DJANGO_PORT = 8001
+        DJANGO_PORT = 8002
 
     }
     stages {
@@ -52,7 +52,7 @@ pipeline {
                         echo "dockerImageName: ${dockerImageName}"
                         docker run -d -e adhikar_DEBUG=${adhikar_DEBUG} \
                         -e adhikar_ALLOWED_HOSTS=${adhikar_ALLOWED_HOSTS} \
-                        -p 8001:8001  \
+                        -p ${DJANGO_PORT}:${DJANGO_PORT}  \
                         --name ${docker_container_name} ${dockerImageName}
 
                     """
