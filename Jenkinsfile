@@ -4,7 +4,7 @@ pipeline {
     // Get the current date and month in the format you want (e.g., DD-MM)
         def currentDate = sh(script: 'date +%d', returnStdout: true).trim()
         def currentMonth = sh(script: 'date +%m', returnStdout: true).trim()
-
+        def currentTime = sh(script: 'date +%H%M%S', returnStdout: true).trim()
         // Set the Docker image name with date and month
         def dockerImageName = "adhikar-django:${currentDate}-${currentMonth}"
         // From secret text
@@ -13,7 +13,7 @@ pipeline {
         DJANGO_SUPERUSER_USERNAME = "admin10"
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail1.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
-        docker_container_name = "django_container-${currentDate}-${currentMonth}"
+        docker_container_name = "django_container-${currentDate}-${currentMonth}-${currentTime}"
         DJANGO_PORT = 8001
 
     }
