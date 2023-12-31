@@ -6,6 +6,6 @@ RUN pip install -r requirements.txt
 RUN python manage.py makemigrations
 RUN python manage.py migrate
 
-CMD ["python","manage.py","runserver","0.0.0.0:8002"]
-#docker build -t adhikar-django:13-11 .
-#docker run -d -p 8001:8001 adhikar-django:13-11
+CMD ["python","manage.py","runserver","0.0.0.0:8001"]
+#docker build -t adhikar-django:23-11 .
+#docker run -d -p 8001:8001 adhikar-django:23-11
