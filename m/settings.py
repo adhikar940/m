@@ -12,6 +12,29 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+# Determine the environment file to load
+from dotenv import load_dotenv
+ENV_FILE = os.getenv("ENV_FILE", ".env")
+load_dotenv(ENV_FILE)
+
+# Get the SECRET_KEY from the .env file
+SECRET_KEY = os.getenv('SECRET_KEY','fallback-secret-key')
+
+# Set DEBUG mode from .env
+DEBUG = os.getenv('DEBUG', 'True')
+
+# Allowed Hosts
+'''
+CORS_ALLOWED_ORIGINS = [
+'http://localhost:4200',
+'https://www.adhikar.net',
+'http://localhost:8100/',
+'*',
+
+]'''
+CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,13 +50,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'n',
     'corsheaders',
     'rest_framework',
     'crispy_forms',
@@ -44,19 +67,28 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_rest_passwordreset',
     'rest_framework_tricks',
-     'django_filters',
-     'loksabha',
-     'rajyasabha',
-     'assembly',
-     'council',
+    'django_filters',
      'party',
      'flags',
      'debug_toolbar',
-     'carporations',
-     'citizen',
      'drf_spectacular',
-     'function_store_app'
+     'function_store_app',
+     'person',
+     'executive_leaders',
+     "graphene_django",    
+     'dbbackup',  
+     'django.contrib.gis',
+     'area_pop',
+     'maps',
+        'governor',
+        'cm'
+
 ]
+
+GRAPHENE = {
+    "SCHEMA": "django_root.schema.schema"
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -149,9 +181,19 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 #AUTHENTICATION_BACKENDS = ['n.authentication.EmailBackend']
 
 
+STATIC_URL = '/static/'
+STATIC_ROOT = '/static/'
+'''STATIC_ROOT = os.path.join(BASE_DIR, '')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]'''
+
+MEDIA_URL = '/images/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 
 try :
-    from .a import *
+    from .db_settings import *    
 except ImportError:
     pass

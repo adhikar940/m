@@ -106,9 +106,9 @@ class Party(models.Model):
     actvated = models.CharField(max_length=20, choices=choice2, default='no')
     #stateactivated = models.CharField(max_length=10000, default='no')
     #districtactivated = models.CharField(max_length=10000, default='no')
-
     def __str__(self):
         return str(self.abbreviation)
+    
 class statepartyactivate(models.Model):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
@@ -118,6 +118,7 @@ class statepartyactivate(models.Model):
         unique_together = ('party', 'state')
     def __str__(self):
         return str(self.party)+str(self.state)
+    
 class districtpartyactivate(models.Model):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE,default='')

@@ -1,19 +1,49 @@
-version : "3.8"
-services :
+version: '3.9'
+
+services:
   db:
-    image : postgres
-    container_name : postgresql_db
-    ports:
-      - "5432:5432"
-    environment :
-      - POSTGRES_DB=root
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=test_db
-  pgadmin:
-    image : postgres
-    container_name : postgresql_db
+    image: postgres:13
+    volumes:
+      - ./data/db:/var/lib/postgresql/data/
     environment:
-      PGADMIN_DEFAULT_EMAIL : adhikar940@gmail.com
-      PGADMIN_DEFAULT_PASSWORD : ROOT
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+
+  web:
+    build: .
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_HOST: db
+    #entrypoint: ["/code/entrypoint.sh"]
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "m.wsgi:application"]
+
+  pgadmin:
+    image: dpage/pgadmin4
     ports:
       - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - db
+
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#    depends_on:
+#      - web
+
+volumes:
+  postgres_data:

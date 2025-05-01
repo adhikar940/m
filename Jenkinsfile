@@ -14,7 +14,7 @@ pipeline {
         DJANGO_SUPERUSER_EMAIL = "adhikar940@gmail1.com"
         DJANGO_SUPERUSER_PASSWORD = "user1user2"
         docker_container_name = "django_container-${currentDate}-${currentMonth}-${currentTime}"
-        DJANGO_PORT = 8001
+        DJANGO_PORT = 9001
 
     }
     stages {

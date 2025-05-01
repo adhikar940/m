@@ -1,7 +1,8 @@
 from django.db import models
-from n.models import *
-from party.models import Party1
-class Rajyasabhapresedential1(Parliament):
+from area_pop.models import State,Districts
+from party.models import Party
+from person.models import person
+class Rajyasabhapresedential1(person):
     choice = (
         ('Legislature', 'Legislature'),
         ('President', 'President')
@@ -11,15 +12,15 @@ class Rajyasabhapresedential1(Parliament):
     #Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
     field = models.CharField(max_length=300, default='')
     elected = models.CharField(max_length=500, choices=choice, default='President')
-    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
-    actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    is_present = models.BooleanField(default=True,null=True, blank=True)
+    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
     class Meta:
         unique_together = ['MP_name']
         ordering = ['MP_name']
 
     def __str__(self):
         return str(self.MP_name)
-class Rajyasabha1(Parliament):
+class Rajyasabha1(person):
     choice = (
         ('Legislature', 'Legislature'),
         ('President', 'President')
@@ -27,23 +28,23 @@ class Rajyasabha1(Parliament):
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
                               default='')
     MP_name = models.CharField(max_length=300, default='')
-    Party = models.ForeignKey(Party1,on_delete=models.SET_NULL, null=True)
+    Party = models.ForeignKey(Party,on_delete=models.SET_NULL, null=True)
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
-    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
-    actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    is_present = models.BooleanField(default=True,null=True, blank=True)
+    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
     class Meta:
         unique_together = ['MP_name']
         ordering = ['MP_name']
 
     def __str__(self):
         return str(self.MP_name)+'-'+str(self.state)
-class rajyasabhapersonal1(personal):
+'''class rajyasabhapersonal1(personal):
     mp = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True,)
     class Meta:
         unique_together = ['mp']
 
     def __str__(self):
-        return '%s' % (self.mp)
+        return '%s' % (self.mp)'''
 
 class Rajyasabhaterm(models.Model):
     Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True, default='')
@@ -58,7 +59,7 @@ class Rajyasabhaterm(models.Model):
 
 #$#### SESSIONS
 # Rajyasabha Individual Sessions
-class Rajyasabha_Session1(models.Model):
+'''class Rajyasabha_Session1(models.Model):
     Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True, default='')
     Session_Title = models.ForeignKey(Sessions, on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
@@ -80,4 +81,4 @@ class Rajyasabha_Complete_Session1(models.Model):
     def __str__(self):
         return str(self.Session_Title)+'-'+str(self.date)
     class Meta:
-        ordering = ['-date']
+        ordering = ['-date']'''

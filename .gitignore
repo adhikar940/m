@@ -13,4 +13,5 @@ static/
 static_new/
 debug_toolbar/
 .env
+.dev_env
 *.pyc
