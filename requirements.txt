@@ -3,7 +3,7 @@
 charset-normalizer==3.1.0
 defusedxml==0.7.1
 diff-match-patch==20200713
-django==5.0
+django==5.2
 django-base64field==1.0
 django-cors-headers==3.14.0
 django-crispy-forms==2.0
@@ -54,3 +54,4 @@ psycopg2
 dj-database-url
 graphene_django==3.2.2
 djangorestframework-gis
+django-colorfield==0.14.0
