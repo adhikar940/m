@@ -1,0 +1,51 @@
+# Ignore all .pyc files
+*.pyc
+
+# Ignore Python cache directories
+__pycache__/
+
+# Ignore any file or directory named temp or ending in .log
+*.log
+
+# Ignore everything in the .git directory
+.git/
+.gitignore
+
+# Ignore Dockerfile and .dockerignore itself (if needed)
+Dockerfile
+Dockerfile1
+.dockerignore
+doc_fil
+Docker_test
+docker-compose.yml
+docker-compose1.yml
+
+
+default-mohan-Predator-PH315-54-2024-07-05-034909.psql.bin
+entrypoint.sh
+envsetup.sh
+envsetup-version.sh
+gunicorn.service
+gunicorn.sh
+gunicorn.socket
+initial-setup.sh
+Jenkinsfile
+Jenkinsfile1
+kkkk.py
+m.conf
+mydatabase
+nginx
+nginx.conf
+nginx.sh
+pre_build_script.sh
+requirementsubuntu.txt
+r.txt
+schema.yml
+start.sh
+static/
+data/
+data/db/
+backup.py
+.env
+
+

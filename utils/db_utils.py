@@ -1,0 +1,100 @@
+import psycopg2
+import pandas as pd
+import psycopg2
+import os
+
+class PostgresCSVHandler:
+    def __init__(self):
+        """
+        Initialize the PostgresCSVHandler with PostgreSQL connection details.
+        """
+        self.conn_params = {
+            "dbname": os.getenv('POSTGRES_DB'),
+            "user": os.getenv('POSTGRES_USER'),
+            "password": os.getenv('POSTGRES_PASSWORD'),
+            "host": s.getenv('POSTGRES_HOST', 'db'),
+            "port": os.getenv('POSTGRES_PORT', '5432')
+        }
+
+    def download_to_file(self, table_name, file_name, file_type='csv', columns=None):
+        """
+        Download data from a PostgreSQL table and save it as a CSV or XLSX file.
+        """
+        try:
+            with psycopg2.connect(**self.conn_params) as conn:
+                col_clause = ', '.join(columns) if columns else '*'
+                df = pd.read_sql(f"SELECT {col_clause} FROM {table_name}", conn)
+
+            if file_type.lower() == 'xlsx':
+                df.to_excel(file_name, index=False)
+            else:
+                df.to_csv(file_name, index=False)
+
+            print(f"Data downloaded from '{table_name}' to '{file_name}'")
+
+        except Exception as e:
+            print(f"Download failed: {e}")
+
+    def upload_from_file(self, file_name, table_name, columns=None):
+        """
+        Upload data from a CSV or XLSX file to a PostgreSQL table.
+
+        Args:
+            file_name (str): File path to CSV or XLSX.
+            table_name (str): Target table.
+            columns (list[str], optional): List of column names to insert into. If not given, uses DataFrame headers.
+        """
+        try:
+            ext = os.path.splitext(file_name)[1].lower()
+            if ext == '.csv':
+                df = pd.read_csv(file_name)
+            elif ext in ['.xlsx', '.xls']:
+                df = pd.read_excel(file_name)
+            else:
+                raise ValueError("Only CSV or Excel files are supported")
+
+            if columns is None:
+                columns = df.columns.tolist()
+
+            with psycopg2.connect(**self.conn_params) as conn:
+                with conn.cursor() as cur:
+                    for _, row in df.iterrows():
+                        values = tuple(row[col] for col in columns)
+                        placeholders = ', '.join(['%s'] * len(columns))
+                        col_names = ', '.join(columns)
+                        query = f"INSERT INTO {table_name} ({col_names}) VALUES ({placeholders})"
+                        cur.execute(query, values)
+                conn.commit()
+
+            print(f"Data uploaded from '{file_name}' to table '{table_name}'")
+
+        except Exception as e:
+            print(f"Upload failed: {e}")
+
+
+if __name__ == "__main__":
+
+    handler = PostgresCSVHandler()
+
+    handler.download_to_file(
+        table_name="cm_cm",
+        file_name="cm_export.xlsx",
+        file_type="xlsx"
+    )
+
+    '''
+    # Download example (to CSV)
+    handler.download_to_file(
+        table_name="cm_cm",
+        file_name="cm_export.csv",
+        file_type="csv",
+        columns=["id", "name", "salary"]
+    )
+
+    # Upload example (from XLSX)
+    handler.upload_from_file(
+        file_name="new_employees.xlsx",
+        table_name="employees",
+        columns=["id", "name", "salary"]
+    ) '''
+
