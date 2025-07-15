@@ -21,7 +21,7 @@ leader_choice = [
 ]
 
 
-class executive_leader(person):
+class ExecutiveLeader(person):
     """ To store the details of the Prime Minister, president, vicepresident """
     leader_type = models.CharField(max_length=20, choices=leader_choice, null=True, blank=True)    
     is_present = models.BooleanField(default=False,null=True, blank=True)
@@ -29,7 +29,7 @@ class executive_leader(person):
     ruling_periods = models.ManyToManyField(ruling_period, related_name='par_exc_leaders_period', null=True, blank=True)
 
 
-class parliament_leader(executive_leader):   
+class ParliamentLeader(ExecutiveLeader):   
     """ To store all parliament leaders and speakers of India""" 
     house = models.CharField(max_length=20, choices=house_choice, default='loksabha', null=True, blank=True)   
 

@@ -3,6 +3,8 @@ from django.db.models import JSONField
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from loksabha.models import LoksabhaConstituency
+
 class multiple_areas(geomodels.Model):
     """
     Used for representing states, districts and taluks
@@ -18,5 +20,20 @@ class multiple_areas(geomodels.Model):
             models.UniqueConstraint(
                 fields=['content_type', 'object_id'],
                 name='unique_map_per_entity'
+            )
+        ]
+
+class LoksabhaConstituencyMap(geomodels.Model):
+    """
+    Used for representing loksabha constituencies
+    """    
+    boundary = geomodels.MultiPolygonField()
+    LoksabhaConstituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True)
+    ## To avoid multiple maps per LoksabhaConstituency
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['LoksabhaConstituency'],
+                name='unique_boundary_per_constituency'
             )
         ]

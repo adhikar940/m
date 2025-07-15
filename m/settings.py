@@ -74,14 +74,14 @@ INSTALLED_APPS = [
      'drf_spectacular',
      'function_store_app',
      'person',
-     'executive_leaders',
      "graphene_django",    
      'dbbackup',  
      'django.contrib.gis',
      'area_pop',
      'maps',
         'governor',
-        'cm'
+        'cm',
+        'loksabha'
 
 ]
 
@@ -191,6 +191,17 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+
+DEFAULT_THROTTLE_CLASSES = [
+    'rest_framework.throttling.UserRateThrottle',
+    'rest_framework.throttling.AnonRateThrottle',
+]
+DEFAULT_THROTTLE_RATES = {
+    'user': '1000/day',
+    'anon': '100/minute',
+}
+
+
 
 
 try :

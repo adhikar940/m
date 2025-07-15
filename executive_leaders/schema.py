@@ -9,7 +9,7 @@ from graphene import relay
 # Define GraphQL Type with Relay Node
 class ExecutiveLeaderType(DjangoObjectType):
     class Meta:
-        model = executive_leader
+        model = ExecutiveLeader
         interfaces = (relay.Node,)  
 
 # Define Filters
@@ -18,7 +18,7 @@ class ExecutiveLeaderFilter(django_filters.FilterSet):
     leader_type = django_filters.CharFilter(method="filter_leader_type") 
 
     class Meta:
-        model = executive_leader
+        model = ExecutiveLeader
         fields = {
             'ruling_periods': ['exact', 'icontains']       
               }

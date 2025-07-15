@@ -2,30 +2,28 @@ from django.db import models
 from area_pop.models import State,Districts
 from party.models import Party
 from person.models import person
-class Loksabha_Constituency(models.Model):
+
+class LoksabhaConstituency(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Loksabha_Constituency_Name = models.CharField(max_length=100)
-    is_exist= models.BooleanField(default=True,null=True, blank=True)
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    LoksabhaConstituencyName = models.CharField(max_length=100)
+    isexist= models.BooleanField(default=True,null=True, blank=True)
     class Meta:
-        unique_together = ['Loksabha_Constituency_Name']
-        ordering = ['Loksabha_Constituency_Name']
-    def __str__(self):
-        return '%s' %(self.Loksabha_Constituency_Name)
-class LokSabha(person):
-    state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
-                              default='')
-    MP_name = models.CharField(max_length=300, null=True)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['State','District','LoksabhaConstituencyName'],
+                name='unique_loksabhaconstituency'
+            )
+        ]       
+
+class LokSabhaMP(person):    
     Party = models.ForeignKey(Party,on_delete=models.CASCADE, null=True,default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    constituency_name = models.CharField(max_length=200, default='')
-    is_present = models.BooleanField(default=True,null=True, blank=True)
+    ispresent = models.BooleanField(default=True,null=True, blank=True)
+    constituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True)
     #actvated = models.CharField(max_length=500, choices=choice2, default='no')
     class Meta:
-        unique_together = ['MP_name']
-        ordering = ['MP_name']
-    def __str__(self):
-        return '%s: %s' % (self.state, self.MP_name)
+        unique_together = ['name']
+    
 '''class loksabhapersonal1(personal):
     mp = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True,)
     class Meta:

@@ -21,8 +21,16 @@ class Party(models.Model):
         ('#A52A2A', 'DMK - Brown'),
         ('#000080', 'AIADMK - Navy Blue'),
         ('#800080', 'AAP - Purple'),
-        ('#FFFFFF', 'None/Independent - White'),
-    ]
+        ('#FFFF00', 'TDP - Yellow'),
+        ('#008000', 'JD(U) - Green'),
+        ('#00FF00', 'JMM - Bright Green'),
+        ('#FF0000', 'NPP - Red'),
+        ('#00CED1', 'ZPM - Turquoise'),
+        ('#DC143C', 'NDPP - Crimson'),
+        ('#FF4500', 'SKM - Red'),
+        ('#FFA500', 'AINRC - Saffron'),
+        ('#FFFFFF', 'None/Independent - White') ]
+    
     party_color = models.CharField(
         max_length=7,
         choices=PARTY_COLOR_CHOICES,
@@ -37,15 +45,14 @@ class Party(models.Model):
     chairperson = models.CharField(max_length=100, null=True)
     foundeddate = models.DateField()
     headquarters = models.CharField(max_length=1000, null=True)
-    partysymbol = models.ImageField(upload_to='Party/party_symbol/%Y-%m-%d/%H-%M-%S', null=True)
-    founderPhoto = models.ImageField(upload_to='Party/founderPhoto/%Y-%m-%d/%H-%M-%S', null=True)
-    chairpersonPhoto = models.ImageField(upload_to='Party/chairpersonPhoto/%Y-%m-%d/%H-%M-%S', null=True)
-    PresidentPhoto = models.ImageField(upload_to='Party/PresidentPhoto/%Y-%m-%d/%H-%M-%S', null=True)
+    partysymbol = models.ImageField(upload_to='adhikar/party/partysymbol', null=True)
+    founderPhoto = models.ImageField(upload_to='adhikar/party/founderPhoto', null=True)
+    chairpersonPhoto = models.ImageField(upload_to='adhikar/party/chairpersonPhoto', null=True)
+    PresidentPhoto = models.ImageField(upload_to='adhikar/party/PresidentPhoto', null=True)
     #actvated = models.CharField(max_length=20, choices=choice2, default='no')
     #stateactivated = models.CharField(max_length=10000, default='no')
     #districtactivated = models.CharField(max_length=10000, default='no')
-    def __str__(self):
-        return str(self.abbreviation)
+
 '''class statepartyactivate1(models.Model):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)

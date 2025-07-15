@@ -1,7 +1,6 @@
 from django.db import models
-from maps.models import multiple_areas
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+
 """
 This app is for creating all kind of areas like state, district, city, etc
 """
@@ -11,8 +10,7 @@ class area(models.Model):
     areasqkm =  models.IntegerField(null=True, blank=True, default=None)
     densitysqkm =   models.IntegerField(null=True, blank=True, default=None)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)  ## Name of the model
-    object_id = models.PositiveIntegerField()
-    entity = GenericForeignKey('content_type', 'object_id')
+    object_id = models.PositiveIntegerField()    
     ## To avoid multiple area per entity
     class Meta:
         constraints = [
@@ -35,8 +33,7 @@ class population(models.Model):
     LiteracyRate= models.IntegerField(null=True, blank=True, default=None)
     femtomaleSexRatio= models.CharField(max_length=100, null=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,null=True, blank=True)
-    object_id = models.PositiveIntegerField(null=True, blank=True)
-    entity = GenericForeignKey('content_type', 'object_id')
+    object_id = models.PositiveIntegerField(null=True, blank=True)    
     ## To make only one population record per entity and census_year
     class Meta:
         constraints = [
@@ -54,30 +51,26 @@ class State(models.Model):
     Statename = models.CharField(max_length=50,unique=True)
     capital = models.CharField(max_length=50,blank=True,default='')
     Status = models.CharField(max_length=6, choices=status, default='State')
-    abbreviation = models.CharField(max_length=5, blank=True, null=True)
-    Mapboundary = GenericRelation(multiple_areas)
-    areainfo = GenericRelation(area)
-    populationinfo = GenericRelation(population)
+    abbreviation = models.CharField(max_length=5, blank=True, null=True)    
+    oldname = models.CharField(max_length=50,unique=True, blank=True, null=True)
 
 class Districts(models.Model):
     State = models.ForeignKey(State,related_name='District', on_delete=models.CASCADE)
-    Districtname = models.CharField(max_length=50,unique=True)
-    headquarters = models.CharField(max_length=50, null=True)
-    Revenuedivisons =  models.CharField(max_length=100, null=True)
-    mandals =  models.CharField(max_length=100, null=True)
-    abbreviation = models.CharField(max_length=5, blank=True, null=True)
-    areainfo = GenericRelation(area)
-    populationinfo = GenericRelation(population)
-    def __str__(self):
-        return str(self.Districtname)
-  
+    Districtname = models.CharField(max_length=50)
+    headquarters = models.CharField(max_length=50, null=True, blank=True)
+    Revenuedivisons =  models.CharField(max_length=100, null=True, blank=True)
+    mandals =  models.CharField(max_length=100, null=True, blank=True)
+    abbreviation = models.CharField(max_length=5, blank=True, null=True)    
+    class Meta:
+        unique_together = ('State', 'Districtname')
+
+class Taluk(models.Model):
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    Talukname = models.CharField(max_length=50,unique=True)
+
 class City(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
     Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
     Cityname = models.CharField(max_length=100,unique=True)
     abbreviation = models.CharField(max_length=5, blank=True, null=True)
-    areainfo = GenericRelation(area)
-    populationinfo = GenericRelation(population)
-    def __str__(self):
-        return str(self.Cityname)
-
+    

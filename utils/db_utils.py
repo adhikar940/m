@@ -12,7 +12,7 @@ class PostgresCSVHandler:
             "dbname": os.getenv('POSTGRES_DB'),
             "user": os.getenv('POSTGRES_USER'),
             "password": os.getenv('POSTGRES_PASSWORD'),
-            "host": s.getenv('POSTGRES_HOST', 'db'),
+            "host": os.getenv('POSTGRES_HOST', 'db'),
             "port": os.getenv('POSTGRES_PORT', '5432')
         }
 
@@ -61,8 +61,10 @@ class PostgresCSVHandler:
                     for _, row in df.iterrows():
                         values = tuple(row[col] for col in columns)
                         placeholders = ', '.join(['%s'] * len(columns))
-                        col_names = ', '.join(columns)
+                        col_names = ', '.join([f'"{col}"' for col in columns])
                         query = f"INSERT INTO {table_name} ({col_names}) VALUES ({placeholders})"
+                        #col_names = ', '.join(columns)
+                        #query = f"INSERT INTO {table_name} ({col_names}) VALUES ({placeholders})"
                         cur.execute(query, values)
                 conn.commit()
 
@@ -75,14 +77,24 @@ class PostgresCSVHandler:
 if __name__ == "__main__":
 
     handler = PostgresCSVHandler()
-
+    '''
     handler.download_to_file(
         table_name="cm_cm",
         file_name="cm_export.xlsx",
+        file_type="xlsx",
+        columns=["id", "name", "rulingstate_id","party_id"]
+    )
+    handler.download_to_file(
+        table_name="party_party",
+        file_name="party.xlsx",
         file_type="xlsx"
     )
-
-    '''
+    handler.download_to_file(
+        table_name="area_pop_state",
+        file_name="state.xlsx",
+        file_type="xlsx"
+    )
+    
     # Download example (to CSV)
     handler.download_to_file(
         table_name="cm_cm",
@@ -90,11 +102,15 @@ if __name__ == "__main__":
         file_type="csv",
         columns=["id", "name", "salary"]
     )
-
+    
     # Upload example (from XLSX)
     handler.upload_from_file(
         file_name="new_employees.xlsx",
         table_name="employees",
         columns=["id", "name", "salary"]
     ) '''
-
+    handler.upload_from_file(
+        file_name="new_employees.xlsx",
+        table_name="party_party",
+        file_type="csv"
+    ) 
