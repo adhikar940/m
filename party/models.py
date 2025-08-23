@@ -52,6 +52,13 @@ class Party(models.Model):
     #actvated = models.CharField(max_length=20, choices=choice2, default='no')
     #stateactivated = models.CharField(max_length=10000, default='no')
     #districtactivated = models.CharField(max_length=10000, default='no')
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['partyname'],
+                name='unique_partyname'
+            )
+        ] 
 
 '''class statepartyactivate1(models.Model):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)

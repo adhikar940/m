@@ -53,6 +53,13 @@ class State(models.Model):
     Status = models.CharField(max_length=6, choices=status, default='State')
     abbreviation = models.CharField(max_length=5, blank=True, null=True)    
     oldname = models.CharField(max_length=50,unique=True, blank=True, null=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Statename'],
+                name='unique_Statename'
+            )
+        ]
 
 class Districts(models.Model):
     State = models.ForeignKey(State,related_name='District', on_delete=models.CASCADE)

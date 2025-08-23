@@ -9,7 +9,10 @@ class cmQuery(graphene.ObjectType):
         TableCmType,
         ispresent=graphene.Boolean(required=False)
     )
-
+    cm_counts = graphene.Field(
+        CmCountsType,
+        ispresent=graphene.Boolean(required=False)
+    )
     def resolve_all_cms_table(self, info,ispresent=None):
         queryset = cm.objects.all()
         if ispresent is not None:
@@ -25,13 +28,7 @@ class cmQuery(graphene.ObjectType):
                 "PartyColor": cm_instance.party.party_color if cm_instance.party else None
             }
             for cm_instance in queryset
-        ]
-    
-    cm_counts = graphene.Field(
-        CmCountsType,
-        ispresent=graphene.Boolean(required=False)
-    )
-
+        ]   
     def resolve_cm_counts(self, info, ispresent=None):
         from django.db.models import Count
 
