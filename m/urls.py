@@ -3,14 +3,21 @@ from django.urls import re_path as url
 #from django.conf.urls import url, include
 from rest_framework import routers
 from django.contrib import admin
-from n import views
+
 from django.conf.urls.static import static
 from m import settings
 from rest_framework.authtoken.views import obtain_auth_token
 #from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
-from n.views import ChangePasswordView
+#from n import views
+#from n.views import ChangePasswordView
 from . router import router
+
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
+from . schema import schema 
+
+
 '''
 router = routers.DefaultRouter()
 router.register('users', views.UserViewSet)
@@ -29,10 +36,21 @@ router.register('assemblypersondisplay', views.AssemblypersonalViewSet,basename=
 #router.register('Ll', views.LlViewSet)
 #urlpatterns = router.urls'''
 
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular.views import SpectacularRedocView, SpectacularSwaggerView
 urlpatterns = [
+path('admin/', admin.site.urls),
+path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+]
+'''
+urlpatterns = [
+path('executive_leaders/',include('executive_leaders.urls')),
+path('function-store/', include('function_store_app.urls')),
+path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+# Swagger UI:
+path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+# Redoc UI:
+path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 path('r/',include(router.urls)),
 path('flags/', include('flags.urls')),
 path('loksabha/', include('loksabha.urls')),
@@ -79,10 +97,10 @@ path('', include(router.urls)),
     path('reset_password_complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name="n/password_reset_done.html"),
          name="password_reset_complete"),
-
-
-
 ]
+'''
+
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns +=path('__debug__/',include(debug_toolbar.urls)),

@@ -1,41 +1,41 @@
 from django.db import models
-from n.models import *
-from party.models import Party1
-class Loksabha_Constituency(models.Model):
+from area_pop.models import State,Districts
+from party.models import Party
+from person.models import person
+
+class LoksabhaConstituency(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    Loksabha_Constituency_Name = models.CharField(max_length=100)
+    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
+    LoksabhaConstituencyName = models.CharField(max_length=100)
+    isexist= models.BooleanField(default=True,null=True, blank=True)
     class Meta:
-        unique_together = ['Loksabha_Constituency_Name']
-        ordering = ['Loksabha_Constituency_Name']
-    def __str__(self):
-        return '%s' %(self.Loksabha_Constituency_Name)
-class LokSabha1(Parliament):
-    state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
-                              default='')
-    MP_name = models.CharField(max_length=300, null=True)
-    Party = models.ForeignKey(Party1,on_delete=models.CASCADE, null=True,default='')
-    Districts = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    constituency_name = models.CharField(max_length=200, default='')
-    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
-    actvated = models.CharField(max_length=500, choices=choice2, default='no')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['State','District','LoksabhaConstituencyName'],
+                name='unique_loksabhaconstituency'
+            )
+        ]       
+
+class LokSabhaMP(person):    
+    Party = models.ForeignKey(Party,on_delete=models.CASCADE, null=True,default='')
+    ispresent = models.BooleanField(default=True,null=True, blank=True)
+    constituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True)
+    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
     class Meta:
-        unique_together = ['MP_name']
-        ordering = ['MP_name']
-    def __str__(self):
-        return '%s: %s' % (self.state, self.MP_name)
-class loksabhapersonal1(personal):
+        unique_together = ['name']
+    
+'''class loksabhapersonal1(personal):
     mp = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True,)
     class Meta:
         unique_together = ['mp']
     def __str__(self):
-        return '%s' % (self.mp)
+        return '%s' % (self.mp)'''
 ###############################################################################################################
 #           SESSIONS MODELS- Loksabha
 ###############################################################################################################
 # Loksabha Individual Sessions
-class Loksabha_Session1(models.Model):
-    Loksabha_MP_Name = models.ForeignKey(LokSabha1, on_delete=models.SET_NULL, null=True, default='')
+'''class Loksabha_Session(models.Model):
+    Loksabha_MP_Name = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True, default='')
     Session_Title = models.ForeignKey(Sessions,on_delete=models.CASCADE, null=True, default='')
     date = models.DateField()
     session = models.TextField(default='')
@@ -58,4 +58,4 @@ class Loksabha_Complete_Session1(models.Model):
     def __str__(self):
         return str(self.Loksabha_Session_Title)+'-'+str(self.date)
     class Meta:
-        ordering = ['-date']
+        ordering = ['-date']'''

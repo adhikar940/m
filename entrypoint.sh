@@ -1,5 +1,17 @@
-python manage.py migrate --no-input
-python manage.py collectstatic --no-input
+#!/bin/sh
 
+# Wait for the database to be ready
+echo "Waiting for postgres..."
+while ! nc -z db 5432; do
+  sleep 1
+done
+echo "PostgreSQL started"
 
-gunicorn m.wsgi:application --bind 0.0.0.0:8000
+# Run database migrations
+python manage.py migrate
+
+# Collect static files
+python manage.py collectstatic --noinput
+
+# Start the Gunicorn server
+exec "$@"

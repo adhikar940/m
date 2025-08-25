@@ -21,4 +21,4 @@ class districtpartyactivateSerializers1(serializers.ModelSerializer):
     district = serializers.StringRelatedField()
     class Meta:
         model = statepartyactivate1
-        fields = ['party','district','email']
+        fields = ['state','party','district','email']

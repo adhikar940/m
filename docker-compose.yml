@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: django
+      POSTGRES_USER: django
+      POSTGRES_PASSWORD: django
+      DJANGO_SETTINGS_MODULE: m.settings
+    volumes:     
+      - /media/mohan/mn/adhikar/adhikar-docker-compose/adhikar-PolitiAware-app/pg_db:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"

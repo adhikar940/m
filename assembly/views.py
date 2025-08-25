@@ -16,7 +16,6 @@ from django.http import JsonResponse
 from n.models import *
 from io import BytesIO
 from django_pandas.io import read_frame
-import kkkk
 import time
 from datetime import datetime
 from django.core.files.base import ContentFile
