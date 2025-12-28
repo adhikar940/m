@@ -5,6 +5,9 @@ import os
 from psycopg2.extras import execute_values
 import csv
 from io import StringIO
+from dotenv import load_dotenv
+ENV_FILE = os.getenv("ENV_FILE", ".env")
+load_dotenv(dotenv_path=ENV_FILE,override=True)  
 
 class PostgresCSVHandler:
     def __init__(self):
@@ -136,39 +139,39 @@ class PostgresCSVHandler:
 if __name__ == "__main__":
 
     handler = PostgresCSVHandler()
-    '''
+    
+    # handler.download_to_file(
+    #     table_name="cm_cm",
+    #     file_name="cm_export.xlsx",
+    #     file_type="xlsx",
+    #     columns=["id", "name", "rulingstate_id","party_id"]
+    # )
     handler.download_to_file(
-        table_name="cm_cm",
-        file_name="cm_export.xlsx",
-        file_type="xlsx",
-        columns=["id", "name", "rulingstate_id","party_id"]
-    )
-    handler.download_to_file(
-        table_name="party_party",
-        file_name="party.xlsx",
+        table_name="loksabha_loksabha_constituency",
+        file_name="loksabha_constituency.xlsx",
         file_type="xlsx"
     )
-    handler.download_to_file(
-        table_name="area_pop_state",
-        file_name="state.xlsx",
-        file_type="xlsx"
-    )
+    # handler.download_to_file(
+    #     table_name="area_pop_state",
+    #     file_name="state.xlsx",
+    #     file_type="xlsx"
+    # )
     
-    # Download example (to CSV)
-    handler.download_to_file(
-        table_name="cm_cm",
-        file_name="cm_export.csv",
-        file_type="csv",
-        columns=["id", "name", "salary"]
-    )
+    # # Download example (to CSV)
+    # handler.download_to_file(
+    #     table_name="cm_cm",
+    #     file_name="cm_export.csv",
+    #     file_type="csv",
+    #     columns=["id", "name", "salary"]
+    # )
     
-    # Upload example (from XLSX)
-    handler.upload_from_file(
-        file_name="new_employees.xlsx",
-        table_name="employees",
-        columns=["id", "name", "salary"]
-    ) '''
-    handler.upload_from_file1(
-        file_name="loksabhamps (6).csv",
-        table_name="loksabha_loksabhamp"
-    ) 
+    # # Upload example (from XLSX)
+    # handler.upload_from_file(
+    #     file_name="new_employees.xlsx",
+    #     table_name="employees",
+    #     columns=["id", "name", "salary"]
+    # ) 
+    # handler.upload_from_file1(
+    #     file_name="loksabhamps (6).csv",
+    #     table_name="loksabha_loksabhamp"
+    # ) 

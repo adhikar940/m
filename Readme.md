@@ -1,3 +1,21 @@
+# Adhikar
+
+Welcome to the project!  
+This repository contains detailed documentation organized inside the `/readme` folder.
+
+## 📚 Documentation Sections
+
+| Topic | Description |
+|-------|-------------|
+| [Requirements](readme/requirements.md) | Info related to requirements |
+
+Click any link above to open the corresponding document.
+
+
+
+
+
+
 Apps :
 
 area_pop : This app is for creating all kind of areas like state, district, city, etc
@@ -19,3 +37,6 @@ docker build -t test .
 
 docker tag local-image:tagname <dockerhub_repo_name>:tagname
 docker push <dockerhub_repo_name>:tagname
+
+
+- [Database](./docs/db_readme.md)

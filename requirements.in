@@ -1,0 +1,53 @@
+# Core Django
+Django>=6.0
+
+# REST Framework
+djangorestframework
+django-filter
+drf-spectacular
+django-rest-passwordreset
+
+# GraphQL
+graphene-django
+
+# Forms and utilities
+django-crispy-forms
+django-import-export
+django-embed-video
+django-phonenumber-field
+django-flags
+
+# for cron_jobs (Scheduled tasks)
+django_crontab
+
+# Security / CORS
+django-cors-headers
+
+# Debugging
+django-debug-toolbar
+
+# Database backup
+django-dbbackup
+
+# GIS support
+#GDAL
+django[gis]       # enables GeoDjango (requires system libs: GDAL/GEOS)
+
+
+# PostgreSQL driver
+psycopg2-binary ; python_version < "3.14"
+psycopg[binary] ; python_version >= "3.14"
+
+# WSGI server for production
+gunicorn
+
+# Env handling
+python-dotenv
+
+# Image related
+pillow
+
+# Cloudinary
+cloudinary 
+django-cloudinary-storage
+
