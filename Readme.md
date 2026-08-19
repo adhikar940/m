@@ -8,6 +8,9 @@ This repository contains detailed documentation organized inside the `/readme` f
 | Topic | Description |
 |-------|-------------|
 | [Requirements](readme/requirements.md) | Info related to requirements |
+| [Changelog](changelog.md) | Detailed record of changes across versions |
+| [GIS & Boundaries](readme/gis.md) | Spatial data, shapefiles, and postgis documentation |
+| [Database Documentation](docs/db_readme.md) | Database structure and backup instructions |
 
 Click any link above to open the corresponding document.
 

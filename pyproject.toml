@@ -7,11 +7,11 @@ name = "Politiaware"
 version = "1.0.0"
 description = "Politiaware"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dynamic = ["dependencies"]
 
-[tool.setuptools.dynamic]
-dependencies = { file = ["requirements.txt"] }
+#[tool.setuptools.dynamic]
+#dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools.packages.find]
 where = ["."]
