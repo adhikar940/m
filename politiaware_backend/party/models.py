@@ -45,13 +45,14 @@ class Party(models.Model):
     chairperson = models.CharField(max_length=100, null=True)
     foundeddate = models.DateField()
     headquarters = models.CharField(max_length=1000, null=True)
-    partysymbol = models.ImageField(upload_to='adhikar/party/partysymbol', null=True)
+    partyflag = models.ImageField(upload_to='adhikar/party/partyflag', null=True)
+    electionsymbol = models.ImageField(upload_to='adhikar/party/electionsymbol', null=True)
     founderPhoto = models.ImageField(upload_to='adhikar/party/founderPhoto', null=True)
     chairpersonPhoto = models.ImageField(upload_to='adhikar/party/chairpersonPhoto', null=True)
     PresidentPhoto = models.ImageField(upload_to='adhikar/party/PresidentPhoto', null=True)
     #actvated = models.CharField(max_length=20, choices=choice2, default='no')
     #stateactivated = models.CharField(max_length=10000, default='no')
-    #districtactivated = models.CharField(max_length=10000, default='no')
+    #districtactivated = models.CharField(mdk,ax_length=10000, default='no')
     class Meta:
         constraints = [
             models.UniqueConstraint(

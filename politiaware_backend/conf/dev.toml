@@ -30,3 +30,7 @@ media_url = "/media/"
 # Local path to store uploaded media files
 media_root = "media"
 
+[django]
+# ALLOWED_HOSTS can be provided via env var ALLOWED_HOSTS (comma-separated)
+# Example: ALLOWED_HOSTS="example.com,.example.org"
+allowed_hosts = "env:ALLOWED_HOSTS"

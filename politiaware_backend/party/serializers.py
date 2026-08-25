@@ -4,12 +4,27 @@ class PSerializers1(serializers.ModelSerializer):
     class Meta:
         model = Party1
         fields = ['id','partyname', 'abbreviation','actvated']
-class PartySerializers1(serializers.ModelSerializer):
+class PartySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Party1
-        fields = ['id','party_status', 'partyname', 'abbreviation', 'President', 'founder', 'chairperson', 'founded_date',
-                  'headquarters', 'seats_in_rajyasabha', 'seats_in_loksabha', 'party_symbol', 'founderPhoto',
-                  'chairpersonPhoto','actvated']
+        model = Party
+        fields = [
+            'id',
+            'partyname',
+            'abbreviation',
+            'partystatus',
+            'party_color',
+            'President',
+            'founder',
+            'chairperson',
+            'foundeddate',
+            'headquarters',
+            'partyflag',
+            'electionsymbol',
+            'founderPhoto',
+            'chairpersonPhoto',
+            'PresidentPhoto',
+        ]
+
 class statepartyactivateSerializers1(serializers.ModelSerializer):
     state = serializers.StringRelatedField()
     party = serializers.StringRelatedField()

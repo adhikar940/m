@@ -18,6 +18,9 @@ DATABASES = {
         'PASSWORD': db_conf['password'],
         'HOST': db_conf['host'],
         'PORT': db_conf['port'],
+        'OPTIONS': {
+            'options': f"-c search_path={db_conf.get('schema', 'public')}"
+        },
     }
 }
 

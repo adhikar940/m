@@ -1,6 +1,10 @@
 import os
 from pathlib import Path
 
+from politiaware_backend.conf.conf_loader import config
+
+django_conf = config["django"]
+
 # Determine the environment file to load
 from dotenv import load_dotenv
 ENV_FILE = os.getenv("ENV_FILE", ".env")
@@ -22,7 +26,8 @@ CORS_ALLOWED_ORIGINS = [
 
 ]'''
 CORS_ALLOW_ALL_ORIGINS = True
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = django_conf.get('allowed_hosts', '').split(',') if django_conf.get('allowed_hosts') else []
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,8 +73,9 @@ INSTALLED_APPS = [
      'maps',
         'governor',
         'cm',
-        'loksabha'
-
+        'loksabha',
+        'session_info',
+    
 ]
 
 GRAPHENE = {

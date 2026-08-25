@@ -2,6 +2,7 @@ from django.db import models
 from area_pop.models import State,Districts
 from party.models import Party
 from person.models import person
+from django.core.exceptions import ValidationError
 
 class LoksabhaConstituency(models.Model):
     State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
@@ -59,3 +60,4 @@ class Loksabha_Complete_Session1(models.Model):
         return str(self.Loksabha_Session_Title)+'-'+str(self.date)
     class Meta:
         ordering = ['-date']'''
+
