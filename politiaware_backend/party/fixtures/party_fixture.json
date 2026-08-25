@@ -1,0 +1,1322 @@
+[
+  {
+    "model": "party.party",
+    "pk": 1,
+    "fields": {
+      "party_color": "#800080",
+      "partystatus": "National",
+      "partyname": "Aam Aadmi Party",
+      "abbreviation": "AAP",
+      "President": "Arvind Kejriwal",
+      "founder": "Arvind Kejriwal",
+      "chairperson": "Arvind Kejriwal",
+      "foundeddate": "2012-11-26",
+      "headquarters": "206, Deen Dayal Upadhyay Marg, New Delhi 110002",
+      "partyflag": "adhikar/party/partyflag/aap_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/aap_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 2,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "National",
+      "partyname": "Bahujan Samaj Party",
+      "abbreviation": "BSP",
+      "President": "Mayawati",
+      "founder": "Kanshi Ram",
+      "chairperson": "Mayawati",
+      "foundeddate": "1984-04-14",
+      "headquarters": "12, Gurudwara Rakabganj Road, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/bsp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/bsp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 3,
+    "fields": {
+      "party_color": "#FF9933",
+      "partystatus": "National",
+      "partyname": "Bharatiya Janata Party",
+      "abbreviation": "BJP",
+      "President": "J. P. Nadda",
+      "founder": "Atal Bihari Vajpayee, L. K. Advani",
+      "chairperson": "J. P. Nadda",
+      "foundeddate": "1980-04-06",
+      "headquarters": "6-A, Deen Dayal Upadhyaya Marg, New Delhi 110002",
+      "partyflag": "adhikar/party/partyflag/bjp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/bjp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 4,
+    "fields": {
+      "party_color": "#000000",
+      "partystatus": "National",
+      "partyname": "Communist Party of India (Marxist)",
+      "abbreviation": "CPI(M)",
+      "President": "Prakash Karat",
+      "founder": "E. M. S. Namboodiripad, Jyoti Basu, P. Sundarayya",
+      "chairperson": "Prakash Karat",
+      "foundeddate": "1964-11-07",
+      "headquarters": "A.K. Gopalan Bhawan, 27-29 Bhai Vir Singh Marg, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/cpi_m__flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/cpi_m__symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 5,
+    "fields": {
+      "party_color": "#00A2E8",
+      "partystatus": "National",
+      "partyname": "Indian National Congress",
+      "abbreviation": "INC",
+      "President": "Mallikarjun Kharge",
+      "founder": "Allan Octavian Hume, Dadabhai Naoroji, Dinshaw Wacha",
+      "chairperson": "Sonia Gandhi",
+      "foundeddate": "1885-12-28",
+      "headquarters": "24, Akbar Road, New Delhi 110011",
+      "partyflag": "adhikar/party/partyflag/inc_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/inc_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 6,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "National",
+      "partyname": "National People's Party",
+      "abbreviation": "NPP",
+      "President": "Conrad Sangma",
+      "founder": "P. A. Sangma",
+      "chairperson": "Conrad Sangma",
+      "foundeddate": "2013-01-06",
+      "headquarters": "Plot No. 90, MECOFED Building, Shillong, Meghalaya 793001",
+      "partyflag": "adhikar/party/partyflag/npp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/npp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 7,
+    "fields": {
+      "party_color": "#FFD700",
+      "partystatus": "Regional",
+      "partyname": "All India Trinamool Congress",
+      "abbreviation": "AITC",
+      "President": "Mamata Banerjee",
+      "founder": "Mamata Banerjee",
+      "chairperson": "Mamata Banerjee",
+      "foundeddate": "1998-01-01",
+      "headquarters": "36G, Topsia Road, Kolkata, West Bengal 700039",
+      "partyflag": "adhikar/party/partyflag/aitc_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/aitc_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 8,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Communist Party of India",
+      "abbreviation": "CPI",
+      "President": "D. Raja",
+      "founder": "M. N. Roy, Abani Mukherji, M. P. T. Acharya",
+      "chairperson": "D. Raja",
+      "foundeddate": "1925-12-26",
+      "headquarters": "Ajoy Bhavan, 15, Kotla Marg, New Delhi 110002",
+      "partyflag": "adhikar/party/partyflag/cpi_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/cpi_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 9,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Janata Dal (Secular)",
+      "abbreviation": "JD(S)",
+      "President": "H. D. Deve Gowda",
+      "founder": "H. D. Deve Gowda",
+      "chairperson": "H. D. Deve Gowda",
+      "foundeddate": "1999-07-23",
+      "headquarters": "5, Safdarjung Lane, New Delhi 110003",
+      "partyflag": "adhikar/party/partyflag/jd_s__flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/jd_s__symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 10,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Janata Dal (United)",
+      "abbreviation": "JD(U)",
+      "President": "Nitish Kumar",
+      "founder": "Sharad Yadav, George Fernandes, Nitish Kumar",
+      "chairperson": "Nitish Kumar",
+      "foundeddate": "2003-10-30",
+      "headquarters": "7, Jantar Mantar Road, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/jd_u__flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/jd_u__symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 11,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "All India Anna Dravida Munnetra Kazhagam",
+      "abbreviation": "AIADMK",
+      "President": "Edappadi K. Palaniswami",
+      "founder": "M. G. Ramachandran",
+      "chairperson": "Edappadi K. Palaniswami",
+      "foundeddate": "1972-10-17",
+      "headquarters": "226, Avvai Shanmugam Salai, Royapettah, Chennai 600014",
+      "partyflag": "adhikar/party/partyflag/aiadmk_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/aiadmk_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 12,
+    "fields": {
+      "party_color": "#A52A2A",
+      "partystatus": "Regional",
+      "partyname": "Dravida Munnetra Kazhagam",
+      "abbreviation": "DMK",
+      "President": "M. K. Stalin",
+      "founder": "C. N. Annadurai",
+      "chairperson": "M. K. Stalin",
+      "foundeddate": "1949-09-17",
+      "headquarters": "Anna Arivalayam, 367/369, Anna Salai, Teynampet, Chennai 600018",
+      "partyflag": "adhikar/party/partyflag/dmk_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/dmk_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 13,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Naga People's Front",
+      "abbreviation": "NPF",
+      "President": "Apong Pongener",
+      "founder": "Neiphiu Rio",
+      "chairperson": "Apong Pongener",
+      "foundeddate": "2002-10-21",
+      "headquarters": "Post Box No. 565, Kohima, Nagaland 797001",
+      "partyflag": "adhikar/party/partyflag/npf_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/npf_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 14,
+    "fields": {
+      "party_color": "#00CED1",
+      "partystatus": "Regional",
+      "partyname": "Nationalist Congress Party",
+      "abbreviation": "NCP",
+      "President": "Ajit Pawar",
+      "founder": "Sharad Pawar, P. A. Sangma, Tariq Anwar",
+      "chairperson": "Ajit Pawar",
+      "foundeddate": "1999-06-10",
+      "headquarters": "1, Canning Lane, K.G. Marg, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/ncp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/ncp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 15,
+    "fields": {
+      "party_color": "#00CED1",
+      "partystatus": "Regional",
+      "partyname": "Nationalist Congress Party – Sharadchandra Pawar",
+      "abbreviation": "NCPSP",
+      "President": "Sharad Pawar",
+      "founder": "Sharad Pawar",
+      "chairperson": "Sharad Pawar",
+      "foundeddate": "2024-02-07",
+      "headquarters": "Bunglow No. 1, 10, Dr. Rajendra Prasad Road, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/ncpsp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/ncpsp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 16,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Rashtriya Janata Dal",
+      "abbreviation": "RJD",
+      "President": "Lalu Prasad Yadav",
+      "founder": "Lalu Prasad Yadav",
+      "chairperson": "Lalu Prasad Yadav",
+      "foundeddate": "1997-07-05",
+      "headquarters": "13, V.P. House, Rafi Marg, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/rjd_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/rjd_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 17,
+    "fields": {
+      "party_color": "#FFFF00",
+      "partystatus": "Regional",
+      "partyname": "Telugu Desam Party",
+      "abbreviation": "TDP",
+      "President": "N. Chandrababu Naidu",
+      "founder": "N. T. Rama Rao",
+      "chairperson": "N. Chandrababu Naidu",
+      "foundeddate": "1982-03-29",
+      "headquarters": "NTR Bhavan, Road No. 2, Banjara Hills, Hyderabad / Mangalagiri, AP",
+      "partyflag": "adhikar/party/partyflag/tdp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/tdp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 18,
+    "fields": {
+      "party_color": "#0000FF",
+      "partystatus": "Regional",
+      "partyname": "YSR Congress Party",
+      "abbreviation": "YSRCP",
+      "President": "Y. S. Jagan Mohan Reddy",
+      "founder": "Y. S. Jagan Mohan Reddy",
+      "chairperson": "Y. S. Jagan Mohan Reddy",
+      "foundeddate": "2011-03-12",
+      "headquarters": "Tadepalli, Guntur District, Andhra Pradesh 522501",
+      "partyflag": "adhikar/party/partyflag/ysrcp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/ysrcp_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 19,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "All India Forward Bloc",
+      "abbreviation": "AIFB",
+      "President": "G. Devarajan",
+      "founder": "Subhas Chandra Bose",
+      "chairperson": "G. Devarajan",
+      "foundeddate": "1939-05-03",
+      "headquarters": "28, Gurudwara Rakab Ganj Road, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/aifb_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/aifb_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 20,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "All India Majlis-e-Ittehadul Muslimeen",
+      "abbreviation": "AIMIM",
+      "President": "Asaduddin Owaisi",
+      "founder": "Nawab Mahmood Nawaz Khan",
+      "chairperson": "Asaduddin Owaisi",
+      "foundeddate": "1927-11-12",
+      "headquarters": "Darussalam Board, Aghapura, Hyderabad, Telangana 500001",
+      "partyflag": "adhikar/party/partyflag/aimim_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/aimim_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 21,
+    "fields": {
+      "party_color": "#FFA500",
+      "partystatus": "Regional",
+      "partyname": "All India N.R. Congress",
+      "abbreviation": "AINRC",
+      "President": "N. Rangaswamy",
+      "founder": "N. Rangaswamy",
+      "chairperson": "N. Rangaswamy",
+      "foundeddate": "2011-02-07",
+      "headquarters": "No. 51, 100 Feet Road, Ellaipillaichavady, Puducherry 605005",
+      "partyflag": "adhikar/party/partyflag/ainrc_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/ainrc_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 22,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "All India United Democratic Front",
+      "abbreviation": "AIUDF",
+      "President": "Badruddin Ajmal",
+      "founder": "Badruddin Ajmal",
+      "chairperson": "Badruddin Ajmal",
+      "foundeddate": "2005-10-03",
+      "headquarters": "3, Friends Path, Hatigaon, Guwahati, Assam 781038",
+      "partyflag": "adhikar/party/partyflag/aiudf_flag.webp",
+      "electionsymbol": "adhikar/party/electionsymbol/aiudf_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 23,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "All Jharkhand Students Union",
+      "abbreviation": "AJSU",
+      "President": "Sudesh Mahto",
+      "founder": "Surya Singh Besra",
+      "chairperson": "Sudesh Mahto",
+      "foundeddate": "1986-06-22",
+      "headquarters": "Harmed Colony, Bypass Road, Ranchi, Jharkhand 834002",
+      "partyflag": "adhikar/party/partyflag/ajsu_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/ajsu_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 24,
+    "fields": {
+      "party_color": "#800080",
+      "partystatus": "Regional",
+      "partyname": "Apna Dal (Soneylal)",
+      "abbreviation": "ADS",
+      "President": "Anupriya Patel",
+      "founder": "Anupriya Patel",
+      "chairperson": "Anupriya Patel",
+      "foundeddate": "2016-12-14",
+      "headquarters": "Vill & PO- Atrampur, Prayagraj, Uttar Pradesh 212412",
+      "partyflag": "adhikar/party/partyflag/ads_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/ads_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 25,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Asom Gana Parishad",
+      "abbreviation": "AGP",
+      "President": "Atul Bora",
+      "founder": "Prafulla Kumar Mahanta",
+      "chairperson": "Atul Bora",
+      "foundeddate": "1985-10-14",
+      "headquarters": "Gopinath Bordoloi Nagar, Ambari, Guwahati, Assam 781001",
+      "partyflag": "adhikar/party/partyflag/agp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/agp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 26,
+    "fields": {
+      "party_color": "#FF69B4",
+      "partystatus": "Regional",
+      "partyname": "Bharat Rashtra Samithi",
+      "abbreviation": "BRS",
+      "President": "K. Chandrashekar Rao",
+      "founder": "K. Chandrashekar Rao",
+      "chairperson": "K. Chandrashekar Rao",
+      "foundeddate": "2001-04-27",
+      "headquarters": "Telangana Bhavan, Road No. 12, Banjara Hills, Hyderabad 500034",
+      "partyflag": "adhikar/party/partyflag/brs_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/brs_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 27,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Biju Janata Dal",
+      "abbreviation": "BJD",
+      "President": "Naveen Patnaik",
+      "founder": "Naveen Patnaik",
+      "chairperson": "Naveen Patnaik",
+      "foundeddate": "1997-12-26",
+      "headquarters": "Sankha Bhawan, Unit-6, Bhubaneswar, Odisha 751001",
+      "partyflag": "adhikar/party/partyflag/bjd_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/bjd_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 28,
+    "fields": {
+      "party_color": "#FFA500",
+      "partystatus": "Regional",
+      "partyname": "Bodoland People's Front",
+      "abbreviation": "BPF",
+      "President": "Hagrama Mohilary",
+      "founder": "Hagrama Mohilary",
+      "chairperson": "Hagrama Mohilary",
+      "foundeddate": "2005-01-01",
+      "headquarters": "Kokrajhar, BTAD, Assam 783370",
+      "partyflag": "adhikar/party/partyflag/bpf_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/bpf_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 29,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Communist Party of India (Marxist–Leninist) Liberation",
+      "abbreviation": "CPIMLL",
+      "President": "Dipankar Bhattacharya",
+      "founder": "Vinod Mishra",
+      "chairperson": "Dipankar Bhattacharya",
+      "foundeddate": "1974-04-22",
+      "headquarters": "U-90, Shakarpur, Delhi 110092",
+      "partyflag": "adhikar/party/partyflag/cpimll_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/cpimll_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 30,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Desiya Murpokku Dravida Kazhagam",
+      "abbreviation": "DMDK",
+      "President": "Premallatha Vijayakanth",
+      "founder": "Vijayakanth",
+      "chairperson": "Premallatha Vijayakanth",
+      "foundeddate": "2005-09-14",
+      "headquarters": "No. 12/29, Koyambedu, Chennai, Tamil Nadu 600107",
+      "partyflag": "adhikar/party/partyflag/dmdk_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/dmdk_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 31,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Goa Forward Party",
+      "abbreviation": "GFP",
+      "President": "Vijai Sardesai",
+      "founder": "Vijai Sardesai",
+      "chairperson": "Vijai Sardesai",
+      "foundeddate": "2016-01-25",
+      "headquarters": "Shop No. 1, Grace Building, Margao, Goa 403601",
+      "partyflag": "adhikar/party/partyflag/gfp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/gfp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 32,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Hill State People's Democratic Party",
+      "abbreviation": "HSPDP",
+      "President": "K. P. Pangniang",
+      "founder": "Hopeingstone Lyngdoh",
+      "chairperson": "K. P. Pangniang",
+      "foundeddate": "1968-01-01",
+      "headquarters": "Kenches Trace, Shillong, Meghalaya 793004",
+      "partyflag": "adhikar/party/partyflag/hspdp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/hspdp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 33,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Indian National Lok Dal",
+      "abbreviation": "INLD",
+      "President": "Abhay Singh Chautala",
+      "founder": "Chaudhary Devi Lal",
+      "chairperson": "Abhay Singh Chautala",
+      "foundeddate": "1996-04-01",
+      "headquarters": "Sector 3, Chandigarh, Haryana 160002",
+      "partyflag": "adhikar/party/partyflag/inld_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/inld_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 34,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Indian Union Muslim League",
+      "abbreviation": "IUML",
+      "President": "Sadiq Ali Shihab Thangal",
+      "founder": "M. Muhammad Ismail",
+      "chairperson": "Sadiq Ali Shihab Thangal",
+      "foundeddate": "1948-03-10",
+      "headquarters": "Quaid-e-Millat Manzil, 36 Maraikayar Lebbai Street, Chennai 600001",
+      "partyflag": "adhikar/party/partyflag/iuml_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/iuml_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 35,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Indigenous People's Front of Tripura",
+      "abbreviation": "IPFT",
+      "President": "Prem Kumar Reang",
+      "founder": "N. C. Debbarma",
+      "chairperson": "Prem Kumar Reang",
+      "foundeddate": "1997-06-09",
+      "headquarters": "Agartala, West Tripura, Tripura 799001",
+      "partyflag": "adhikar/party/partyflag/ipft_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/ipft_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 36,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Jammu & Kashmir National Conference",
+      "abbreviation": "JKNC",
+      "President": "Farooq Abdullah",
+      "founder": "Sheikh Abdullah",
+      "chairperson": "Farooq Abdullah",
+      "foundeddate": "1932-10-11",
+      "headquarters": "Nawa-i-Subh Complex, Zero Bridge, Srinagar, Jammu & Kashmir 190001",
+      "partyflag": "adhikar/party/partyflag/jknc_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/jknc_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 37,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Jammu and Kashmir National Panthers Party",
+      "abbreviation": "JKNPP",
+      "President": "Harsh Dev Singh",
+      "founder": "Bhim Singh",
+      "chairperson": "Harsh Dev Singh",
+      "foundeddate": "1982-03-23",
+      "headquarters": "17, V.P. House, Rafi Marg, New Delhi / Gandhi Nagar, Jammu",
+      "partyflag": "adhikar/party/partyflag/jknpp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/jknpp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 38,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Jammu and Kashmir Peoples Democratic Party",
+      "abbreviation": "JKPDP",
+      "President": "Mehbooba Mufti",
+      "founder": "Mufti Mohammad Sayeed",
+      "chairperson": "Mehbooba Mufti",
+      "foundeddate": "1999-07-28",
+      "headquarters": "2, Residency Road, Srinagar, Jammu & Kashmir 190001",
+      "partyflag": "adhikar/party/partyflag/jkpdp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/jkpdp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 39,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Janasena Party",
+      "abbreviation": "JSP",
+      "President": "Pawan Kalyan",
+      "founder": "Pawan Kalyan",
+      "chairperson": "Pawan Kalyan",
+      "foundeddate": "2014-03-14",
+      "headquarters": "Plot No. 12, Jubilee Hills, Hyderabad / Mangalagiri, Andhra Pradesh",
+      "partyflag": "adhikar/party/partyflag/jsp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/jsp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 40,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Jannayak Janta Party",
+      "abbreviation": "JJP",
+      "President": "Ajay Singh Chautala",
+      "founder": "Dushyant Chautala",
+      "chairperson": "Ajay Singh Chautala",
+      "foundeddate": "2018-12-09",
+      "headquarters": "SCO 11-12, Sector 17, Kurukshetra, Haryana 136118",
+      "partyflag": "adhikar/party/partyflag/jjp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/jjp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 41,
+    "fields": {
+      "party_color": "#FF9933",
+      "partystatus": "Regional",
+      "partyname": "Janta Congress Chhattisgarh",
+      "abbreviation": "JCC",
+      "President": "Renu Jogi",
+      "founder": "Ajit Jogi",
+      "chairperson": "Renu Jogi",
+      "foundeddate": "2016-06-23",
+      "headquarters": "Shri Kot, Katora Talab, Raipur, Chhattisgarh 492001",
+      "partyflag": "adhikar/party/partyflag/jcc_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/jcc_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 42,
+    "fields": {
+      "party_color": "#00FF00",
+      "partystatus": "Regional",
+      "partyname": "Jharkhand Mukti Morcha",
+      "abbreviation": "JMM",
+      "President": "Shibu Soren",
+      "founder": "Shibu Soren, Binod Bihari Mahato",
+      "chairperson": "Hemant Soren",
+      "foundeddate": "1972-11-15",
+      "headquarters": "Bariatu Road, Ranchi, Jharkhand 834009",
+      "partyflag": "adhikar/party/partyflag/jmm_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/jmm_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 43,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Kerala Congress",
+      "abbreviation": "KC",
+      "President": "P. J. Joseph",
+      "founder": "K. M. George",
+      "chairperson": "P. J. Joseph",
+      "foundeddate": "1964-10-09",
+      "headquarters": "State Committee Office, Kottayam, Kerala 686001",
+      "partyflag": "adhikar/party/partyflag/kc_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/kc_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 44,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Kerala Congress (M)",
+      "abbreviation": "KC(M)",
+      "President": "Jose K. Mani",
+      "founder": "K. M. Mani",
+      "chairperson": "Jose K. Mani",
+      "foundeddate": "1979-01-01",
+      "headquarters": "State Committee Office, Near Railway Station, Kottayam, Kerala 686001",
+      "partyflag": "adhikar/party/partyflag/kc_m__flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/kc_m__symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 45,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Lok Janshakti Party (Ram Vilas)",
+      "abbreviation": "LJPRV",
+      "President": "Chirag Paswan",
+      "founder": "Chirag Paswan",
+      "chairperson": "Chirag Paswan",
+      "foundeddate": "2021-10-08",
+      "headquarters": "12, Janpath, New Delhi / 1, Wheeler Road, Patna 800001",
+      "partyflag": "adhikar/party/partyflag/ljprv_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/ljprv_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 46,
+    "fields": {
+      "party_color": "#FFA500",
+      "partystatus": "Regional",
+      "partyname": "Maharashtra Navnirman Sena",
+      "abbreviation": "MNS",
+      "President": "Raj Thackeray",
+      "founder": "Raj Thackeray",
+      "chairperson": "Raj Thackeray",
+      "foundeddate": "2006-03-09",
+      "headquarters": "Rajgad, Shivaji Park, Dadar (W), Mumbai 400028",
+      "partyflag": "adhikar/party/partyflag/mns_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/mns_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 47,
+    "fields": {
+      "party_color": "#FF9933",
+      "partystatus": "Regional",
+      "partyname": "Maharashtrawadi Gomantak Party",
+      "abbreviation": "MGP",
+      "President": "Deepak Dhavalikar",
+      "founder": "Dayanand Bandodkar",
+      "chairperson": "Deepak Dhavalikar",
+      "foundeddate": "1963-06-01",
+      "headquarters": "Bhausaheb Bandodkar Bhavan, Panaji, Goa 403001",
+      "partyflag": "adhikar/party/partyflag/mgp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/mgp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 48,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Naam Tamilar Katchi",
+      "abbreviation": "NTK",
+      "President": "Seeman",
+      "founder": "Seeman",
+      "chairperson": "Seeman",
+      "foundeddate": "2010-05-18",
+      "headquarters": "No. 8, Hospital Road, Senthil Nagar, Chinna Porur, Chennai 600116",
+      "partyflag": "adhikar/party/partyflag/ntk_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/ntk_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 49,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Mizo National Front",
+      "abbreviation": "MNF",
+      "President": "Zoramthanga",
+      "founder": "Laldenga",
+      "chairperson": "Zoramthanga",
+      "foundeddate": "1961-10-22",
+      "headquarters": "General Headquarters, Zarkawt, Aizawl, Mizoram 796001",
+      "partyflag": "adhikar/party/partyflag/mnf_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/mnf_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 50,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "People's Party of Arunachal",
+      "abbreviation": "PPA",
+      "President": "Kahfa Bengia",
+      "founder": "Bakshi Pertin, Oken Lego",
+      "chairperson": "Kahfa Bengia",
+      "foundeddate": "1977-04-10",
+      "headquarters": "G-Sector, Naharlagun, Arunachal Pradesh 791110",
+      "partyflag": "adhikar/party/partyflag/ppa_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/ppa_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 51,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Rashtriya Lok Janshakti Party",
+      "abbreviation": "RLJP",
+      "President": "Pashupati Kumar Paras",
+      "founder": "Pashupati Kumar Paras",
+      "chairperson": "Pashupati Kumar Paras",
+      "foundeddate": "2021-10-08",
+      "headquarters": "1, Canning Lane, New Delhi 110001",
+      "partyflag": "adhikar/party/partyflag/rljp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/rljp_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 52,
+    "fields": {
+      "party_color": "#FFFF00",
+      "partystatus": "Regional",
+      "partyname": "Rashtriya Loktantrik Party",
+      "abbreviation": "RLP",
+      "President": "Hanuman Beniwal",
+      "founder": "Hanuman Beniwal",
+      "chairperson": "Hanuman Beniwal",
+      "foundeddate": "2018-10-29",
+      "headquarters": "Plot No. 4, Jodhpur Road, Nagaur, Rajasthan 341001",
+      "partyflag": "adhikar/party/partyflag/rlp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/rlp_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 53,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Revolutionary Goans Party",
+      "abbreviation": "RGP",
+      "President": "Manoj Parab",
+      "founder": "Manoj Parab",
+      "chairperson": "Manoj Parab",
+      "foundeddate": "2017-03-01",
+      "headquarters": "House No. 233, St. Inez, Panaji, Goa 403001",
+      "partyflag": "adhikar/party/partyflag/rgp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/rgp_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 54,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Revolutionary Socialist Party",
+      "abbreviation": "RSP",
+      "President": "Manoj Bhattacharya",
+      "founder": "Tridib Chaudhuri",
+      "chairperson": "Manoj Bhattacharya",
+      "foundeddate": "1940-03-19",
+      "headquarters": "37, Ripon Street, Kolkata, West Bengal 700016",
+      "partyflag": "adhikar/party/partyflag/rsp_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/rsp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 55,
+    "fields": {
+      "party_color": "#FF0000",
+      "partystatus": "Regional",
+      "partyname": "Samajwadi Party",
+      "abbreviation": "SP",
+      "President": "Akhilesh Yadav",
+      "founder": "Mulayam Singh Yadav",
+      "chairperson": "Akhilesh Yadav",
+      "foundeddate": "1992-10-04",
+      "headquarters": "19, Vikramaditya Marg, Lucknow, Uttar Pradesh 226001",
+      "partyflag": "adhikar/party/partyflag/sp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/sp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 56,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Shiromani Akali Dal",
+      "abbreviation": "SAD",
+      "President": "Sukhbir Singh Badal",
+      "founder": "Sarmukh Singh Chubbal",
+      "chairperson": "Sukhbir Singh Badal",
+      "foundeddate": "1920-12-14",
+      "headquarters": "Building No. 1, Sector 28-A, Madhya Marg, Chandigarh 160028",
+      "partyflag": "adhikar/party/partyflag/sad_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/sad_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 57,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Sikkim Democratic Front",
+      "abbreviation": "SDF",
+      "President": "Pawan Kumar Chamling",
+      "founder": "Pawan Kumar Chamling",
+      "chairperson": "Pawan Kumar Chamling",
+      "foundeddate": "1993-03-04",
+      "headquarters": "Upper Deorali, Gangtok, East Sikkim, Sikkim 737102",
+      "partyflag": "adhikar/party/partyflag/sdf_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/sdf_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 58,
+    "fields": {
+      "party_color": "#FF4500",
+      "partystatus": "Regional",
+      "partyname": "Sikkim Krantikari Morcha",
+      "abbreviation": "SKM",
+      "President": "Prem Singh Tamang",
+      "founder": "Prem Singh Tamang",
+      "chairperson": "Prem Singh Tamang",
+      "foundeddate": "2013-02-04",
+      "headquarters": "Near Metro Point, Tadong, Gangtok, Sikkim 737102",
+      "partyflag": "adhikar/party/partyflag/skm_flag.svg",
+      "electionsymbol": "adhikar/party/electionsymbol/skm_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 59,
+    "fields": {
+      "party_color": "#FF4500",
+      "partystatus": "Regional",
+      "partyname": "Shiv Sena",
+      "abbreviation": "SHS",
+      "President": "Eknath Shinde",
+      "founder": "Bal Thackeray",
+      "chairperson": "Eknath Shinde",
+      "foundeddate": "1966-06-19",
+      "headquarters": "Balasaheb Bhavan, Nariman Point, Mumbai, Maharashtra 400021",
+      "partyflag": "adhikar/party/partyflag/shs_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/shs_symbol.svg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 60,
+    "fields": {
+      "party_color": "#FF4500",
+      "partystatus": "Regional",
+      "partyname": "Shiv Sena (UBT)",
+      "abbreviation": "SS(UBT)",
+      "President": "Uddhav Thackeray",
+      "founder": "Uddhav Thackeray",
+      "chairperson": "Uddhav Thackeray",
+      "foundeddate": "2022-10-10",
+      "headquarters": "Shiv Sena Bhavan, Gadkari Chowk, Dadar, Mumbai, Maharashtra 400028",
+      "partyflag": "adhikar/party/partyflag/ss_ubt__flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/ss_ubt__symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 61,
+    "fields": {
+      "party_color": "#FFFF00",
+      "partystatus": "Regional",
+      "partyname": "Tipra Motha Party",
+      "abbreviation": "TMP",
+      "President": "Bijoy Kumar Hrangkhawl",
+      "founder": "Pradyot Bikram Manikya Deb Barma",
+      "chairperson": "Pradyot Bikram Manikya Deb Barma",
+      "foundeddate": "2019-12-25",
+      "headquarters": "Ujjayanta Palace Campus, Agartala, Tripura 799001",
+      "partyflag": "adhikar/party/partyflag/tmp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/tmp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 62,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "United Democratic Party",
+      "abbreviation": "UDP",
+      "President": "Metbah Lyngdoh",
+      "founder": "E. K. Mawlong",
+      "chairperson": "Metbah Lyngdoh",
+      "foundeddate": "1997-10-15",
+      "headquarters": "Mawlai Nonglum, Shillong, Meghalaya 793008",
+      "partyflag": "adhikar/party/partyflag/udp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/udp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 63,
+    "fields": {
+      "party_color": "#FFFF00",
+      "partystatus": "Regional",
+      "partyname": "United People's Party Liberal",
+      "abbreviation": "UPPL",
+      "President": "Pramod Boro",
+      "founder": "Urkhao Gwra Brahma",
+      "chairperson": "Pramod Boro",
+      "foundeddate": "2015-02-15",
+      "headquarters": "Kadamtala, Ward No. 2, Kokrajhar, BTR, Assam 783370",
+      "partyflag": "adhikar/party/partyflag/uppl_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/uppl_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 64,
+    "fields": {
+      "party_color": "#008000",
+      "partystatus": "Regional",
+      "partyname": "Voice of the People Party",
+      "abbreviation": "VPP",
+      "President": "Ardent Miller Basaiawmoit",
+      "founder": "Ardent Miller Basaiawmoit",
+      "chairperson": "Ardent Miller Basaiawmoit",
+      "foundeddate": "2021-11-19",
+      "headquarters": "Jaiaw Laitdom, Shillong, Meghalaya 793002",
+      "partyflag": "adhikar/party/partyflag/vpp_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/vpp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 65,
+    "fields": {
+      "party_color": "#000080",
+      "partystatus": "Regional",
+      "partyname": "Zoram Nationalist Party",
+      "abbreviation": "ZNP",
+      "President": "Lalduhoma",
+      "founder": "Lalduhoma",
+      "chairperson": "Lalduhoma",
+      "foundeddate": "1997-08-27",
+      "headquarters": "Treasury Square, Aizawl, Mizoram 796001",
+      "partyflag": "adhikar/party/partyflag/znp_flag.png",
+      "electionsymbol": "adhikar/party/electionsymbol/znp_symbol.png",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 66,
+    "fields": {
+      "party_color": "#00CED1",
+      "partystatus": "Regional",
+      "partyname": "Zoram People's Movement",
+      "abbreviation": "ZPM",
+      "President": "Lalliansawta",
+      "founder": "Lalduhoma",
+      "chairperson": "Lalduhoma",
+      "foundeddate": "2017-08-18",
+      "headquarters": "ZPM General Hqrs, A-68, Zarkawt, Aizawl, Mizoram 796001",
+      "partyflag": "adhikar/party/partyflag/zpm_flag.jpg",
+      "electionsymbol": "adhikar/party/electionsymbol/zpm_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  }
+]
