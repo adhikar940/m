@@ -285,7 +285,7 @@
     "fields": {
       "party_color": "#00CED1",
       "partystatus": "Regional",
-      "partyname": "Nationalist Congress Party – Sharadchandra Pawar",
+      "partyname": "Nationalist Congress Party \u2013 Sharadchandra Pawar",
       "abbreviation": "NCPSP",
       "President": "Sharad Pawar",
       "founder": "Sharad Pawar",
@@ -565,7 +565,7 @@
     "fields": {
       "party_color": "#FF0000",
       "partystatus": "Regional",
-      "partyname": "Communist Party of India (Marxist–Leninist) Liberation",
+      "partyname": "Communist Party of India (Marxist\u2013Leninist) Liberation",
       "abbreviation": "CPIMLL",
       "President": "Dipankar Bhattacharya",
       "founder": "Vinod Mishra",
@@ -1314,6 +1314,26 @@
       "headquarters": "ZPM General Hqrs, A-68, Zarkawt, Aizawl, Mizoram 796001",
       "partyflag": "adhikar/party/partyflag/zpm_flag.jpg",
       "electionsymbol": "adhikar/party/electionsymbol/zpm_symbol.jpg",
+      "founderPhoto": null,
+      "chairpersonPhoto": null,
+      "PresidentPhoto": null
+    }
+  },
+  {
+    "model": "party.party",
+    "pk": 67,
+    "fields": {
+      "party_color": "#DC143C",
+      "partystatus": "Regional",
+      "partyname": "Nationalist Democratic Progressive Party",
+      "abbreviation": "NDPP",
+      "President": "Chingwang Konyak",
+      "founder": "Chingwang Konyak, Neiphiu Rio",
+      "chairperson": null,
+      "foundeddate": "2017-05-17",
+      "headquarters": "Ch\u00fcmoukedima, Nagaland",
+      "partyflag": null,
+      "electionsymbol": null,
       "founderPhoto": null,
       "chairpersonPhoto": null,
       "PresidentPhoto": null

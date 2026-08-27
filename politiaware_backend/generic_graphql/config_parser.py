@@ -43,11 +43,6 @@ def build_default_queries_config(model_cls: Type[models.Model]) -> Dict[str, Any
             search_fields.append(fname)
 
     return {
-        "get": {
-            "enabled": True,
-            "pk": "id",
-            "return_cols": "__all__"
-        },
         "list": {
             "enabled": True,
             "return_cols": "__all__",
@@ -91,7 +86,7 @@ def normalize_model_config(
 ) -> Dict[str, Any]:
     """
     Normalizes model configuration.
-    If raw_config is empty or None: injects smart defaults (full CRUD).
+    If raw_config is empty or None: injects smart defaults (list + CRUD mutations).
     If raw_config is specified: strictly applies whitelist and configures only specified operations.
     """
     raw_config = raw_config or {}
@@ -101,7 +96,7 @@ def normalize_model_config(
     has_mutations_section = "mutations" in raw_config
 
     if not has_queries_section and not has_mutations_section:
-        # Empty config e.g. "LokSabhaMP": {} -> Generate full CRUD
+        # Empty config e.g. "LokSabhaMP": {} -> Generate list query + CRUD mutations
         return {
             "app_label": raw_config.get("app_label", model_cls._meta.app_label),
             "model_cls": model_cls,
@@ -121,16 +116,6 @@ def normalize_model_config(
     if has_queries_section:
         queries_cfg = raw_config.get("queries") or {}
         default_queries = build_default_queries_config(model_cls)
-
-        if "get" in queries_cfg:
-            get_cfg = queries_cfg["get"] or {}
-            normalized["queries"]["get"] = {
-                "enabled": get_cfg.get("enabled", True),
-                "name": get_cfg.get("name"),
-                "pk": get_cfg.get("pk", "id"),
-                "return_cols": get_cfg.get("return_cols", "__all__"),
-                "resolver": resolve_callable(get_cfg.get("resolver"))
-            }
 
         if "list" in queries_cfg:
             list_cfg = queries_cfg["list"] or {}

@@ -394,5 +394,16 @@
       "abbreviation": null,
       "oldname": null
     }
+  },
+  {
+    "model": "area_pop.state",
+    "pk": 37,
+    "fields": {
+      "Statename": "Ladakh",
+      "capital": "Leh, Kargil",
+      "Status": "UT",
+      "abbreviation": "LA",
+      "oldname": null
+    }
   }
 ]

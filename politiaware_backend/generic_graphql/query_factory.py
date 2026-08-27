@@ -8,14 +8,12 @@ import graphene
 from django.db import models
 from django.db.models import Q
 
-from .model_loader import get_field_by_name
-from .field_mapper import django_field_to_graphene_type
 from .type_factory import get_or_create_django_type
 from .filter_factory import get_or_create_model_filter_type, parse_nested_filters
 
 
 def _format_query_name(model_name: str, prefix: str = "", suffix: str = "") -> str:
-    """Formats a model name into a camelCase GraphQL query name (e.g. allLokSabhaMPs, lokSabhaMP, party, allPartys)."""
+    """Formats a model name into a camelCase GraphQL query name (e.g. allLokSabhaMPs, allPartys)."""
     clean_name = model_name[0].upper() + model_name[1:] if model_name else ""
     if prefix:
         return f"{prefix}{clean_name}{suffix}"
@@ -74,25 +72,6 @@ def create_generic_list_resolver(
     return resolver
 
 
-def create_generic_get_resolver(
-    model_cls: Type[models.Model],
-    pk_field_name: str = "id"
-):
-    """
-    Creates a resolver function for fetching a single model instance by PK.
-    """
-    def resolver(self, info, **kwargs):
-        pk_val = kwargs.get(pk_field_name) or kwargs.get("id")
-        if pk_val is None:
-            return None
-        try:
-            return model_cls.objects.filter(**{pk_field_name: pk_val}).first()
-        except Exception:
-            return None
-
-    return resolver
-
-
 def build_model_queries(
     model_name: str,
     normalized_config: Dict[str, Any]
@@ -105,28 +84,7 @@ def build_model_queries(
     model_cls = normalized_config["model_cls"]
     queries_cfg = normalized_config.get("queries") or {}
 
-    # 1. Single Item (Get) Query
-    get_cfg = queries_cfg.get("get")
-    if get_cfg and get_cfg.get("enabled", True):
-        pk_field_name = get_cfg.get("pk", "id")
-        return_cols = get_cfg.get("return_cols", "__all__")
-        django_type = get_or_create_django_type(model_cls, return_cols=return_cols)
-
-        query_name = get_cfg.get("name") or _format_query_name(model_cls.__name__)
-        pk_field = get_field_by_name(model_cls, pk_field_name)
-        pk_graphene_type = django_field_to_graphene_type(pk_field)
-
-        get_field = graphene.Field(
-            django_type,
-            **{pk_field_name: pk_graphene_type(required=True)},
-            description=f"Fetch a single {model_cls.__name__} by {pk_field_name}"
-        )
-
-        custom_res = get_cfg.get("resolver")
-        resolver_fn = custom_res if custom_res else create_generic_get_resolver(model_cls, pk_field_name)
-        queries_dict[query_name] = (get_field, resolver_fn)
-
-    # 2. List Query (with Top-Down Structured Filters, Search, Ordering, Pagination)
+    # List Query (with Top-Down Structured Filters, Search, Ordering, Pagination)
     list_cfg = queries_cfg.get("list")
     if list_cfg and list_cfg.get("enabled", True):
         return_cols = list_cfg.get("return_cols", "__all__")
@@ -156,9 +114,8 @@ def build_model_queries(
         if search_fields:
             list_args["search"] = graphene.String(description=f"Search across {', '.join(search_fields)}")
 
-        # Ordering arguments
+        # Ordering arguments (supports single string or list of columns, e.g. ['-id', 'name'] or '-id')
         list_args["order_by"] = graphene.List(graphene.String, description="Ordering fields (e.g. ['-id', 'name'])")
-        list_args["orderBy"] = graphene.String(description="Ordering field alias (e.g. '-id')")
 
         list_field = graphene.List(
             django_type,

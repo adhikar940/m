@@ -3,7 +3,7 @@ GraphQL configuration per model for generic_graphql.
 
 Behavior:
 1. Zero Configuration ("ModelName": {}):
-   - Automatically generates full CRUD (get by ID, list with all data-type filters + pagination + search, create, update, delete).
+   - Automatically generates list query (e.g. allPartys, allStates) with all data-type filters + pagination + search + ordering, and full mutations (create, update, delete).
 2. Explicit Configuration:
    - Whitelists only the specified operations and fields.
 3. Custom Functions:
@@ -14,5 +14,8 @@ Behavior:
 
 GRAPHQL_CONF = {
     "Party": {},  # Zero config - full CRUD
-    "cm":{}
+    "cm": {},
+    "governor": {},
+    "State": {},
+    "Districts": {},
 }

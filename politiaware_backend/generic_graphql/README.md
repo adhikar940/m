@@ -7,7 +7,7 @@ An automated, config-driven GraphQL query and mutation generation framework for 
 ## 🌟 Key Features
 
 1. **Zero Configuration Support (`"ModelName": {}`)**:
-   - Automatically generates full CRUD operations (`get`, `list` with dynamic filters, `create`, `update`, `delete`).
+   - Automatically generates list query (`allPartys`, `allStates`) with dynamic top-down filters + pagination + search + multi-column ordering, and full mutations (`create`, `update`, `delete`).
    - Text search across Char/Text fields and pagination (`limit`, `offset`) included out of the box.
 
 2. **Top-Down Nested Filter Architecture**:
@@ -97,13 +97,13 @@ query {
 
 ## ⚙️ Configuration Reference (`graphql_conf/graphql_conf.py`)
 
-### 1. Zero Configuration (Full CRUD)
+### 1. Zero Configuration (List + Full Mutations)
 ```python
 GRAPHQL_CONF = {
     "Party": {}
 }
 ```
-*Gives you `party(id)`, `allPartys(...)`, `createParty(...)`, `updateParty(...)`, `deleteParty(...)` immediately.*
+*Gives you `allPartys(...)`, `createParty(...)`, `updateParty(...)`, `deleteParty(...)` immediately.*
 
 ---
 
@@ -113,12 +113,6 @@ GRAPHQL_CONF = {
     "LokSabhaMP": {
         "app_label": "loksabha",
         "queries": {
-            # Single item query
-            "get": {
-                "name": "lokSabhaMp",
-                "pk": "id",
-                "return_cols": ["id", "name", "gender", "Party", "constituency"]
-            },
             # List query with filters & pagination
             "list": {
                 "name": "allLokSabhaMps",
