@@ -31,7 +31,6 @@ def run_tests():
     print("Mutation fields available:", mutation_fields)
 
     # Check that generic queries exist
-    assert "party" in query_fields, "Missing party get query"
     assert "allPartys" in query_fields, "Missing allPartys list query"
 
     # Check that generic mutations exist
@@ -41,7 +40,7 @@ def run_tests():
 
     print("✅ All expected query and mutation fields exist in the schema!")
 
-    print("\n--- 2. Testing List Query Execution with Top-Down Nested Filters & Pagination ---")
+    print("\n--- 2. Testing List Query Execution with Pagination Metadata (total, offset, limit, data) ---")
     query_str = """
     query {
         allPartys(
@@ -52,11 +51,16 @@ def run_tests():
             limit: 5
             offset: 0
         ) {
-            id
-            partyname
-            abbreviation
-            partystatus
-            partyColor
+            total
+            offset
+            limit
+            data {
+                id
+                partyname
+                abbreviation
+                partystatus
+                partyColor
+            }
         }
     }
     """
@@ -65,24 +69,141 @@ def run_tests():
     print("Query Data:", result.data)
     assert result.errors is None, f"Query execution failed: {result.errors}"
     assert "allPartys" in result.data
-    print("✅ Top-down structured filter query executed successfully!")
+    party_result = result.data["allPartys"]
+    assert "total" in party_result, "Missing total field"
+    assert "offset" in party_result, "Missing offset field"
+    assert "limit" in party_result, "Missing limit field"
+    assert "data" in party_result, "Missing data field"
+    assert party_result["offset"] == 0
+    assert party_result["limit"] == 5
+    assert isinstance(party_result["total"], int)
+    assert isinstance(party_result["data"], list)
+    print("✅ Paginated list query for Party executed successfully!")
 
-    print("\n--- 3. Testing Single Item (Get) Query Execution ---")
-    get_query_str = """
+    # Test default pagination (limit=10, offset=0 when omitted)
+    default_query_str = """
     query {
-        party(id: 999999) {
-            id
-            partyname
+        allPartys {
+            total
+            offset
+            limit
+            data {
+                id
+                partyname
+            }
         }
     }
     """
-    result = schema.execute(get_query_str)
-    assert result.errors is None, f"Get query failed: {result.errors}"
-    print("Get Query Result (non-existent ID):", result.data)
-    assert result.data["party"] is None
-    print("✅ Single item (get) query executed successfully!")
+    default_result = schema.execute(default_query_str)
+    print("Default Pagination Result:", default_result.data)
+    assert default_result.errors is None
+    assert default_result.data["allPartys"]["offset"] == 0
+    assert default_result.data["allPartys"]["limit"] == 10
+    print("✅ Default pagination (limit=10, offset=0) verified successfully!")
 
-    print("\n--- 4. Testing Create, Update & Delete Mutations ---")
+    # Test Optimization 1 & 2: Data-only query (COUNT(*) is completely skipped, only requested cols fetched)
+    data_only_query_str = """
+    query {
+        allPartys(limit: 3) {
+            data {
+                id
+                partyname
+            }
+        }
+    }
+    """
+    data_only_result = schema.execute(data_only_query_str)
+    print("Data-only Result:", data_only_result.data)
+    assert data_only_result.errors is None
+    assert "data" in data_only_result.data["allPartys"]
+    assert len(data_only_result.data["allPartys"]["data"]) <= 3
+    print("✅ Data-only query (skipping COUNT(*), dynamic .only()) verified successfully!")
+
+    # Test Optimization 1: Count-only query (Row fetching is completely skipped)
+    count_only_query_str = """
+    query {
+        allPartys {
+            total
+        }
+    }
+    """
+    count_only_result = schema.execute(count_only_query_str)
+    print("Count-only Result:", count_only_result.data)
+    assert count_only_result.errors is None
+    assert isinstance(count_only_result.data["allPartys"]["total"], int)
+    print("✅ Count-only query (skipping row data query) verified successfully!")
+
+    # Test allCms
+    cm_query_str = """
+    query {
+        allCms(limit: 5, offset: 0) {
+            total
+            offset
+            limit
+            data {
+                id
+                name
+                gender
+            }
+        }
+    }
+    """
+    cm_result = schema.execute(cm_query_str)
+    print("CM Query Errors:", cm_result.errors)
+    print("CM Query Data:", cm_result.data)
+    assert cm_result.errors is None, f"CM Query failed: {cm_result.errors}"
+    assert "allCms" in cm_result.data
+    assert "total" in cm_result.data["allCms"]
+    assert "offset" in cm_result.data["allCms"]
+    assert "limit" in cm_result.data["allCms"]
+    assert "data" in cm_result.data["allCms"]
+    print("✅ allCms paginated query with total, offset, limit, data executed successfully!")
+
+    # Test allGovernors, allStates, allDistricts
+    gov_query_str = """
+    query {
+        allGovernors(limit: 2) {
+            total
+            offset
+            limit
+            data {
+                id
+                name
+            }
+        }
+        allStates(limit: 2) {
+            total
+            offset
+            limit
+            data {
+                id
+                Statename
+            }
+        }
+        allDistricts(limit: 2) {
+            total
+            offset
+            limit
+            data {
+                id
+                Districtname
+            }
+        }
+    }
+    """
+    gov_result = schema.execute(gov_query_str)
+    print("Gov/State/Districts Query Errors:", gov_result.errors)
+    print("Gov/State/Districts Query Data:", gov_result.data)
+    assert gov_result.errors is None, f"Gov/State/Districts Query failed: {gov_result.errors}"
+    assert "allGovernors" in gov_result.data
+    assert "allStates" in gov_result.data
+    assert "allDistricts" in gov_result.data
+    assert "total" in gov_result.data["allGovernors"]
+    assert "total" in gov_result.data["allStates"]
+    assert "total" in gov_result.data["allDistricts"]
+    print("✅ allGovernors, allStates, and allDistricts queries verified successfully!")
+
+    print("\n--- 3. Testing Create, Update & Delete Mutations ---")
     # Test Create Party
     create_mutation_str = """
     mutation {
@@ -99,7 +220,7 @@ def run_tests():
         }) {
             success
             errors
-            party {
+            data {
                 id
                 partyname
                 abbreviation
@@ -111,7 +232,7 @@ def run_tests():
     print("Create Mutation Result:", result.data, result.errors)
     assert result.errors is None, f"Create mutation error: {result.errors}"
     assert result.data["createParty"]["success"] is True
-    created_id = result.data["createParty"]["party"]["id"]
+    created_id = result.data["createParty"]["data"]["id"]
     print(f"Created Party ID: {created_id}")
 
     # Update mutation
@@ -122,7 +243,7 @@ def run_tests():
         }}) {{
             success
             errors
-            party {{
+            data {{
                 id
                 partystatus
             }}

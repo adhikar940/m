@@ -105,7 +105,6 @@ def create_dynamic_create_mutation(
                 "success": True,
                 "errors": None,
                 "data": instance,
-                model_cls.__name__.lower(): instance
             }
             return payload_type(**res_kwargs)
         except ValidationError as ve:
@@ -127,7 +126,6 @@ def create_dynamic_create_mutation(
             "success": graphene.Boolean(required=True),
             "errors": graphene.List(graphene.String),
             "data": graphene.Field(django_type),
-            model_cls.__name__.lower(): graphene.Field(django_type),
             "mutate": classmethod(mutate_func)
         }
     )
@@ -195,7 +193,6 @@ def create_dynamic_update_mutation(
                 "success": True,
                 "errors": None,
                 "data": instance,
-                model_cls.__name__.lower(): instance
             }
             return payload_type(**res_kwargs)
         except ValidationError as ve:
@@ -217,7 +214,6 @@ def create_dynamic_update_mutation(
             "success": graphene.Boolean(required=True),
             "errors": graphene.List(graphene.String),
             "data": graphene.Field(django_type),
-            model_cls.__name__.lower(): graphene.Field(django_type),
             "mutate": classmethod(mutate_func)
         }
     )
