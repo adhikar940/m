@@ -15,3 +15,9 @@ debug_toolbar/
 .env
 .dev_env
 *.pyc
+
+# Fixtures
+fixtures/
+**/fixtures/
+*_fixture.json
+
