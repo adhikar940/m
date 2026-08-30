@@ -158,7 +158,9 @@ docker run -d --name politiaware_container \
 | Collect Static Files | `python politiaware_backend/manage.py collectstatic --noinput` | `python manage.py collectstatic --noinput` |
 | Load App Data | `python politiaware_backend/manage.py loaddata data.json` | `python manage.py loaddata data.json` |
 | Load Party Fixtures | `python politiaware_backend/manage.py loaddata party_fixture.json` | `python manage.py loaddata party_fixture.json` |
-| Load States & Districts Fixtures | `python politiaware_backend/manage.py loaddata state_fixture.json districts_fixture.json multiple_areas_fixture.json` | `python manage.py loaddata state_fixture.json districts_fixture.json multiple_areas_fixture.json` |
+| Load States & Districts Fixtures | `python politiaware_backend/manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json` | `python manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json` |
+| Load Lok Sabha Fixtures | `python politiaware_backend/manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` | `python manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` |
+| Load All Map Fixtures | `python politiaware_backend/manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` | `python manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` |
 | Run Django Shell | `python politiaware_backend/manage.py shell` | `python manage.py shell` |
 
 ---

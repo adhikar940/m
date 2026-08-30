@@ -3,6 +3,7 @@ from django.db.models import JSONField
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from area_pop.models import State, Districts, Taluk
 from loksabha.models import LoksabhaConstituency
 
 class multiple_areas(geomodels.Model):
@@ -20,6 +21,54 @@ class multiple_areas(geomodels.Model):
             models.UniqueConstraint(
                 fields=['content_type', 'object_id'],
                 name='unique_map_per_entity'
+            )
+        ]
+
+class StateMap(geomodels.Model):
+    """
+    Used for representing State boundary maps
+    """
+    feature_properties = JSONField(blank=True, null=True)
+    boundary = geomodels.MultiPolygonField()
+    State = models.ForeignKey(State, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['State'],
+                name='unique_boundary_per_state'
+            )
+        ]
+
+class DistrictMap(geomodels.Model):
+    """
+    Used for representing District boundary maps
+    """
+    feature_properties = JSONField(blank=True, null=True)
+    boundary = geomodels.MultiPolygonField()
+    District = models.ForeignKey(Districts, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['District'],
+                name='unique_boundary_per_district'
+            )
+        ]
+
+class TalukMap(geomodels.Model):
+    """
+    Used for representing Taluk boundary maps
+    """
+    feature_properties = JSONField(blank=True, null=True)
+    boundary = geomodels.MultiPolygonField()
+    Taluk = models.ForeignKey(Taluk, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Taluk'],
+                name='unique_boundary_per_taluk'
             )
         ]
 
