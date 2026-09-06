@@ -1,29 +1,52 @@
 from django.db import models
-from area_pop.models import State,Districts
+from django.contrib.gis.db import models as geomodels
+from district.models import DistrictForeign
 from party.models import Party
 from person.models import person
 from django.core.exceptions import ValidationError
 
-class LoksabhaConstituency(models.Model):
-    State = models.ForeignKey(State, on_delete=models.SET_NULL, null=True)
-    District = models.ForeignKey(Districts, on_delete=models.SET_NULL, null=True)
-    LoksabhaConstituencyName = models.CharField(max_length=100)
-    isexist= models.BooleanField(default=True,null=True, blank=True)
+class LoksabhaConstituency(DistrictForeign):
+    loksabhaConstituencyName = models.CharField(max_length=100)
+    isExist = models.BooleanField(default=True, null=True, blank=True)
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['State','District','LoksabhaConstituencyName'],
+                fields=['state', 'district', 'loksabhaConstituencyName'],
                 name='unique_loksabhaconstituency'
             )
-        ]       
+        ]
+
+    def __str__(self):
+        return self.loksabhaConstituencyName
+
+class LoksabhaConstituencyMap(geomodels.Model):
+    """
+    Used for representing loksabha constituencies
+    """    
+    boundary = geomodels.MultiPolygonField()
+    loksabhaConstituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['loksabhaConstituency'],
+                name='unique_boundary_per_constituency'
+            )
+        ]
+
+    def __str__(self):
+        return f"Map of {self.loksabhaConstituency}" if self.loksabhaConstituency else "LoksabhaConstituencyMap"
+
 
 class LokSabhaMP(person):    
-    Party = models.ForeignKey(Party,on_delete=models.CASCADE, null=True,default='')
-    ispresent = models.BooleanField(default=True,null=True, blank=True)
-    constituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True)
-    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    isPresent = models.BooleanField(default=True, null=True, blank=True)
+    constituency = models.ForeignKey(LoksabhaConstituency, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     class Meta:
         unique_together = ['name']
+
+    def __str__(self):
+        return f"{self.name} - {self.constituency}" if self.constituency else self.name
     
 '''class loksabhapersonal1(personal):
     mp = models.ForeignKey(LokSabha, on_delete=models.SET_NULL, null=True,)

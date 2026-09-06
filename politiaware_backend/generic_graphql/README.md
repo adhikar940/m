@@ -92,11 +92,54 @@ query {
 | :--- | :--- | :--- |
 | **Strings / Text**<br/>`CharField`, `TextField`, `EmailField`, `SlugField` | `StringFilterInput` | `exact`, `iexact`, `contains`, `icontains`, `startswith`, `istartswith`, `endswith`, `iendswith`, `in`, `regex`, `iregex`, `isnull` |
 | **Integers**<br/>`IntegerField`, `SmallIntegerField`, `BigIntegerField`, `PositiveIntegerField` | `IntFilterInput` | `exact`, `gt`, `gte`, `lt`, `lte`, `in`, `range`, `isnull` |
-| **IDs & Foreign Keys**<br/>`AutoField`, `BigAutoField`, `ForeignKey`, `OneToOneField` | `IdFilterInput` | `exact`, `in`, `gt`, `gte`, `lt`, `lte`, `isnull` |
+| **IDs**<br/>`AutoField`, `BigAutoField` | `IdFilterInput` | `exact`, `in`, `gt`, `gte`, `lt`, `lte`, `isnull` |
+| **Foreign Keys & One-to-One Relations**<br/>`ForeignKey`, `OneToOneField` | `Generic_<Model>FilterInput` *(depth-controlled)* | All fields of the related model (e.g. `party.abbreviation`, `party.partyname`, `party.id`) plus `isnull` |
 | **Decimals & Floats**<br/>`FloatField`, `DecimalField` | `FloatFilterInput` | `exact`, `gt`, `gte`, `lt`, `lte`, `range`, `isnull` |
 | **Dates**<br/>`DateField` | `DateFilterInput` | `exact`, `gt`, `gte`, `lt`, `lte`, `range`, `year`, `month`, `day`, `isnull` |
 | **Date & Time**<br/>`DateTimeField` | `DateTimeFilterInput` | `exact`, `gt`, `gte`, `lt`, `lte`, `range`, `date`, `year`, `month`, `day`, `isnull` |
 | **Booleans**<br/>`BooleanField`, `NullBooleanField` | `BooleanFilterInput` | `exact`, `isnull` |
+
+### 🔗 Foreign Key Relational Filtering Example
+
+You can filter records based on related model fields (e.g. filtering Chief Ministers by party abbreviation or state name):
+
+```graphql
+query {
+  allCms(
+    filters: {
+      party: {
+        abbreviation: {
+          startswith: "BJ"
+          exact: "BJP"
+        }
+        partyname: {
+          icontains: "Janata"
+        }
+        isnull: false
+      }
+      rulingstate: {
+        Statename: {
+          exact: "Andhra Pradesh"
+        }
+      }
+    }
+    limit: 10
+  ) {
+    total
+    data {
+      id
+      name
+      party {
+        abbreviation
+        partyname
+      }
+      rulingstate {
+        Statename
+      }
+    }
+  }
+}
+```
 
 ---
 
@@ -282,4 +325,247 @@ The engine inspects the GraphQL AST selection set and applies Django's `.only(*f
 Dynamic GraphQL types (`DjangoObjectType`, `PaginatedType`, `PayloadType`) are generated once during server boot and cached in module registries (`_DJANGO_TYPE_REGISTRY`, `_PAYLOAD_TYPE_REGISTRY`, `_PAGINATED_TYPE_REGISTRY`). 
 - **Startup Overhead**: ~5ms (one-time on Django boot).
 - **Runtime Overhead**: 0% (identical to handwritten static classes).
+
+---
+
+## 🔬 Schema Introspection & Discovery Guide
+
+GraphQL provides a built-in introspection system via `__type` and `__schema` to discover queries, mutations, filter inputs, and output fields.
+
+### ⚠️ Common Pitfall: Introspecting Root `Query` vs. Specific Models
+
+When running an introspection query on `__type(name: "Query")`:
+```graphql
+query IntrospectAllCms {
+  __type(name: "Query") {
+    fields {
+      name
+      type { name kind }
+    }
+  }
+}
+```
+- The operation name `IntrospectAllCms` is just a client-side label; **it does not filter GraphQL introspection results**.
+- `__type(name: "Query")` inspects the root `Query` type, which aggregates **all** query classes (`GenericQuery`, `EnumQuery`, `governorQuery`, `cmQuery`, `loksabhaQuery`).
+- Therefore, the returned `fields` array contains every query across all modules in the project (e.g. `allPartys`, `allCms`, `allGovernors`, `lokSabhaMpsTable`, `allCmsTable`, etc.).
+
+To inspect a **specific model's filters or output fields**, query its specific type name directly using the naming conventions below.
+
+---
+
+### 🏷️ Type Naming Conventions Cheatsheet
+
+| Purpose | Naming Pattern | Examples |
+| :--- | :--- | :--- |
+| **Model Output Type** | `Generic_<app_label>_<ModelName>Type` | `Generic_party_PartyType`, `Generic_cm_cmType`, `Generic_state_StateType` |
+| **Paginated List Type** | `Generic_<app_label>_<ModelName>PaginatedType` | `Generic_party_PartyPaginatedType`, `Generic_cm_cmPaginatedType` |
+| **Filter Input Type** | `Generic_<app_label>_<ModelName>FilterInput` | `Generic_party_PartyFilterInput`, `Generic_cm_cmFilterInput` |
+| **Create Input Type** | `Create<ModelName>Input` | `CreatePartyInput`, `CreateCmInput` |
+| **Update Input Type** | `Update<ModelName>Input` | `UpdatePartyInput`, `UpdateCmInput` |
+| **Mutation Payload** | `Generic_<app_label>_<ModelName>Payload` | `Generic_party_PartyPayload`, `Generic_cm_cmPayload` |
+
+---
+
+### 1. Discover Available Filters for a Model (Input Fields & Operators)
+
+To find all filterable fields and their nested operator types on any model (e.g., `cm` or `Party`):
+
+```graphql
+query GetCmFilterFields {
+  __type(name: "Generic_cm_cmFilterInput") {
+    name
+    description
+    inputFields {
+      name
+      description
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+#### Discover Operators for a Specific Data Type:
+To see all available operators (e.g., `exact`, `icontains`, `in`, `gt`, `range`, `isnull`) on an operator filter type:
+
+```graphql
+query GetStringFilterOperators {
+  __type(name: "StringFilterInput") {
+    name
+    description
+    inputFields {
+      name
+      description
+      type {
+        name
+        kind
+      }
+    }
+  }
+}
+```
+*(You can also inspect `IntFilterInput`, `DateFilterInput`, `DateTimeFilterInput`, `FloatFilterInput`, `IdFilterInput`, `BooleanFilterInput`)*.
+
+---
+
+### 2. Discover Output Fields & Return Values (Output Types)
+
+#### A. Discover Paginated Query Output Structure (`total`, `offset`, `limit`, `data`):
+```graphql
+query GetCmPaginationOutput {
+  __type(name: "Generic_cm_cmPaginatedType") {
+    name
+    fields {
+      name
+      description
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+#### B. Discover Model Fields Available Inside `data { ... }`:
+To find every scalar column and relationship field you can select on the model:
+
+```graphql
+query GetCmModelOutputFields {
+  __type(name: "Generic_cm_cmType") {
+    name
+    fields {
+      name
+      description
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+#### C. Discover Legacy / Custom Table Output Types (e.g., `TableCmType`, `TableLoksabhaType`):
+```graphql
+query GetTableCmOutputFields {
+  __type(name: "TableCmType") {
+    name
+    fields {
+      name
+      type {
+        name
+        kind
+      }
+    }
+  }
+}
+```
+
+---
+
+### 3. Discover Mutation Arguments & Payloads
+
+#### A. Discover Input Fields for Create / Update:
+```graphql
+query GetCreatePartyInputFields {
+  __type(name: "CreatePartyInput") {
+    name
+    inputFields {
+      name
+      description
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+#### B. Discover Mutation Response Payload Fields:
+```graphql
+query GetPartyMutationPayload {
+  __type(name: "Generic_party_PartyPayload") {
+    name
+    fields {
+      name
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+### 4. Comprehensive Query Field Inspection
+
+To inspect a top-level query (such as `allPartys` or `allCms`) along with all its arguments and output structure in a single query:
+
+```graphql
+query IntrospectAllQueriesAndArgs {
+  __schema {
+    queryType {
+      fields {
+        name
+        description
+        args {
+          name
+          defaultValue
+          type {
+            name
+            kind
+            ofType {
+              name
+              kind
+            }
+          }
+        }
+        type {
+          name
+          kind
+          ofType {
+            name
+            kind
+            fields {
+              name
+              type {
+                name
+                kind
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+*(Filter the returned `fields` list in your client by `name === "allPartys"` or `name === "allCms"`)*.
+
 

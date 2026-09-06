@@ -1,43 +1,32 @@
 from django.db import models
-from area_pop.models import State,Districts
+from state.models import StateForeign
 from party.models import Party
 from person.models import person
-class Rajyasabhapresedential1(person):
-    choice = (
-        ('Legislature', 'Legislature'),
-        ('President', 'President')
-    )
-    #state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,default='')
-    MP_name = models.CharField(max_length=300, default='')
-    #Party = models.ForeignKey(Party, on_delete=models.SET_NULL, null=True)
-    field = models.CharField(max_length=300, default='')
-    elected = models.CharField(max_length=500, choices=choice, default='President')
-    is_present = models.BooleanField(default=True,null=True, blank=True)
-    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
-    class Meta:
-        unique_together = ['MP_name']
-        ordering = ['MP_name']
 
-    def __str__(self):
-        return str(self.MP_name)
-class Rajyasabha1(person):
+class RajyasabhaMP(person, StateForeign):
     choice = (
         ('Legislature', 'Legislature'),
         ('President', 'President')
     )
-    state = models.ForeignKey(State, on_delete=models.CASCADE, null=True,
-                              default='')
-    MP_name = models.CharField(max_length=300, default='')
-    Party = models.ForeignKey(Party,on_delete=models.SET_NULL, null=True)
+    nomination_choices = (
+        ('Literature', 'Literature'),
+        ('Science', 'Science'),
+        ('Art', 'Art'),
+        ('Social Service', 'Social Service'),
+    )
+    # state is inherited from StateForeign
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, null=True, blank=True, default=None)
     elected = models.CharField(max_length=500, choices=choice, default='Legislature')
-    is_present = models.BooleanField(default=True,null=True, blank=True)
-    #actvated = models.CharField(max_length=500, choices=choice2, default='no')
+    nominationCategory = models.CharField(max_length=100, choices=nomination_choices, null=True, blank=True)
+    isPresent = models.BooleanField(default=True, null=True, blank=True)
+
     class Meta:
-        unique_together = ['MP_name']
-        ordering = ['MP_name']
+        unique_together = ['name']
+        ordering = ['name']
 
     def __str__(self):
-        return str(self.MP_name)+'-'+str(self.state)
+        return f"{self.name} - {self.state}" if self.state else self.name
+
 '''class rajyasabhapersonal1(personal):
     mp = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True,)
     class Meta:
@@ -46,15 +35,6 @@ class Rajyasabha1(person):
     def __str__(self):
         return '%s' % (self.mp)'''
 
-class Rajyasabhaterm(models.Model):
-    Rajyasabha_MP_Name = models.ForeignKey(Rajyasabha1, on_delete=models.SET_NULL, null=True, default='')
-    year =  models.IntegerField(blank=True)
-    month = models.IntegerField(choices=[(i, i) for i in range(1, 13)], blank=True)
-    date = models.IntegerField(choices=[(i, i) for i in range(1, 32)], blank=True)
-    class Meta:
-        unique_together = ['Rajyasabha_MP_Name','year','month','date']
-    def __str__(self):
-        return '%s' % (self.Rajyasabha_MP_Name)
 
 
 #$#### SESSIONS

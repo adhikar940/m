@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional, Type
 import graphene
 from django.db import models
 
-from .model_loader import get_field_by_name
+from .model_loader import get_field_by_name, get_model_fields
 
 # Standard Operator Filter Input Types
 class StringFilterInput(graphene.InputObjectType):
@@ -126,29 +126,72 @@ def get_filter_input_for_django_field(django_field: Optional[models.Field]) -> T
     return StringFilterInput
 
 
+DEFAULT_MAX_FILTER_DEPTH = 3
+
+
 def get_or_create_model_filter_type(
     model_cls: Type[models.Model],
-    filter_fields: Dict[str, List[str]],
+    filter_fields: Optional[Dict[str, List[str]]] = None,
+    depth: int = 0,
+    max_depth: int = DEFAULT_MAX_FILTER_DEPTH,
     type_name: Optional[str] = None
 ) -> Type[graphene.InputObjectType]:
     """
     Creates a top-down structured Filter Input Object for a model.
     E.g. PartyFilterInput with fields (id, partyname, abbreviation, foundeddate, ...)
     Each field expands to its supported operators (exact, icontains, in, etc.).
+    Traverses ForeignKey and OneToOneField relations up to max_depth (default: 3).
     """
-    name = type_name or f"Generic_{model_cls._meta.app_label}_{model_cls.__name__}FilterInput"
+    suffix = f"_Depth{depth}" if depth > 0 else ""
+    name = type_name or f"Generic_{model_cls._meta.app_label}_{model_cls.__name__}FilterInput{suffix}"
 
-    cache_key = f"{name}_{hash(tuple(sorted(filter_fields.keys())))}"
+    filter_keys_hash = hash(tuple(sorted(filter_fields.keys()))) if filter_fields else "all"
+    cache_key = f"{name}_{filter_keys_hash}_{depth}"
     if cache_key in _MODEL_FILTER_REGISTRY:
         return _MODEL_FILTER_REGISTRY[cache_key]
 
-    attrs = {}
-    for field_name in filter_fields.keys():
-        field_obj = get_field_by_name(model_cls, field_name)
-        filter_input_type = get_filter_input_for_django_field(field_obj)
-        # Sanitized attribute name for GraphQL input
+    attrs: Dict[str, Any] = {}
+
+    # For nested relations (depth > 0), allow checking if relation itself is null
+    if depth > 0:
+        attrs["isnull"] = graphene.Boolean(description=f"Check if {model_cls.__name__} relation is null")
+
+    # Determine which fields to inspect
+    if filter_fields and depth == 0:
+        target_fields = {fname: get_field_by_name(model_cls, fname) for fname in filter_fields.keys()}
+    else:
+        target_fields = get_model_fields(model_cls)
+
+    for field_name, field_obj in target_fields.items():
+        if field_obj is None:
+            continue
+
         safe_attr_name = field_name.replace("__", "_")
-        attrs[safe_attr_name] = filter_input_type(
+
+        # 1. Foreign Key & One-to-One Relationships
+        if isinstance(field_obj, (models.ForeignKey, models.OneToOneField)):
+            if depth < max_depth and hasattr(field_obj, "related_model") and field_obj.related_model:
+                related_model = field_obj.related_model
+                related_filter_type = get_or_create_model_filter_type(
+                    model_cls=related_model,
+                    depth=depth + 1,
+                    max_depth=max_depth
+                )
+                attrs[safe_attr_name] = graphene.InputField(
+                    related_filter_type,
+                    description=f"Filter relations for {field_name} ({related_model.__name__})"
+                )
+            else:
+                attrs[safe_attr_name] = graphene.InputField(
+                    IdFilterInput,
+                    description=f"Filter {field_name} by ID"
+                )
+            continue
+
+        # 2. Concrete Scalar Fields
+        filter_input_type = get_filter_input_for_django_field(field_obj)
+        attrs[safe_attr_name] = graphene.InputField(
+            filter_input_type,
             description=f"Filter operators for {field_name}"
         )
 
@@ -159,44 +202,68 @@ def get_or_create_model_filter_type(
 
 def parse_nested_filters(
     filters_data: Dict[str, Any],
-    field_name_map: Optional[Dict[str, str]] = None
+    field_name_map: Optional[Dict[str, str]] = None,
+    current_prefix: str = ""
 ) -> Dict[str, Any]:
     """
     Parses a nested filter dictionary from GraphQL into Django ORM lookup expressions.
+    Handles nested relations, scalar operator dicts, and direct field lookups recursively.
     Example:
       filters_data = {
-         "abbreviation": {"icontains": "BJP", "in": ["BJP", "INC"]},
-         "foundeddate": {"gte": "2000-01-01"}
+         "party": {
+             "abbreviation": {"icontains": "BJP", "in": ["BJP", "INC"]},
+             "isnull": False
+         },
+         "ispresent": {"exact": True}
       }
       Returns:
       {
-         "abbreviation__icontains": "BJP",
-         "abbreviation__in": ["BJP", "INC"],
-         "foundeddate__gte": "2000-01-01"
+         "party__abbreviation__icontains": "BJP",
+         "party__abbreviation__in": ["BJP", "INC"],
+         "party__isnull": False,
+         "ispresent": True
       }
     """
     orm_filters = {}
     field_name_map = field_name_map or {}
 
-    for field_attr, ops in filters_data.items():
-        if not ops or not isinstance(ops, dict):
+    for key, val in filters_data.items():
+        if val is None:
             continue
 
-        # Restore original ORM field name (e.g. party_abbreviation -> party__abbreviation)
-        orm_field = field_name_map.get(field_attr, field_attr)
+        # If at root level, resolve any aliased fields (e.g. party_abbreviation -> party__abbreviation)
+        field_name = field_name_map.get(key, key) if not current_prefix else key
+        path = f"{current_prefix}__{field_name}" if current_prefix else field_name
 
-        for op_name, op_val in ops.items():
-            if op_val is None:
-                continue
-
-            # In Graphene, 'in' is mapped to 'in_list' or 'in'
-            if op_name in ("in_list", "in"):
-                orm_expr = f"{orm_field}__in"
-            elif op_name == "exact":
-                orm_expr = orm_field
+        if not isinstance(val, dict):
+            # Direct value at this level (e.g. relation-level isnull: False or direct lookup)
+            if key in ("in_list", "in"):
+                orm_expr = f"{current_prefix}__in" if current_prefix else f"{field_name}__in"
+            elif key == "exact":
+                orm_expr = current_prefix if current_prefix else field_name
             else:
-                orm_expr = f"{orm_field}__{op_name}"
+                orm_expr = path
+            orm_filters[orm_expr] = val
+            continue
 
-            orm_filters[orm_expr] = op_val
+        # If val is a dict, check if any of its values is also a dict (indicating a nested relation)
+        has_nested_dict = any(isinstance(v, dict) for v in val.values())
+
+        if has_nested_dict:
+            # Nested relation containing subfields: recurse with current path as prefix
+            nested = parse_nested_filters(val, current_prefix=path)
+            orm_filters.update(nested)
+        else:
+            # Operator dict for this field (e.g. {"exact": "BJP", "startswith": "B"})
+            for op_name, op_val in val.items():
+                if op_val is None:
+                    continue
+                if op_name in ("in_list", "in"):
+                    orm_expr = f"{path}__in"
+                elif op_name == "exact":
+                    orm_expr = path
+                else:
+                    orm_expr = f"{path}__{op_name}"
+                orm_filters[orm_expr] = op_val
 
     return orm_filters

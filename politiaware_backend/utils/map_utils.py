@@ -13,30 +13,48 @@ def read_json(file_path):
         data = json.load(f)
     return data
 
-def add_map(feature,obj):
+def add_map(feature, obj):
     feature_properties = feature["properties"]
     geometry = GEOSGeometry(str(feature["geometry"]))  # accepts GeoJSON string
     # ensure geometry is MultiPolygon
     if geometry.geom_type == "Polygon":
         geometry = MultiPolygon(geometry)
-    content_type = ContentType.objects.get_for_model(obj[0])
-    # Get object_id
-    object_id = obj[0].id
-    from maps.models import multiple_areas 
-    multiple_areas_obj = multiple_areas.objects.get_or_create(
-        feature_properties = feature_properties,
-        boundary = geometry,
-        content_type = content_type,
-        object_id = object_id
-    )
+    target_obj = obj[0] if isinstance(obj, (tuple, list)) else obj
+    from state.models import State, StateMap
+    from district.models import Districts, DistrictMap
+    from taluk.models import Taluk, TalukMap
+
+    if isinstance(target_obj, State):
+        map_obj, _ = StateMap.objects.get_or_create(
+            state=target_obj,
+            defaults={"boundary": geometry, "feature_properties": feature_properties}
+        )
+        return map_obj
+    elif isinstance(target_obj, Districts):
+        map_obj, _ = DistrictMap.objects.get_or_create(
+            district=target_obj,
+            defaults={"boundary": geometry, "feature_properties": feature_properties}
+        )
+        return map_obj
+    elif isinstance(target_obj, Taluk):
+        map_obj, _ = TalukMap.objects.get_or_create(
+            taluk=target_obj,
+            defaults={"boundary": geometry, "feature_properties": feature_properties}
+        )
+        return map_obj
+
 
 def add_map_loksabha(feature,dis_obj):
     geometry = GEOSGeometry(str(feature["geometry"]))  # accepts GeoJSON string
     # ensure geometry is MultiPolygon
     if geometry.geom_type == "Polygon":
         geometry = MultiPolygon(geometry)    
-    from maps.models import LoksabhaConstituencyMap
-    LoksabhaConstituency_obj = LoksabhaConstituencyMap.objects.get_or_create(LoksabhaConstituency = dis_obj[0], boundary = geometry    )
+    from loksabha.models import LoksabhaConstituencyMap
+    target_constituency = dis_obj[0] if isinstance(dis_obj, (tuple, list)) else dis_obj
+    LoksabhaConstituency_obj = LoksabhaConstituencyMap.objects.get_or_create(
+        loksabhaConstituency=target_constituency,
+        defaults={"boundary": geometry}
+    )
 
 def load_map(type:Literal["state", "district", "taluk"],path):
     """
@@ -47,7 +65,7 @@ def load_map(type:Literal["state", "district", "taluk"],path):
     data = read_json(path)
     features = data['features']
     if type == "state":
-        from area_pop.models import State
+        from state.models import State
         #State.objects.all().delete()
         for feature in features :
             state_name = feature['properties']['NAME_1']
@@ -64,22 +82,22 @@ def load_map(type:Literal["state", "district", "taluk"],path):
             )
             add_map(feature,state_obj)
     elif type == "district":
-        from area_pop.models import Districts
-        from area_pop.models import State
+        from district.models import Districts
+        from state.models import State
         Districts.objects.all().delete()
         for feature in features :
             state_obj = State.objects.filter(Statename=feature['properties']['NAME_1'])[0]
             if state_obj :
                 dis_obj = Districts.objects.get_or_create(
-                    State = state_obj,
-                    Districtname = feature['properties']['NAME_2']
+                    state = state_obj,
+                    districtName = feature['properties']['NAME_2']
                 )
                 add_map(feature,dis_obj)
             else :
                 print("state name not found")
                 
     elif type == "taluk":
-        from area_pop.models import Taluk   
+        from taluk.models import Taluk   
     
 def load_map_loksabha_const(path):
     """
@@ -89,7 +107,7 @@ def load_map_loksabha_const(path):
     data = read_json(path)
     features = data['features']
     from loksabha.models import LoksabhaConstituency
-    from area_pop.models import State
+    from state.models import State
     from django.db.models import Q
     for feature in features:
         try:
@@ -97,8 +115,8 @@ def load_map_loksabha_const(path):
             state_obj = State.objects.filter(Q(Statename=statename) | Q(oldname=statename)).first()    
             if state_obj :
                 dis_obj = LoksabhaConstituency.objects.get_or_create(
-                    LoksabhaConstituencyName = feature['properties']['pc_name']
-                    ,State = state_obj
+                    loksabhaConstituencyName = feature['properties']['pc_name']
+                    ,state = state_obj
                 )
                 add_map_loksabha(feature,dis_obj)
                 print(f"completed {statename}")

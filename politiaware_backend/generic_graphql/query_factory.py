@@ -132,7 +132,8 @@ def build_model_queries(
 
         # Build Top-Down Filter Input Object Type
         filter_fields = list_cfg.get("filter_fields") or {}
-        filter_type = get_or_create_model_filter_type(model_cls, filter_fields)
+        filter_depth = list_cfg.get("filter_depth", 3)
+        filter_type = get_or_create_model_filter_type(model_cls, filter_fields, max_depth=filter_depth)
 
         # Mapping for nested field names (e.g. party_abbreviation -> party__abbreviation)
         field_name_map = {fname.replace("__", "_"): fname for fname in filter_fields.keys()}

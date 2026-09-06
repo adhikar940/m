@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from .models import cm
-from area_pop.models import State
+from state.models import State
 from party.models import Party
 from graphene.types.generic import GenericScalar
 

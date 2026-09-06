@@ -1,42 +1,56 @@
 from django.db import models
-from n.models import *
-from party.models import Party1
-class Legislative_councils1(Parliament):
-    elected = (
+from state.models import StateForeign
+from party.models import Party
+from person.models import person
+
+# ==============================================================================
+# State Legislative Councils in India (Vidhan Parishad):
+# Under Articles 168, 169, and 171 of the Constitution of India, currently only 
+# 6 out of 28 Indian states have a bicameral legislature with an active 
+# Legislative Council (Vidhan Parishad):
+#
+# 1. Andhra Pradesh    - 58 seats (revived in 2007; originally 1958-1985)
+# 2. Bihar             - 75 seats (established in 1912)
+# 3. Karnataka         - 75 seats (established in 1956 as Mysore LC)
+# 4. Maharashtra       - 78 seats (established in 1960)
+# 5. Telangana         - 40 seats (constituted in 2014)
+# 6. Uttar Pradesh     - 100 seats (established in 1935)
+#
+# Historical Note / Abolished Councils:
+# - Jammu & Kashmir had a 36-seat Legislative Council until 2019 (abolished under J&K Reorganisation Act, 2019).
+# - Tamil Nadu abolished its Legislative Council in 1986.
+# - West Bengal abolished its Legislative Council in 1969.
+# - Punjab abolished its Legislative Council in 1970.
+# - Assam abolished its Legislative Council in 1969.
+# ==============================================================================
+class MLC(person, StateForeign):
+    choice = (
         ('Members of Local Body', 'Members of Local Body'),
         ('Members of legislative body', 'Members of Legislative Body'),
         ('Governor', 'Governor'),
         ('Graduates of three years', 'Graduates of three years'),
         ('University teacher of three years', 'University teacher of three years')
     )
-    state = models.ForeignKey(State, on_delete=models.CASCADE,
-                              null=True, default='')
-    elected = models.CharField(max_length=500, choices=elected, default='Governor')
-    MLC_name = models.CharField(max_length=300, default='')
-    Districts = models.CharField(max_length=100,default='')
-    constituency_name = models.CharField(max_length=200, default='')
-    presentorx = models.CharField(max_length=500, choices=choice1, default='present')
-    actvated = models.CharField(max_length=500, choices=choice2, default='no')
-    party = models.ForeignKey(Party1,on_delete=models.CASCADE, null=True, default='')
-    photo = models.ImageField(upload_to='photo/', null=True, blank=True)
+    nomination_choices = (
+        ('Literature', 'Literature'),
+        ('Science', 'Science'),
+        ('Art', 'Art'),
+        ('Social Service', 'Social Service'),
+        ('Co-operative Movement', 'Co-operative Movement'),
+    )
+    # state is inherited from StateForeign
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    elected = models.CharField(max_length=500, choices=choice, default='Governor')
+    nominationCategory = models.CharField(max_length=100, choices=nomination_choices, null=True, blank=True)
+    constituency_name = models.CharField(max_length=200, null=True, blank=True)
+    isPresent = models.BooleanField(default=True, null=True, blank=True)
+
     class Meta:
-        unique_together = ['MLC_name']
+        unique_together = ['name']
+        ordering = ['name']
 
     def __str__(self):
-        return str(self.MLC_name)
-class councilpersonal1(personal):
-    mlc = models.ForeignKey(Legislative_councils1, on_delete=models.SET_NULL, null=True)
-    class Meta:
-        unique_together = ['mlc']
-    def __str__(self):
-        return '%s' % (self.mlc)
-class councilterm(models.Model):
-    mlc = models.ForeignKey(Legislative_councils1, on_delete=models.SET_NULL, null=True)
-    year =  models.IntegerField(blank=True)
-    month = models.IntegerField(choices=[(i, i) for i in range(1, 13)], blank=True)
-    date = models.IntegerField(choices=[(i, i) for i in range(1, 32)], blank=True)
-    state = models.ForeignKey(State, on_delete=models.CASCADE,null=True, default='')
-    class Meta:
-        unique_together = ['mlc','year','month','date']
-    def __str__(self):
-        return '%s' % (self.mlc)
+        return f"{self.name} - {self.state}" if self.state else self.name
+
+
+

@@ -17,5 +17,5 @@ GRAPHQL_CONF = {
     "cm": {},
     "governor": {},
     "State": {},
-    "Districts": {},
+    "District": {},
 }

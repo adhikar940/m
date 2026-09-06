@@ -14,13 +14,14 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "m.settings")
 django.setup()
 
 from m.schema import schema
-from area_pop.models import State, Districts
+from state.models import State
+from district.models import Districts
 from loksabha.models import LoksabhaConstituency
 
 
 def run_tests():
     # Clean up any leftover test data from prior aborted test runs
-    LoksabhaConstituency.objects.filter(LoksabhaConstituencyName__startswith="Test Constituency GQL").delete()
+    LoksabhaConstituency.objects.filter(loksabhaConstituencyName__startswith="Test Constituency GQL").delete()
     State.objects.filter(Statename__startswith="Test State GQL").delete()
 
     print("--- 1. Testing Schema Introspection ---")
@@ -157,7 +158,65 @@ def run_tests():
     assert "offset" in cm_result.data["allCms"]
     assert "limit" in cm_result.data["allCms"]
     assert "data" in cm_result.data["allCms"]
-    print("✅ allCms paginated query with total, offset, limit, data executed successfully!")
+    # Test ForeignKey Relational Filtering (party.abbreviation startswith, exact, and party.partyname icontains)
+    cm_fk_query_str = """
+    query {
+        allCms(
+            filters: {
+                party: {
+                    abbreviation: { startswith: "BJ" }
+                }
+            }
+            limit: 5
+        ) {
+            total
+            data {
+                id
+                name
+                party {
+                    abbreviation
+                    partyname
+                }
+            }
+        }
+    }
+    """
+    cm_fk_result = schema.execute(cm_fk_query_str)
+    print("CM FK Query Errors:", cm_fk_result.errors)
+    print("CM FK Query Data:", cm_fk_result.data)
+    assert cm_fk_result.errors is None, f"CM FK Query failed: {cm_fk_result.errors}"
+    assert "allCms" in cm_fk_result.data
+    assert cm_fk_result.data["allCms"]["total"] > 0
+    for item in cm_fk_result.data["allCms"]["data"]:
+        assert item["party"]["abbreviation"].startswith("BJ"), f"Expected abbreviation starting with BJ, got {item['party']['abbreviation']}"
+    print("✅ ForeignKey nested relational filtering (party.abbreviation startswith) verified successfully!")
+
+    # Test ForeignKey exact match & relation isnull check
+    cm_exact_query_str = """
+    query {
+        allCms(
+            filters: {
+                party: {
+                    abbreviation: { exact: "TDP" }
+                    isnull: false
+                }
+            }
+        ) {
+            total
+            data {
+                name
+                party {
+                    abbreviation
+                }
+            }
+        }
+    }
+    """
+    cm_exact_result = schema.execute(cm_exact_query_str)
+    assert cm_exact_result.errors is None, f"CM exact FK query failed: {cm_exact_result.errors}"
+    assert cm_exact_result.data["allCms"]["total"] >= 1
+    assert cm_exact_result.data["allCms"]["data"][0]["party"]["abbreviation"] == "TDP"
+    print("✅ ForeignKey exact and isnull=false filtering verified successfully!")
 
     # Test allGovernors, allStates, allDistricts
     gov_query_str = """
@@ -186,7 +245,7 @@ def run_tests():
             limit
             data {
                 id
-                Districtname
+                districtName
             }
         }
     }

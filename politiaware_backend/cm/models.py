@@ -1,6 +1,6 @@
 from django.db import models
 from person.models import person
-from area_pop.models import State
+from state.models import State
 from party.models import Party
 
 class cm_ruling_period(models.Model):

@@ -18,18 +18,18 @@ class loksabhaQuery(graphene.ObjectType):
         self, info, search=None, search_fields=None, order_by=None, offset=0, limit=10,search_mode=SearchModeEnum.contains
     ):
   
-        queryset = LokSabhaMP.objects.filter(ispresent=True).select_related(
-            "Party", "constituency__State"
+        queryset = LokSabhaMP.objects.filter(isPresent=True).select_related(
+            "party", "constituency__state"
         )
         base_fields = {
-        "Name": "name",
-        "Gender": "gender",
-        "CasteCategory": "caste_category",
-        "Religion": "religion",
-        "Party": "Party__abbreviation",
-        "PartyName": "Party__partyname",
-        "Constituency": "constituency__LoksabhaConstituencyName",
-        "State": "constituency__State__Statename",
+            "Name": "name",
+            "Gender": "gender",
+            "CasteCategory": "caste_category",
+            "Religion": "religion",
+            "Party": "party__abbreviation",
+            "PartyName": "party__partyname",
+            "Constituency": "constituency__loksabhaConstituencyName",
+            "State": "constituency__state__Statename",
         }
         queryset = graphql_search(base_fields, search, search_fields, search_mode, queryset)              
 
@@ -40,10 +40,10 @@ class loksabhaQuery(graphene.ObjectType):
             "Gender": "gender",
             "CasteCategory": "caste_category",
             "Religion": "religion",
-            "Party": "Party__abbreviation",
-            "PartyName": "Party__partyname", 
-            "Constituency": "constituency__LoksabhaConstituencyName",
-            "State": "constituency__State__Statename"
+            "Party": "party__abbreviation",
+            "PartyName": "party__partyname", 
+            "Constituency": "constituency__loksabhaConstituencyName",
+            "State": "constituency__state__Statename"
         }
         # queryset = graphql_orderby(queryset, order_by, order_fields_map)
         # 🔃 Apply ordering
@@ -56,12 +56,12 @@ class loksabhaQuery(graphene.ObjectType):
                 TableLoksabha=[
                     TableLoksabha(
                         Name=mp.name,
-                        State=mp.constituency.State.Statename if mp.constituency and mp.constituency.State else None,
-                        Party=mp.Party.abbreviation if mp.Party else None,
+                        State=mp.constituency.state.Statename if mp.constituency and mp.constituency.state else None,
+                        Party=mp.party.abbreviation if mp.party else None,
                         Gender=mp.gender,
                         CasteCategory=mp.caste_category,
                         Religion=mp.religion,
-                        PartyColor=mp.Party.party_color if mp.Party else None
+                        PartyColor=mp.party.party_color if mp.party else None
                     )
                     for mp in queryset
                 ],

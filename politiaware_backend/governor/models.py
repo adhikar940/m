@@ -1,6 +1,6 @@
 from django.db import models
 from person.models import person
-from area_pop.models import State
+from state.models import State
 
 class governor_ruling_period(models.Model):
     startdate = models.DateField(null=True, blank=True)

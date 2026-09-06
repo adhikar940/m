@@ -1,5 +1,7 @@
 from django.db import models
-from area_pop.models import State, Districts, City
+from state.models import State
+from district.models import Districts
+from city.models import City
 import os
 from .enums import CasteCategoryEnum, GenderEnum, ReligionEnum, enum_to_choices
 from django.core.files.base import ContentFile

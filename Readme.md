@@ -16,6 +16,7 @@ This repository provides the backend API and services for the Politiaware platfo
 | [Database Documentation](docs/db_readme.md) | Database backup, restore, and dump instructions |
 | [Release Plan](releaseplan.md) | Release phases and milestones |
 | [Roadmap](roadmap.md) | Future features and development roadmap |
+| [Generic GraphQL & Introspection](politiaware_backend/generic_graphql/README.md) | GraphQL queries, dynamic filters, mutations, and introspection guide |
 
 ---
 
@@ -159,8 +160,8 @@ docker run -d --name politiaware_container \
 | Load App Data | `python politiaware_backend/manage.py loaddata data.json` | `python manage.py loaddata data.json` |
 | Load Party Fixtures | `python politiaware_backend/manage.py loaddata party_fixture.json` | `python manage.py loaddata party_fixture.json` |
 | Load States & Districts Fixtures | `python politiaware_backend/manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json` | `python manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json` |
-| Load Lok Sabha Fixtures | `python politiaware_backend/manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` | `python manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` |
-| Load All Map Fixtures | `python politiaware_backend/manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` | `python manage.py loaddata state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json` |
+| Load Lok Sabha Fixtures | `python politiaware_backend/manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json loksabhamp_fixture.json` | `python manage.py loaddata loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json loksabhamp_fixture.json` |
+| Load All Fixtures | `python politiaware_backend/manage.py loaddata party_fixture.json state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json loksabhamp_fixture.json` | `python manage.py loaddata party_fixture.json state_fixture.json state_map_fixture.json districts_fixture.json district_map_fixture.json loksabha_constituency_fixture.json loksabha_constituency_map_fixture.json loksabhamp_fixture.json` |
 | Run Django Shell | `python politiaware_backend/manage.py shell` | `python manage.py shell` |
 
 ---

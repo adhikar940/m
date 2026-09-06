@@ -69,13 +69,16 @@ INSTALLED_APPS = [
      "graphene_django",    
      'dbbackup',  
      'django.contrib.gis',
-     'area_pop',
-     'maps',
-        'governor',
-        'cm',
-        'loksabha',
-        'session_info',
-    
+     'state',
+     'district',
+     'city',
+     'governor',
+     'cm',
+     'loksabha',
+     'rajyasabha',
+     'assembly',
+     'council',
+     'session_info',
 ]
 
 GRAPHENE = {

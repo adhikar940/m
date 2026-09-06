@@ -4,6 +4,8 @@ from import_export.admin import ImportExportModelAdmin
 '''class loksabhaAdmin1(admin.ModelAdmin):
     search_fields = ('MP_name',)
 admin.site.register(LokSabha1,loksabhaAdmin1)'''
+admin.site.register(LoksabhaConstituency, ImportExportModelAdmin)
+admin.site.register(LoksabhaConstituencyMap, admin.GISModelAdmin if hasattr(admin, 'GISModelAdmin') else admin.ModelAdmin)
 admin.site.register(LokSabhaMP, ImportExportModelAdmin)
 #admin.site.register(Loksabha_Session1, ImportExportModelAdmin)
 '''class loksabhapersonalAdmin1(admin.ModelAdmin):
